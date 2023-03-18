@@ -2,16 +2,20 @@
 <html>
 <head>
   <meta charset="utf-8">
-    <title>Да, это мой сайт</title>
-	<link rel="stylesheet" href="style.css">
+  <title>Да, это мой сайт</title>
+  <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-  <body>
-    <div class="wrapper">
-   	  <header>
-      	<p>Links:</p>
-   	  </header>
-    <div class="theme-button" id="theme-button" onclick="toggleTheme()">☼<span id="theme-button-text"></span></div>
+<body>
+<div class="script-container">
+<script id="github-icon" src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js'></script>
+<script id="github-icon" src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'></script>
+<script id="github-icon" src='script.js'></script>
+<div class="wrapper">
+  <header>
+   	<p>Links:</p>
+  </header>
+<div class="theme-button" id="theme-button" onclick="toggleTheme()">☼<span id="theme-button-text"></span></div>
   <script>
   function toggleTheme() {
     if (document.body.classList.contains('light')) {
@@ -52,28 +56,27 @@
   document.body.classList.remove('dark', 'light');
   document.body.classList.add(newColorScheme);
   localStorage.setItem('theme', newColorScheme);
-});
+  });
   </script>
-  </body>
-	</div>
-  <div class="container">
-    <ul style="list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 50px;">
-	  <li><a href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
-      <li><a href="https://youtube.com/@MilesthoN" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a></li>
-      <li><a href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://brand.twitch.tv/assets/logos/svg/glitch/purple.svg" alt="Twitch" width="32" height="32"> Twitch</a></li>
-      <li><a href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
-	  <li><a href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
-	  <li><a href="https://steamcommunity.com/id/milesthon/" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
-	  <li><a href="https://boosty.to/milesthon" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="boosty" width="32" height="32"> GitHub</a></li>
-	  <li><a href="https://github.com/milesthon" target="_blank"><img id="github-icon" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
-    </ul>
-  </div>
-    <footer class="second-footer">
-      <p>Пасхалка яйцо</p>
-    </footer>
-    <footer class="first-footer" style="display: flex; align-items: center; justify-content: center;">
-      <span>by MilesthoN </span>&nbsp;
-      <span style="color: #999999;">feat. ChatGPT</span>
-    </footer>
-  </body>
+</div>
+<div class="container">
+  <ul style="list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 50px;">
+  <li><a href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
+  <li><a href="https://youtube.com/@MilesthoN" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a></li>
+  <li><a href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://brand.twitch.tv/assets/logos/svg/glitch/purple.svg" alt="Twitch" width="32" height="32"> Twitch</a></li>
+  <li><a href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
+  <li><a href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
+  <li><a href="https://steamcommunity.com/id/milesthon/" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
+  <li><a href="https://boosty.to/milesthon" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="boosty" width="32" height="32"> GitHub</a></li>
+  <li><a href="https://github.com/milesthon" target="_blank"><img id="github-icon" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
+  </ul>
+</div>
+  <footer class="second-footer">
+    <p>Пасхалка яйцо</p>
+  </footer>
+  <footer class="first-footer" style="display: flex; align-items: center; justify-content: center;">
+    <span>by MilesthoN </span>&nbsp;
+    <span style="color: #999999;">feat. ChatGPT</span>
+  </footer>
+</body>
 </html>
