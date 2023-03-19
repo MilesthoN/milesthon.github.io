@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'></script>
   <meta charset="utf-8">
   <title>Да, это мой сайт</title>
   <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<div class="script-container">
-<script id="github-icon" src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js'></script>
-<script id="github-icon" src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'></script>
-<script id="github-icon" src='script.js'></script>
 <div class="wrapper">
   <header>
    	<p>Links:</p>
@@ -71,12 +69,35 @@
   <li><a href="https://github.com/milesthon" target="_blank"><img id="github-icon" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
   </ul>
 </div>
-  <footer class="second-footer">
-    <p>Пасхалка яйцо</p>
-  </footer>
-  <footer class="first-footer" style="display: flex; align-items: center; justify-content: center;">
-    <span>by MilesthoN </span>&nbsp;
+<footer class="second-footer" id="second-footer">
+  <button onclick="loadScripts()">улететь в космос</button>
+  <div class="script-container"></div>
+</footer>
+
+<script>
+function loadScripts() {
+  // ваш код
+  const scriptContainer = document.querySelector(".script-container");
+  const script = document.createElement("script");
+  script.setAttribute("src", "script.js");
+  scriptContainer.appendChild(script);
+}
+</script>
+<footer class="first-footer" style="display: flex; align-items: center; justify-content: center;" onclick="showFooter()">
+    <span id="footer-text">by MilesthoN </span>&nbsp;
     <span style="color: #999999;">feat. ChatGPT</span>
-  </footer>
+</footer>
+  <script>
+let timeoutId;
+
+function showFooter() {
+  const firstFooter = document.querySelector(".first-footer");
+  firstFooter.style.transform = "translateY(-50px)";
+  clearTimeout(timeoutId);
+  timeoutId = setTimeout(() => {
+    firstFooter.style.transform = "translateY(0)";
+  }, 5000);
+}
+  </script>
 </body>
 </html>
