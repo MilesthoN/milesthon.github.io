@@ -1,18 +1,257 @@
 <!DOCTYPE html>
 <html>
 <head>
+ <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg-color: #222;
+  --link-color: #0af; 
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  font-family: "Source Code Pro", "Arial", sans-serif;
+}
+
+.dark {
+  background-color: var(--bg-color);
+  color: white;
+  --text-color: white;
+  --text-gradient: linear-gradient(-45deg, white, white, white, #333, white, white, white);
+  --button-bg-color: var(--bg-color);
+  --button-bg2-color: #333;
+  --button-text-color: white;
+  --icon-filter: invert(1);
+}
+.light {
+  background-color: white;
+  color: black;
+  --text-color: black;
+  --text-gradient: linear-gradient(-45deg, gray, gray, gray, #F5F5F5, gray, gray, gray);
+  --button-bg-color: white;
+  --button-bg2-color: #F5F5F5;
+  --button-text-color: black;
+  --icon-filter: none;
+}
+.dark header { background-color: var(-–bg-color); 
+  color: #E0E0E0; }
+.light header { background-color: #F5F5F5; 
+  color: #757575; }
+#github-icon {
+  filter: var(--icon-filter);
+}
+
+.script-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.theme-button {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  position: absolute;
+  top: 20px;
+  right: calc(0px + 30px);
+  z-index: 1;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 25px;
+  cursor: pointer;
+  border-radius: 10%;
+  transform: translateY(-30%);
+  margin-left: auto;
+  transition: background-color .2s ease-in-out;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+}
+.theme-button:hover {
+  background-color: var(--button-bg2-color);
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0);
+}
+
+button {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  position: absolute;
+  top: 10px;
+  right: center;
+  z-index: 1;
+  display: inline-block;
+  width: 150px;
+  height: 30px;
+  line-height: 0px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: auto;
+  transition: background-color .2s ease-in-out;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+}
+button:hover {
+  background-color: var(--button-bg2-color);
+}
+
+@media screen and (max-width: 768px) {
+.theme-button {
+  right: 30px;
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+  margin: auto;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 55px;
+  background-color: #333;
+  color: var(--text-color);
+  flex: 1;
+  box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+  position: relative;
+}
+header h1 {
+  font-size: 35px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;	
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #333;
+  color: white;
+  display: inline;
+  transition: transform 0.5s ease-in-out;
+}
+.first-footer {
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.5s ease-in-out;
+}
+
+.first-footer:hover,
+.first-footer.active {
+  transform: translateY(-100%);
+}
+
+.second-footer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 3px;
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--button-text-color);
+}
+
+
+a {
+  color: var( --text-color );
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: #0af;
+}
+ul li a {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+}
+ul li a img {
+  margin-right: 10px;
+  width: 48px;
+  height: 48px;
+}
+ul li a:hover {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  from {
+  transform: scale(1);
+  filter: brightness(1);
+  } 
+   50% {
+  transform: scale(1.2);
+  filter: brightness(1.5);
+   }
+   to {
+  transform: scale(1);
+  filter: brightness(1);
+   }
+}ul li a:hover {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+@keyframes pulse {
+  from {
+  transform: scale(1);
+  filter: brightness(1);
+  } 
+   50% {
+  transform: scale(1.2);
+  filter: brightness(1.5);
+   }
+   to {
+  transform: scale(1);
+  filter: brightness(1);
+   }
+}
+</style>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'></script>
   <meta charset="utf-8">
-  <title>Да, это мой сайт</title>
+  <link rel="favicon" href="https://yt3.googleusercontent.com/p1dG8LUAQHWut1Wkhg3CWP1vWhZwvhnRZVnK2TyZ-xi3EGGANCNM-T7Mph3AAtlzzkILsxoo=s176-c-k-c0x00ffffff-no-rj"/>
+  <title>MilesthoN</title>
   <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<div class="wrapper">
-  <header>
-   	<p>Links:</p>
-  </header>
+<header>
+  <h1 class="gradient-text">ссылки:</h1>
+  <style>
+.gradient-text {
+  background-image: var(--text-gradient);
+  background-size: 400% 400%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient 5s linear infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 400% 50%;
+  }
+  50% {
+    background-position: 200% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+  </style>
+</header>
 <div class="theme-button" id="theme-button" onclick="toggleTheme()">☼<span id="theme-button-text"></span></div>
   <script>
   function toggleTheme() {
@@ -64,40 +303,140 @@
   <li><a href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://brand.twitch.tv/assets/logos/svg/glitch/purple.svg" alt="Twitch" width="32" height="32"> Twitch</a></li>
   <li><a href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
   <li><a href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
-  <li><a href="https://steamcommunity.com/id/milesthon/" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
-  <li><a href="https://boosty.to/milesthon" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="boosty" width="32" height="32"> GitHub</a></li>
-  <li><a href="https://github.com/milesthon" target="_blank"><img id="github-icon" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
+  <li><a href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
+  <li><a href="https://boosty.to/MilesthoN" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
+  <li><a href="https://github.com/MilesthoN" target="_blank"><img id="github-icon" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
   </ul>
 </div>
 <footer class="second-footer" id="second-footer">
   <button onclick="loadScripts()">улететь в космос</button>
-  <div class="script-container"></div>
+<div class="script-container"></div>
 </footer>
-
 <script>
 function loadScripts() {
-  // ваш код
-  const scriptContainer = document.querySelector(".script-container");
-  const script = document.createElement("script");
-  script.setAttribute("src", "script.js");
-  scriptContainer.appendChild(script);
+let camera;
+let scene;
+let renderer;
+let material;
+let mouseX = 0;
+let mouseY = 0;
+let windowHalfX = window.innerWidth / 2;
+let windowHalfY = window.innerHeight / 2;
+init();
+animate();
+function init() {
+  camera = new THREE.PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    5,
+    2000
+  );
+  camera.position.z = 500;
+  scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x0000ff, 0.001);
+  const geometry = new THREE.BufferGeometry();
+  const vertices = [];
+  const size = 2000;
+  for (let i = 0; i < 20000; i++) {
+    const x = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+    const y = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+    const z = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+    vertices.push(x, y, z);
+  }
+  geometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(vertices, 3)
+  );
+  material = new THREE.PointsMaterial({
+    size: 2,
+    color: 0xffffff
+  });
+  const particles = new THREE.Points(geometry, material);
+  scene.add(particles);
+  renderer = new THREE.WebGLRenderer();
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+  document.body.style.touchAction = "none";
+  document.body.addEventListener("pointermove", onPointerMove);
+  window.addEventListener("resize", onWindowResize);
+}
+function onWindowResize() {
+  windowHalfX = window.innerWidth / 2;
+  windowHalfY = window.innerHeight / 2;
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+function onPointerMove(event) {
+  mouseX = event.clientX - windowHalfX;
+  mouseY = event.clientY - windowHalfY;
+}
+function animate() {
+  requestAnimationFrame(animate);
+  render();
+}
+function render() {
+  camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+  camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+  camera.lookAt(scene.position);
+  renderer.render(scene, camera);
+  scene.rotation.x += 0.001;
+  scene.rotation.y += 0.002;
+}
 }
 </script>
-<footer class="first-footer" style="display: flex; align-items: center; justify-content: center;" onclick="showFooter()">
-    <span id="footer-text">by MilesthoN </span>&nbsp;
-    <span style="color: #999999;">feat. ChatGPT</span>
+<footer class="first-footer" style="display: flex; align-items: center;">
+  <span id="footer-text">by MilesthoN </span>&nbsp;
+  <span style="color: #999999;">feat. ChatGPT</span>
 </footer>
   <script>
-let timeoutId;
-
-function showFooter() {
-  const firstFooter = document.querySelector(".first-footer");
-  firstFooter.style.transform = "translateY(-50px)";
-  clearTimeout(timeoutId);
-  timeoutId = setTimeout(() => {
-    firstFooter.style.transform = "translateY(0)";
-  }, 5000);
+const footer = document.querySelector('.first-footer');
+const footerHeight = footer.getBoundingClientRect().height;
+let isFooterExpanded = false;
+function hideFooter() {
+  footer.classList.remove('active');
+  isFooterExpanded = false;
 }
+function expandFooter() {
+  footer.classList.add('active');
+  isFooterExpanded = true;
+}
+footer.addEventListener('click', function() {
+  if (isFooterExpanded) {
+    hideFooter();
+  } else {
+    expandFooter();
+  }
+});
+document.addEventListener('mousemove', function(event) {
+  const mouseX = event.pageX;
+  const mouseY = event.pageY;
+  const footerRect = footer.getBoundingClientRect();
+  const footerTop = footerRect.top;
+  const footerLeft = footerRect.left;
+  const footerRight = footerRect.right;
+  const footerBottom = footerRect.bottom;
+  const isMouseOnFooter = (
+    mouseY >= footerTop &&
+    mouseY <= footerBottom &&
+    mouseX >= footerLeft &&
+    mouseX <= footerRight
+  );
+  const isMouseUnderFooter = mouseY > footerBottom && mouseY <= footerBottom + footerHeight;
+  if (isMouseOnFooter || isMouseUnderFooter) {
+    if (!isFooterExpanded) {
+      expandFooter();
+    }
+  } else {
+    if (isFooterExpanded) {
+      hideFooter();
+    }
+  }
+});
+footer.addEventListener('mouseleave', function() {
+  hideFooter();
+});
   </script>
 </body>
 </html>
