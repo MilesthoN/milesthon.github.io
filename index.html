@@ -106,15 +106,6 @@ button:hover {
   }
 }
 
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 800px;
-  margin: auto;
-  flex-direction: column;
-}
-
 header {
   display: flex;
   align-items: center;
@@ -173,35 +164,37 @@ a {
 a:hover {
   color: #0af;
 }
-ul li a {
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-}
+
 ul li a img {
   margin-right: 10px;
   width: 48px;
   height: 48px;
 }
+ul li a {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
 ul li a:hover {
-  animation: pulse 2s infinite;
+  transform: scale(1.1);
 }
 
-@keyframes pulse {
-  from {
-  transform: scale(1);
-  filter: brightness(1);
-  } 
-   50% {
-  transform: scale(1.2);
-  filter: brightness(1.5);
-   }
-   to {
-  transform: scale(1);
-  filter: brightness(1);
-   }
-}ul li a:hover {
-  animation: pulse 1.5s infinite ease-in-out;
+ul li2 a2 img {
+  margin-right: 10px;
+  width: 48px;
+  height: 48px;
+}
+ul li2 a2 {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+}
+ul li2 a2:hover {
+  animation: pulse 2s infinite;
+}
+ul li2 a2:hover {
+  animation: pulse 1.4s infinite ease-in-out;
 }
 @keyframes pulse {
   from {
@@ -209,7 +202,7 @@ ul li a:hover {
   filter: brightness(1);
   } 
    50% {
-  transform: scale(1.2);
+  transform: scale(1.1);
   filter: brightness(1.5);
    }
    to {
@@ -217,6 +210,7 @@ ul li a:hover {
   filter: brightness(1);
    }
 }
+
 </style>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'></script>
@@ -295,16 +289,83 @@ ul li a:hover {
   });
   </script>
 </div>
+<style>
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
 <div class="container">
-  <ul style="list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 50px;">
-  <li><a href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
-  <li><a href="https://youtube.com/@MilesthoN" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a></li>
-  <li><a href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://brand.twitch.tv/assets/logos/svg/glitch/purple.svg" alt="Twitch" width="32" height="32"> Twitch</a></li>
-  <li><a href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
-  <li><a href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
-  <li><a href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
-  <li><a href="https://boosty.to/MilesthoN" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
-  <li><a href="https://github.com/MilesthoN" target="_blank"><img id="github-icon" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
+  <ul style="list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 100px; flex-direction: column; gap: 20px;">
+  <li style="display: flex; align-items: center;"><span style="margin-right: 10px;">•</span><a href="https://t.me/privatbay" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" alt="🏴‍☠️PrivatBay" width="32" height="32">🏴‍☠️ PrivatBay</a><span style="margin-left: 10px;">— что то приватное</span></li>
+  <li style="display: flex; align-items: center;"><span style="margin-right: 10px;">•</span><a href="https://t.me/aiXsite" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" alt="🤖 Ai / Site" width="32" height="32">🤖 Ai / Site</a><span style="margin-left: 10px;">— Нейросети и полезные сайты</span></li>
+  <li style="display: flex; align-items: center;"><span style="margin-right: 10px;">•</span><a href="https://t.me/isOsint" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" alt="🔍 OSiNT" width="32" height="32">🔍 OSiNT</a><span style="margin-left: 10px;">— Поиск человека</span></li>
+  <li style="display: flex; align-items: center;"><span style="margin-right: 10px;">•</span><a href="https://t.me/isBase" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" alt="🗂️ BASE" width="32" height="32">🗂️ BASE</a><span style="margin-left: 10px;">— Базы данных</span></li>
+  <li style="display: flex; align-items: center;"><span style="margin-right: 10px;">•</span><a href="https://t.me/itXhelp" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" alt="🧰 Help iT" width="32" height="32">🧰 Help iT</a><span style="margin-left: 10px;">— Помощь в IT</span></li>
+  <li style="display: flex; align-items: center;"><span style="margin-right: 10px;">•</span><a href="https://t.me/life_cracks" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" alt="💡 Лайфхаки" width="32" height="32">💡 Лайфхаки</a><span style="margin-left: 10px;">— Лайфхаки</span></li>
+  </ul>
+</div>
+<style>
+.glow-on-hover {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+}
+.glow-on-hover:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -4px;
+    left:-4px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(20px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+.glow-on-hover:active {
+    color: #000
+}
+.glow-on-hover:active:after {
+    background: transparent;
+}
+.glow-on-hover:hover:before {
+    opacity: 1;
+}
+.glow-on-hover:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+</style>
+<div class="container2">
+  <ul style="list-style: none; display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 50px; margin-top: 5%; margin-top: 10%; margin-bottom: 5%;">
+  <li2><a2 class="glow-on-hover" href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a2></li2>
+  <li2><a2 class="glow-on-hover" href="https://youtube.com/@MilesthoN" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a2></li2>
+  <li2><a2 class="glow-on-hover" href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://brand.twitch.tv/assets/logos/svg/glitch/purple.svg" alt="Twitch" width="32" height="32"> Twitch</a2></li2>
+  <li2><a2 class="glow-on-hover" href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a2></li2>
+  <li2><a2 class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a2></li2>
+  <li2><a2 class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a2></li2>
+  <li2><a2 class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a2></li2>
+  <li2><a2 class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img id="github-icon" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a2></li2>
   </ul>
 </div>
 <footer class="second-footer" id="second-footer">
