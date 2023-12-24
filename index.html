@@ -306,11 +306,11 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
   border-radius:10px;
   cursor: pointer;
   height: 50px;
-  width: 485px;
+  width: 100%;
+  max-width: 485px;
   display: flex;
   align-items: center;
   image-rendering: pixelate;
-
   background-color: var(--backgrounda);
 }
 
@@ -371,9 +371,11 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
   z-index: 3;
   color: var(--text-color);
   align-items: center;
-  display: flex;
   justify-content: center;
   vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-content a img,
@@ -395,6 +397,11 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
   transform: translateX(20px);
 }
 
+@media (max-width: 600px) {
+  .card-content a img,
+.card-content a {
+    margin: 5px;
+  }
 .glitter {  
   position: absolute;
   width: 1px;
@@ -500,7 +507,7 @@ function fromCenter({ x, y }) {
   align-items: center;
   justify-content: center;
   padding: 0 50px;
-  width: 100%;
+
 }
 
 .container2 a {
