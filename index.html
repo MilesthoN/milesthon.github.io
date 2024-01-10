@@ -1,472 +1,157 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
- <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400&display=swap" rel="stylesheet">
- <style>
-:root {
-  --bg-color: #222;
-  --link-color: #0af;
-  --glitter: url("https://assets.codepen.io/13471/noise-base.png");
-  --glitter2: url("https://assets.codepen.io/13471/noise-top.png");
-  --ratio-x: .5;
-  --ratio-y: .75;
-  --light-size: 300px;
-}
-
-html, body {
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  border: none;
-  font-family: "Source Code Pro", "Arial", sans-serif;
-}
-
-
-
-.dark {
-  background: radial-gradient(circle at center, #222, #111);
-  background-color: var(--bg-color);
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: white;
-  --text-color: white;
-  --text-gradient: linear-gradient(-45deg, white, white, white, #333, white, white, white);
-  --button-bg-color: var(--bg-color);
-  --button-bg2-color: #333;
-  --button-text-color: white;
-  --icon-filter: invert(1);
-  --background: rgb(20,20,20);
-  --background-card-content: rgba(44,44,44, 1);
-  --backgrounda: rgba(33,33,33,1);
-  --colora: rgba(0,0,0,0.75);
-  --colorb: black;
-  --colorc: #252525cc;
-  --colord: rgb(16, 16, 16);
-  --colore: rgba(255,255,255,0);
-  --colorf: rgba(255,255,255,.7), rgba(0, 0, 0, .5);
-  --colorg: rgb(33,22,44);
-}
-.light {
-  background: radial-gradient(circle at center, #fff, #eee);
-  background-color: white;
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: black;
-  --text-color: black;
-  --text-gradient: linear-gradient(-45deg, gray, gray, gray, #F5F5F5, gray, gray, gray);
-  --button-bg-color: white;
-  --button-bg2-color: #F5F5F5;
-  --button-text-color: black;
-  --icon-filter: none;
-  --background: rgb(255,255,255);
-  --background-card-content: rgba(220,220,220, 1);
-  --backgrounda: rgba(240, 240, 240,1);
-  --colora: rgba(255,255,255,0.75);
-  --colorb: white;
-  --colorc: FAFAFAcc;
-  --colord: rgb(39, 239, 239);
-  --colore: rgba(0,0,0,0);
-  --colorf: rgba(0,0,0,.7), rgba(255, 255, 255, .5);
-  --colorg: rgb(222,233,211);
-}
-.dark header { background-color: var(-–bg-color); 
-  color: #E0E0E0; }
-.light header { background-color: #F5F5F5; 
-  color: #757575; }
-#github-icon {
-  filter: var(--icon-filter);
-}
-
-.script-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.theme-button {
-  background-color: var(--button-bg-color);
-  color: var(--button-text-color);
-  position: absolute;
-  top: 20px;
-  right: calc(0px + 30px);
-  z-index: 1;
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  font-size: 25px;
-  cursor: pointer;
-  border-radius: 10%;
-  transform: translateY(-30%);
-  margin-left: auto;
-  transition: background-color .2s ease-in-out;
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
-}
-.theme-button:hover {
-  background-color: var(--button-bg2-color);
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0);
-}
-
-button {
-  background-color: var(--button-bg-color);
-  color: var(--button-text-color);
-  position: absolute;
-  top: 10px;
-  right: center;
-  z-index: 1;
-  display: inline-block;
-  width: 150px;
-  height: 30px;
-  line-height: 0px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-left: auto;
-  transition: background-color .2s ease-in-out;
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
-}
-button:hover {
-  background-color: var(--button-bg2-color);
-}
-
-header, footer {
-  display: flex;
-  justify-content: center;
-  background-color: #333;
-  color: var(--text-color);
-  position: relative;
-
-}
-
-header {
-  align-items: center;
-  height: 55px;
-  width: 100%;
-  flex: 1;
-  box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
-
-}
-
-header h1 {
-  font-size: 35px;
-  font-weight: bold;
-  margin-top: 15px;
-}
-
-footer {
-  z-index: 9999;
-  margin-top: 20px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  color: white;
-  right: 0;
-  height: 40px;
-  transition: transform 0.5s ease-in-out;
-}
-
-.first-footer, .second-footer {
-  justify-content: center;
-  text-align: center;
-}
-
-.first-footer {
-  transition: transform 0.5s ease-in-out;
-}
-
-.first-footer:hover,
-.first-footer.active {
-  transform: translateY(-100%);
-}
-
-.second-footer {
-  padding: 3px;
-  background-color: rgba(0, 0, 0, 0);
-  color: var(--button-text-color);
-}
-
-a {
-  color: var( --text-color );
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: #0af;
-}
-
-.star {
-  z-index: 9999;
-  position: relative;
-  transform-style: preserve-3d;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  color: red;
-}
-.star:before {
-  z-index: 9999;
-  position: relative;
-  position: absolute;
-  content: '\2726';
-  color: inherit;
-  inset: 0;
-  box-shadow: 0 0 1em .5em #a3c2;
-  text-shadow: 0 0 .8em #fff5;
-}
-</style>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'></script>
-  <meta charset="utf-8">
+<meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400&display=swap" rel="stylesheet">
   <link rel="icon" href="https://lh3.googleusercontent.com/a-/ALV-UjVmECUMyqwJlVDCurpiJm9u1ZUqzh9h3NfJ8NVCaaPrPVc" type="image/x-icon">
-  <title>MilesthoN</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MilesthoN</title>
+    <style>
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            display: flex;
+			flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+		.html {
+			align-self: flex-start;
+			margin-left: 5%;
+			color: rgb(204, 204, 204);
+        }
+        #terminal {
+			
+            width: 90%;
+            height: 70%;
+            background-color: #000;
+            padding: 20px;
+            border-radius: 20px;
+            overflow: auto;
+			box-shadow: 0px 0px 30px rgba(0, 0, 0, 5);
+            font-size: 1.2em;
+        }
+
+        .inputLine {
+            display: flex;
+            align-items: center;
+			font-size: 1.2em;
+        }
+        #comm {
+            color: #00ff00;
+            line-height: 1.2em;
+        }
+        .userInput {
+            flex-grow: 1;
+            margin-left: 10px;
+            color: #ffffff;
+            background-color: #000;
+            border: none;
+            outline: none;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            line-height: 1.2em;
+        }
+		 @media only screen and (max-width: 600px) {
+            #terminal, .userInput {
+                font-size: 2em; /* Увеличиваем размер шрифта */
+            }
+        }
+	
+	
+    </style>
 </head>
 <body>
-<header>
-  <style>
-.gradient-text {
-  background: var(--text-gradient);
-  background-size: 400% 400%;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: gradient 5s linear infinite;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 400% 50%;
-  }
-  50% {
-    background-position: 200% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-  </style>
-  <h1 class="gradient-text">ссылки:</h1>
-</header>
-  <div class="theme-button" id="theme-button" onclick="toggleTheme()">☼<span id="theme-button-text"></span></div>
-  <script>
-  function setTheme(theme) {
-  document.body.classList.remove('light', 'dark');
-  document.body.classList.add(theme);
-  localStorage.setItem('theme', theme);
-  document.getElementById('theme-button').textContent = theme === 'dark' ? '☼' : '☽';
-}
-
-function toggleTheme() {
-  const currentTheme = document.body.classList.contains('light') ? 'light' : 'dark';
-  setTheme(currentTheme === 'light' ? 'dark' : 'light');
-}
-
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-  setTheme(savedTheme);
-} else {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  setTheme(prefersDark ? 'dark' : 'light');
-}
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-  setTheme(e.matches ? 'dark' : 'light');
-});
-  </script>
+<div class="html">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+<br>
 </div>
-  <style>
-
-#cards {
-  flex-direction: column;
-  margin: auto;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#cards:hover > .card:before,
-#cards:hover > .card:after {
-  opacity: 1;
-  transition-delay: 0.1s;
-}
-
-.card {
-  margin: 5px auto;
-  position: relative;
-  color: var(--text-color);
-  border-radius:10px;
-  cursor: pointer;
-  height: 50px;
-  width: 100%;
-  max-width: 485px;
-  display: flex;
-  align-items: center;
-  image-rendering: pixelate;
-  background-color: var(--backgrounda);
-}
-
-.card:before,
-.card:after {
-  content: "";
-  position: absolute;
-  transition: opacity 500ms ease;
-  image-rendering: pixelate;
-}
-
-.card:after {
-  --bgoffsetx: calc( 3px * var(--ratio-x)); 
-  --bgoffsety: calc( 3px * var(--ratio-y));
-  --pointerx: calc( 100% * var(--ratio-x));
-  --pointery: calc( 100% * var(--ratio-y));
-  background-color: var(--background-card-content);
-  background-image: 
-  radial-gradient(var(--light-size) circle at var(--pointerx) var(--pointery), var(--colora),var(--colorb)),
-  radial-gradient(var(--light-size) circle at var(--pointerx) var(--pointery), var(--colorc), var(--colord) calc(var(--light-size) * 1)), 
-  var(--glitter2), 
-  var(--glitter2);
-  background-position: center, center, center, calc(var(--bgoffsetx)*1) calc(var(--bgoffsety)*1);
-  background-size: 300px 300px;
-  background-blend-mode: normal, color-burn, color-dodge;
-  filter: brightness(1.4) contrast(.725);
-  opacity: 0;
-  z-index: 2;
-  inset: 1px;
-  border-radius:9px;
-  height:calc(100% - 2px);
-  width:calc(100% - 2px);
-  transition-delay: 0.1s;
-}
-
-.card:before {
-  background-color: var(--colore);
-  border-radius: inherit;
-  opacity:0;
-  width:100%;
-  height:100%;
-  left:0px;
-  top:0px;
-  background-image: 
-    conic-gradient(from 0deg at calc( 0% + var(--mouse-x) ) calc( 0% + var(--mouse-y) ), 
-      #FFBD8C 0%, #FD8585 11%, #FD8585 15%, #F882FF 27%, #F882FF 31%, #8785FE 42%, #8785FE 46%, #9AFCFF 55%, #9AFCFF 59%, #99FD9C 70%, #99FD9C 74%, #FFFD84 87%, #FFFD84 91%, #FFBD8C 100%), 
-    radial-gradient( calc(var(--light-size)*1.5) circle at var(--mouse-x) var(--mouse-y) , 
-      var(--colorf) 50% ), 
-    radial-gradient( calc(var(--light-size)*1.5) circle at var(--mouse-x) var(--mouse-y) , 
-      transparent, var(--colorg) 60%, var(--background) 120% );
-  background-blend-mode: hue, color-dodge;
-  transition-delay: 0s;
-  z-index: 1;
-}
-
-.card-content {
-  position: relative;
-  z-index: 3;
-  color: var(--text-color);
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.card-content a img,
-.card-content a {
-  vertical-align: middle;
-  margin: 0 10px;
-}
-
-.card-content a,
-.card-content span {
-  transition: transform 0.3s ease;
-}
-
-.card:hover .card-content a {
-  transform: scale(1.2);
-}
-
-.card:hover .card-content a + span {
-  transform: translateX(20px);
-}
-
-@media (max-width: 600px) {
-  .card-content a img,
-.card-content a {
-    margin: 5px;
-  }
-.glitter {  
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
-
-</style>
-  <div id="cards">
-  <div class="card" onclick="window.open(this.getElementsByTagName('a')[0].href)">
-    <div class="card-content">
-      <a href="https://t.me/PrivatBay" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" width="32" height="32">‍☠️PrivatBay </a><span>— что то приватное..</span>
+    <div id="terminal">
+        <div class="inputLine">
+            <div id="comm">user@a $</div>
+            <input class="userInput" type="text" autofocus />
+        </div>
     </div>
-  </div>
-  <div class="card" onclick="window.open(this.getElementsByTagName('a')[0].href)">
-    <div class="card-content">
-      <a href="https://t.me/aiXsite" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" width="32" height="32">🤖 Ai / Site </a><span>— Нейросети и полезные сайты</span>
-    </div>
-  </div>
-  <div class="card" onclick="window.open(this.getElementsByTagName('a')[0].href)">
-    <div class="card-content">
-      <a href="https://t.me/isOsint" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" width="32" height="32">🔍 OSiNT </a><span>— Поиск человека</span>
-    </div>
-  </div>
-  <div class="card" onclick="window.open(this.getElementsByTagName('a')[0].href)">
-    <div class="card-content">
-      <a href="https://t.me/isBase" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" width="32" height="32">🗂️ BASE </a><span>— Базы данных</span>
-    </div>
-  </div>
-  <div class="card" onclick="window.open(this.getElementsByTagName('a')[0].href)">
-    <div class="card-content">
-      <a href="https://t.me/itXhelp" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" width="32" height="32">🧰 Help iT </a><span>— Помощь в IT</span>
-    </div>
-  </div>
-  <div class="card" onclick="window.open(this.getElementsByTagName('a')[0].href)">
-    <div class="card-content">
-      <a href="https://t.me/life_cracks" target="_blank"><img src="https://web.telegram.org/k/assets/img/android-chrome-192x192.png" width="32" height="32">💡 Лайфхаки </a><span>— Лайфхаки</span>
-    </div>
-	</div>
-</div>
-<script>
-document.body.style.setProperty( "--dw", document.body.clientWidth + "px" );
-document.body.style.setProperty( "--dh", document.body.clientHeight + "px" );
-document.getElementById("cards").onpointermove = e => {
-  for(const card of document.getElementsByClassName("card")) {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top; 
-    
-  card.style.setProperty("--mouse-x", `${x}px`);
-  card.style.setProperty("--mouse-y", `${y}px`);
-    
-  const BOX = card.getBoundingClientRect();
-  const POINT = { x: x, y: y };
-  const RATIO = { x: POINT.x / BOX.width, y: POINT.y / BOX.height };
-  const CENTER = fromCenter( RATIO );
-  card.style.setProperty( "--ratio-x", RATIO.x );
-  card.style.setProperty( "--ratio-y", RATIO.y );
-  }
-}
-function fromCenter({ x, y }) {
-  return Math.min(Math.max( 0, Math.sqrt( (y - .5) * (y - .5) + (x  - .5) * (x - .5) ) / .5 ), 1 );
-}
+	<script>
+    var text = [
+  '<span style="color: rgb(204, 204, 204);">(c) MilesthoN. Все права защищены.</span>',
+  '<span style="color: rgb(204, 204, 204);">Loading console...</span>',
+  '<span style="color: rgb(204, 204, 204);">Preparing execution environment... OK</span>',
+  '<span class="folder"></span> $ cat "Telegram Channel.txt"',
+  '<span class="folder">приватное.. — <a href="https://t.me/PrivatBay" style="color: blue; text-decoration: underline;">t.me/PrivatBay</a>',
+  '<span class="folder">Ai и сайты — <a href="https://t.me/aiXsite" style="color: blue; text-decoration: underline;">t.me/aiXsite</a>',
+  '<span class="folder">Осинт — <a href="https://t.me/isOsint" style="color: blue; text-decoration: underline;">t.me/isOsint</a>',
+  '<span class="folder">Базы данных — <a href="https://t.me/isBase" style="color: blue; text-decoration: underline;">t.me/isBase</a>',
+  '<span class="folder">Помощь в IT — <a href="https://t.me/itXhelp" style="color: blue; text-decoration: underline;">t.me/itXhelp</a>',
+  '<span class="folder">Лайфхаки — <a href="https://t.me/life_cracks" style="color: blue; text-decoration: underline;">t.me/life_cracks</a>',
+    ];
+
+    var terminal = document.getElementById('terminal');
+    var inputLine = document.querySelector('.inputLine');
+    var index = 0;
+
+    function printLine() {
+        if (index < text.length) {
+            var line = document.createElement('div');
+            line.innerHTML = text[index];
+            terminal.insertBefore(line, inputLine);
+            index++;
+            setTimeout(printLine, 100); // Задержка перед печатью следующей строки
+        }
+    }
+    printLine();
 </script>
-<style>
+    <script>
+        document.querySelector('#terminal').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const input = event.target.value.trim();
+                const terminal = document.getElementById('terminal');
+                if (input === 'cls') {
+                    while (terminal.firstChild) {
+                        terminal.removeChild(terminal.firstChild);
+                    }
+                    const newInputLine = document.createElement('div');
+                    newInputLine.className = 'inputLine';
+                    newInputLine.innerHTML = '<div id="comm">user@a $</div><input class="userInput" type="text" autofocus />';
+                    terminal.appendChild(newInputLine);
+                    newInputLine.querySelector('.userInput').focus();
+                } else {
+                    const newLine = document.createElement('div');
+                    newLine.textContent = `$ ${input}`;
+                    terminal.appendChild(newLine);
+                    if (input === '300') {
+                        const eggLine = document.createElement('div');
+                        eggLine.textContent = 'Молодец! ты нашел пасхальное яйцо!';
+                        terminal.appendChild(eggLine);
+                    } else {
+                        const errorLine = document.createElement('div');
+                        errorLine.textContent = 'Не правильно! Попробуй еще раз!';
+                        terminal.appendChild(errorLine);
+                    }
+                    event.target.value = '';
+                    terminal.scrollTop = terminal.scrollHeight;
+                    terminal.removeChild(event.target.parentNode);
+                    const newInputLine = document.createElement('div');
+                    newInputLine.className = 'inputLine';
+                    newInputLine.innerHTML = '<div id="comm">user@a $</div><input class="userInput" type="text" autofocus />';
+                    terminal.appendChild(newInputLine);
+                    newInputLine.querySelector('.userInput').focus();
+                }
+            }
+        });
+        document.querySelector('#terminal').addEventListener('click', function() {
+            const inputLines = document.querySelectorAll('.inputLine');
+            const lastInputLine = inputLines[inputLines.length - 1];
+            const userInput = lastInputLine.querySelector('.userInput');
+            userInput.focus();
+        });
+    </script>
+	<style>
 .glow-on-hover {
     border: none;
     outline: none;
@@ -501,32 +186,32 @@ function fromCenter({ x, y }) {
     50% { background-position: 400% 0; }
 }
 
-.container2 {
-  margin: 40px 0;
+.container {
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 50px;
 
+  font-family: "Source Code Pro", "Arial", sans-serif;
 }
 
-.container2 a {
+.container a {
   color: var(--text-color);
+  text-decoration: none;
 }
 
-.container2 ul li a img {
+.container ul li a img {
   margin-right: 10px;
   width: 48px;
   height: 48px;
 }
 
-.container2 ul li a {
+.container ul li a {
   display: flex;
   align-items: center;
-  font-size: 20px;
 }
 
-.container2 ul li a:hover {
+.container ul li a:hover {
   animation: pulse 1.4s infinite ease-in-out;
 }
 
@@ -540,6 +225,10 @@ function fromCenter({ x, y }) {
     filter: brightness(1.5);
   }
 }
+#github-icon {
+  filter: invert(1);
+}
+
 .custom-list {
   list-style: none;
   display: flex;
@@ -548,10 +237,10 @@ function fromCenter({ x, y }) {
   justify-content: center;
   gap: 50px;
   margin-top: 5%;
-  margin-bottom: 15%;
+
 }
 </style>
-<div class="container2">
+	<div class="container">
   <ul class="custom-list">
   <li><a class="glow-on-hover" href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
   <li><a class="glow-on-hover" href="https://youtube.com/channel/UCy2JxQdX8dT2Tbj4ykUkqFw" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a></li>
@@ -560,190 +249,8 @@ function fromCenter({ x, y }) {
   <li><a class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
   <li><a class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
   <li><a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
-  <li><a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img id="github-icon" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
+  <li><a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
   </ul>
 </div>
-<footer class="second-footer" id="second-footer">
-  <button onclick="loadScripts()">улететь в космос</button>
-  <div class="script-container"></div>
-</footer>
-<script>
-function loadScripts() {
-let camera;
-let scene;
-let renderer;
-let material;
-let mouseX = 0;
-let mouseY = 0;
-let windowHalfX = window.innerWidth / 2;
-let windowHalfY = window.innerHeight / 2;
-init();
-animate();
-function init() {
-  camera = new THREE.PerspectiveCamera(
-    50,
-    window.innerWidth / window.innerHeight,
-    5,
-    2000
-  );
-  camera.position.z = 500;
-  scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0000ff, 0.001);
-  const geometry = new THREE.BufferGeometry();
-  const vertices = [];
-  const size = 2000;
-  for (let i = 0; i < 20000; i++) {
-    const x = (Math.random() * size + Math.random() * size) / 2 - size / 2;
-    const y = (Math.random() * size + Math.random() * size) / 2 - size / 2;
-    const z = (Math.random() * size + Math.random() * size) / 2 - size / 2;
-    vertices.push(x, y, z);
-  }
-  geometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(vertices, 3)
-  );
-  material = new THREE.PointsMaterial({
-    size: 2,
-    color: 0xffffff
-  });
-  const particles = new THREE.Points(geometry, material);
-  scene.add(particles);
-  renderer = new THREE.WebGLRenderer();
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
-  document.body.style.touchAction = "none";
-  document.body.addEventListener("pointermove", onPointerMove);
-  window.addEventListener("resize", onWindowResize);
-}
-function onWindowResize() {
-  windowHalfX = window.innerWidth / 2;
-  windowHalfY = window.innerHeight / 2;
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
-function onPointerMove(event) {
-  mouseX = event.clientX - windowHalfX;
-  mouseY = event.clientY - windowHalfY;
-}
-function animate() {
-  requestAnimationFrame(animate);
-  render();
-}
-function render() {
-  camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
-  camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
-  camera.lookAt(scene.position);
-  renderer.render(scene, camera);
-  scene.rotation.x += 0.001;
-  scene.rotation.y += 0.002;
-}
-}
-</script>
-<footer class="first-footer" style="display: flex; align-items: center;">
-  <span id="footer-text">by MilesthoN </span>&nbsp;
-  <span style="color: #999999;">feat. ChatGPT</span>
-</footer>
-  <script>
-const footer = document.querySelector('.first-footer');
-const footerHeight = footer.getBoundingClientRect().height;
-let isFooterExpanded = false;
-function hideFooter() {
-  footer.classList.remove('active');
-  isFooterExpanded = false;
-}
-function expandFooter() {
-  footer.classList.add('active');
-  isFooterExpanded = true;
-}
-footer.addEventListener('click', function() {
-  if (isFooterExpanded) {
-    hideFooter();
-  } else {
-    expandFooter();
-  }
-});
-document.addEventListener('mousemove', function(event) {
-  const mouseX = event.pageX;
-  const mouseY = event.pageY;
-  const footerRect = footer.getBoundingClientRect();
-  const footerTop = footerRect.top;
-  const footerLeft = footerRect.left;
-  const footerRight = footerRect.right;
-  const footerBottom = footerRect.bottom;
-  const isMouseOnFooter = (
-    mouseY >= footerTop &&
-    mouseY <= footerBottom &&
-    mouseX >= footerLeft &&
-    mouseX <= footerRight
-  );
-  const isMouseUnderFooter = mouseY > footerBottom && mouseY <= footerBottom + footerHeight;
-  if (isMouseOnFooter || isMouseUnderFooter) {
-    if (!isFooterExpanded) {
-      expandFooter();
-    }
-  } else {
-    if (isFooterExpanded) {
-      hideFooter();
-    }
-  }
-});
-footer.addEventListener('mouseleave', function() {
-  hideFooter();
-});
-  </script>
-    <script>
-  let x1=0, y1=0;
-window.client
-const 
-  vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
-  dist_to_draw = 50,
-  delay = 1000,
-  fsize = [
-    '1.1rem', '1.4rem', '.8rem', '1.7rem'
-  ],
-  colors = [
-  '#FFFFFF',
-],
-  rand = (min, max) => 
-    Math.floor(Math.random() * (max - min + 1)) + min,
-  selRand = (o) => o[rand(0, o.length -1)],
-  distanceTo =  (x1, y1, x2, y2) => 
-    Math.sqrt((Math.pow(x2-x1,2))+(Math.pow(y2-y1,2))),
-  shouldDraw = (x, y) => 
-    (distanceTo(x1, y1, x, y) >= dist_to_draw),
-  addStr = (x, y) => {
-    const str = document.createElement("div");
-    str.innerHTML = '&#10022;';
-    str.className = 'star';
-    str.style.top = `${y + rand(-20,20)}px`;
-    str.style.left = `${x}px`;
-    str.style.color = selRand(colors);
-    str.style.fontSize = selRand(fsize);
-    document.body.appendChild(str);
-     const fs = 10 + 5 * parseFloat(getComputedStyle(str).fontSize);
-    str.animate({
-      translate: `0 ${(y+fs)>vh?vh-y:fs}px`,
-      opacity: 0,
-      transform: `rotateX(${rand(1, 500)}deg) rotateY(${rand(1, 500)}deg)`
-    }, {
-      duration: delay,
-      fill: 'forwards',
-
-    });
-    setTimeout(() => {
-        str.remove();
-      }, delay);
-  }
-addEventListener("mousemove", (e) => {
-  const {clientX, clientY} = e;
-  if(shouldDraw(clientX, clientY)){
-    addStr(clientX, clientY);
-    x1 = clientX;
-    y1 = clientY;
-  }
-});
-  </script>
 </body>
 </html>
