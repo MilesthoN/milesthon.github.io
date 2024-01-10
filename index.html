@@ -68,6 +68,25 @@
 			margin-top: 5%;
 			}
         }
+		.star {
+  z-index: 9999;
+  position: relative;
+  transform-style: preserve-3d;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  color: red;
+}
+.star:before {
+  z-index: 9999;
+  position: relative;
+  position: absolute;
+  content: '\2726';
+  color: inherit;
+  inset: 0;
+  box-shadow: 0 0 1em .5em #a3c2;
+  text-shadow: 0 0 .8em #fff5;
+}
 </style>
 </head>
 <body>
@@ -265,5 +284,57 @@
   <li><a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
   </ul>
 </div>
+<script>
+  let x1=0, y1=0;
+window.client
+const 
+  vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
+  dist_to_draw = 50,
+  delay = 1000,
+  fsize = [
+    '1.1rem', '1.4rem', '.8rem', '1.7rem'
+  ],
+  colors = [
+  '#FFFFFF',
+],
+  rand = (min, max) => 
+    Math.floor(Math.random() * (max - min + 1)) + min,
+  selRand = (o) => o[rand(0, o.length -1)],
+  distanceTo =  (x1, y1, x2, y2) => 
+    Math.sqrt((Math.pow(x2-x1,2))+(Math.pow(y2-y1,2))),
+  shouldDraw = (x, y) => 
+    (distanceTo(x1, y1, x, y) >= dist_to_draw),
+  addStr = (x, y) => {
+    const str = document.createElement("div");
+    str.innerHTML = '&#10022;';
+    str.className = 'star';
+    str.style.top = `${y + rand(-20,20)}px`;
+    str.style.left = `${x}px`;
+    str.style.color = selRand(colors);
+    str.style.fontSize = selRand(fsize);
+    document.body.appendChild(str);
+     const fs = 10 + 5 * parseFloat(getComputedStyle(str).fontSize);
+    str.animate({
+      translate: `0 ${(y+fs)>vh?vh-y:fs}px`,
+      opacity: 0,
+      transform: `rotateX(${rand(1, 500)}deg) rotateY(${rand(1, 500)}deg)`
+    }, {
+      duration: delay,
+      fill: 'forwards',
+
+    });
+    setTimeout(() => {
+        str.remove();
+      }, delay);
+  }
+addEventListener("mousemove", (e) => {
+  const {clientX, clientY} = e;
+  if(shouldDraw(clientX, clientY)){
+    addStr(clientX, clientY);
+    x1 = clientX;
+    y1 = clientY;
+  }
+});
+  </script>
 </body>
 </html>
