@@ -1,182 +1,251 @@
- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400&display=swap" rel="stylesheet">
-	<link rel="icon" href="https://lh3.googleusercontent.com/a-/ALV-UjVmECUMyqwJlVDCurpiJm9u1ZUqzh9h3NfJ8NVCaaPrPVc" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MilesthoN</title>
-<style>
-    body {
-        background-color: #222;
-        color: #fff;
-		font-family: 'Courier New', monospace;
-        display: flex;
-		flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        padding: 0;
+    <link rel="icon" href="https://lh3.googleusercontent.com/a-/ALV-UjVmECUMyqwJlVDCurpiJm9u1ZUqzh9h3NfJ8NVCaaPrPVc" type="image/png">
+    <style>
+		html, body {
+			height: 100%;
+		}
+
+		html {
+			height: 100%;
+			background-color: #090a0f;
+			background: radial-gradient(ellipse at bottom, #1b2735, #090a0f);
+			overflow: hidden;
+		}
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #c9d1d9;
+            overflow: hidden;
+			background: transparent;
+        }
+
+		.console {
+			width: 90%;
+			max-width: 800px;
+			height: 80%;
+			max-height: 400px;
+			background: rgba(22, 27, 34, 0.6); /* Прозрачный фон */
+			backdrop-filter: blur(10px); /* Размытие фона */
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+			border: 1px solid rgba(48, 54, 61, 0.8); /* Полупрозрачная граница */
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			transition: all 0.5s ease;
+		}
+
+        .console.hidden {
+            top: auto;
+            bottom: 10px;
+            width: 110px;
+            height: 40px;
+            background-color: #161b22;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .console.hidden .output,
+        .console.hidden .command-line {
+            display: none;
+        }
+
+		.console-header {
+			height: 32px;
+			background: rgba(33, 38, 45, 0.7); /* Прозрачный фон для шапки */
+			backdrop-filter: blur(5px); /* Легкое размытие фона заголовка */
+			display: flex;
+			align-items: center;
+			padding: 0 10px;
+			border-bottom: 1px solid rgba(48, 54, 61, 0.8); /* Полупрозрачная граница */
+			color: #f0f6fc;
+			font-size: 14px;
+		}
+
+        .console.hidden .console-header {
+            border-bottom: none;
+            background-color: transparent;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .console-header .title {
+            margin-left: 8px;
+        }
+
+        .console-header .buttons {
+            display: flex;
+            gap: 6px;
+            margin-left: auto;
+        }
+
+        .console-header .button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .console-header .button.close {
+            background-color: #28a745;
+        }
+
+        .console-header .button.minimize {
+            background-color: #febc2e;
+        }
+
+        .console-header .button.maximize {
+            background-color: #ea4a5a;
+        }
+
+        .output {
+            flex: 1;
+            padding: 10px;
+            color: #f0f6fc;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            overflow-y: scroll;
+			overflow-wrap: break-word;
+			white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .output::-webkit-scrollbar-track {
+            background: #21262d;
+        }
+
+        .output::-webkit-scrollbar-thumb {
+            background-color: #30363d;
+            border-radius: 10px;
+            border: 2px solid #21262d;
+        }
+
+        .output::-webkit-scrollbar-thumb:hover {
+            background-color: #58a6ff;
+        }
+
+        .command-line {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .command-line span {
+            color: #58a6ff;
+            font-family: 'Consolas', monospace;
+            margin-right: 5px;
+        }
+
+        .command-line input {
+            background-color: transparent;
+            border: none;
+            color: #f0f6fc;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            outline: none;
+            flex: 1;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
 		
-    }
-	.html {
-		align-self: flex-start;
-		margin-left: 5%;
-		margin-top: 1%;
-		color: rgb(204, 204, 204);
-    }
-    #terminal {
-	    width: 90%;
-        height: 75%;
-        background-color: #000;
-        padding: 20px;
-        border-radius: 20px;
-        overflow: auto;
-		box-shadow: 0px 0px 30px rgba(0, 0, 0, 5);
-        font-size: 120%;
-		padding-top: 20px;
-    }
-    .inputLine {
-        display: flex;
-        align-items: center;
-		font-size: 120%;
-    }
-    #comm {
-        color: #00ff00;
-        line-height: 1.2em;
-    }
-    .userInput {
-        flex-grow: 1;
-        margin-left: 10px;
-        color: #ffffff;
-        background-color: #000;
-        border: none;
-        outline: none;
-        font-family: 'Courier New', monospace;
-        font-size: 1.2em;
-        line-height: 1.2em;
-    }
-	@media only screen and (max-width: 600px) {
-		#terminal {
-            width: 80%;
-            }
-			#terminal, .inputLine {
-			font-size: 90%;
-			}
-			.html {
-			margin-top: 5%;
-			}
+        .placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #58a6ff;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
         }
+		
+		#placeholder2 {
+			color: #ea4a5a; /* Цвет текста для текста "Сломал!" */
+		}
+		
+        .placeholder.visible {
+            display: block;
+        }
+
+		/* Анимация сворачивания в стиле старого телевизора */
+		@keyframes collapse {
+			0% {
+				width: 90%;
+				height: 80%;
+				top: 50%;
+				transform: translateY(-50%);
+				opacity: 1;
+				border-radius: 8px;
+			}
+			100% {
+				width: 0;
+				height: 0;
+				top: 50%;
+				transform: translateY(-50%) scale(0.1);
+				opacity: 0;
+				border-radius: 50%;
+			}
+		}
+
+		/* Когда консоль закрывается, применяется анимация collapse */
+		.console.collapsed {
+			animation: collapse 0.5s ease forwards;
+			overflow: hidden;
+		}
+		
+        /* Стили для звезд */
 		.star {
-  z-index: 9999;
-  position: relative;
-  transform-style: preserve-3d;
-  width: 1px;
-  height: 1px;
-  position: absolute;
-  color: red;
-}
-.star:before {
-  z-index: 9999;
-  position: relative;
-  position: absolute;
-  content: '\2726';
-  color: inherit;
-  inset: 0;
-  box-shadow: 0 0 1em .5em #a3c2;
-  text-shadow: 0 0 .8em #fff5;
-}
-</style>
-</head>
-<body>
-<div class="html">
-&lt;!DOCTYPE html&gt;<br>
-&lt;html&gt;<br>
-<br>
-</div>
-    <div id="terminal">
-    <div class="inputLine">
-    <div id="comm">user@a $</div>
-        <input class="userInput" type="text" autofocus />
-    </div>
-    </div>
-<script>
-    var text = [
-  '<span style="color: rgb(204, 204, 204);">(c) MilesthoN. Все права защищены.</span>',
-  '<span style="color: rgb(204, 204, 204);">Loading console...</span>',
-  '<span style="color: rgb(204, 204, 204);">Preparing execution environment... OK</span>',
-  '<span class="folder"></span> $ cat "Telegram Channel.txt"',
-  '<span class="folder">приватное.. — <a href="https://t.me/PrivatBay" style="color: blue; text-decoration: underline;">t.me/PrivatBay</a>',
-  '<span class="folder">Ai и сайты — <a href="https://t.me/aiXsite" style="color: blue; text-decoration: underline;">t.me/aiXsite</a>',
-  '<span class="folder">Осинт — <a href="https://t.me/isOsint" style="color: blue; text-decoration: underline;">t.me/isOsint</a>',
-  '<span class="folder">Базы данных — <a href="https://t.me/isBase" style="color: blue; text-decoration: underline;">t.me/isBase</a>',
-  '<span class="folder">Помощь в IT — <a href="https://t.me/itXhelp" style="color: blue; text-decoration: underline;">t.me/itXhelp</a>',
-  '<span class="folder">Лайфхаки — <a href="https://t.me/life_cracks" style="color: blue; text-decoration: underline;">t.me/life_cracks</a>',
-    ];
+			z-index: 9999;
+			position: relative;
+			transform-style: preserve-3d;
+			width: 1px;
+			height: 1px;
+			position: absolute;
+			color: red;
+		}
+		.star:before {
+			z-index: 9999;
+			position: relative;
+			position: absolute;
+			content: '\2726';
+			color: inherit;
+			inset: 0;
+			box-shadow: 0 0 1em .5em #a3c2;
+			text-shadow: 0 0 .8em #fff5;
+		}
 
-    var terminal = document.getElementById('terminal');
-    var inputLine = document.querySelector('.inputLine');
-    var index = 0;
-
-    function printLine() {
-        if (index < text.length) {
-            var line = document.createElement('div');
-            line.innerHTML = text[index];
-            terminal.insertBefore(line, inputLine);
-            index++;
-            setTimeout(printLine, 100);
-        }
-    }
-    printLine();
-</script>
-<script>
-        document.querySelector('#terminal').addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                const input = event.target.value.trim();
-                const terminal = document.getElementById('terminal');
-                if (input === 'cls') {
-                    while (terminal.firstChild) {
-                        terminal.removeChild(terminal.firstChild);
-                    }
-                    const newInputLine = document.createElement('div');
-                    newInputLine.className = 'inputLine';
-                    newInputLine.innerHTML = '<div id="comm">user@a $</div><input class="userInput" type="text" autofocus />';
-                    terminal.appendChild(newInputLine);
-                    newInputLine.querySelector('.userInput').focus();
-                } else {
-                    const newLine = document.createElement('div');
-                    newLine.textContent = `$ ${input}`;
-                    terminal.appendChild(newLine);
-                    if (input === '300') {
-                        const eggLine = document.createElement('div');
-                        eggLine.textContent = 'Молодец! ты нашел пасхальное яйцо!';
-                        terminal.appendChild(eggLine);
-                    } else {
-                        const errorLine = document.createElement('div');
-                        errorLine.textContent = 'Не правильно! Попробуй еще раз!';
-                        terminal.appendChild(errorLine);
-                    }
-                    event.target.value = '';
-                    terminal.scrollTop = terminal.scrollHeight;
-                    terminal.removeChild(event.target.parentNode);
-                    const newInputLine = document.createElement('div');
-                    newInputLine.className = 'inputLine';
-                    newInputLine.innerHTML = '<div id="comm">user@a $</div><input class="userInput" type="text" autofocus />';
-                    terminal.appendChild(newInputLine);
-                    newInputLine.querySelector('.userInput').focus();
-                }
-            }
-        });
-        document.querySelector('#terminal').addEventListener('click', function() {
-            const inputLines = document.querySelectorAll('.inputLine');
-            const lastInputLine = inputLines[inputLines.length - 1];
-            const userInput = lastInputLine.querySelector('.userInput');
-            userInput.focus();
-        });
-</script>
-<style>
 .glow-on-hover {
     border: none;
     outline: none;
@@ -218,17 +287,15 @@
   font-family: "Source Code Pro", "Arial", sans-serif;
 }
 
-
-
 .container a {
   color: var(--text-color);
   text-decoration: none;
 }
 
 .container ul li a img {
-  margin-right: 10px;
-  width: 48px;
-  height: 48px;
+  margin-right: 5px;
+  width: 30px;
+  height: 30px;
 }
 
 .container ul li a {
@@ -250,6 +317,7 @@
     filter: brightness(1.5);
   }
 }
+
 #github-icon {
   filter: invert(1);
 }
@@ -260,81 +328,387 @@
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 35px;
-  padding-top: 10px;
+  gap: 16px;
+  top: auto;
+  padding-top: 500px;
   padding-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
 }
-@media only screen and (max-width: 600px) {
-    .container ul li a img {
-        width: 24px;
-        height: 24px;
-}
-</style>
-  <div class="container">
-  <ul class="custom-list">
-  <li><a class="glow-on-hover" href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
-  <li><a class="glow-on-hover" href="https://youtube.com/channel/UCy2JxQdX8dT2Tbj4ykUkqFw" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a></li>
-  <li><a class="glow-on-hover" href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://brand.twitch.tv/assets/logos/svg/glitch/purple.svg" alt="Twitch" width="32" height="32"> Twitch</a></li>
-  <li><a class="glow-on-hover" href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
-  <li><a class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
-  <li><a class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
-  <li><a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
-  <li><a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
-  </ul>
-</div>
-<script>
-  let x1=0, y1=0;
-window.client
-const 
-  vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
-  dist_to_draw = 50,
-  delay = 1000,
-  fsize = [
-    '1.1rem', '1.4rem', '.8rem', '1.7rem'
-  ],
-  colors = [
-  '#FFFFFF',
-],
-  rand = (min, max) => 
-    Math.floor(Math.random() * (max - min + 1)) + min,
-  selRand = (o) => o[rand(0, o.length -1)],
-  distanceTo =  (x1, y1, x2, y2) => 
-    Math.sqrt((Math.pow(x2-x1,2))+(Math.pow(y2-y1,2))),
-  shouldDraw = (x, y) => 
-    (distanceTo(x1, y1, x, y) >= dist_to_draw),
-  addStr = (x, y) => {
-    const str = document.createElement("div");
-    str.innerHTML = '&#10022;';
-    str.className = 'star';
-    str.style.top = `${y + rand(-20,20)}px`;
-    str.style.left = `${x}px`;
-    str.style.color = selRand(colors);
-    str.style.fontSize = selRand(fsize);
-    document.body.appendChild(str);
-     const fs = 10 + 5 * parseFloat(getComputedStyle(str).fontSize);
-    str.animate({
-      translate: `0 ${(y+fs)>vh?vh-y:fs}px`,
-      opacity: 0,
-      transform: `rotateX(${rand(1, 500)}deg) rotateY(${rand(1, 500)}deg)`
-    }, {
-      duration: delay,
-      fill: 'forwards',
 
-    });
-    setTimeout(() => {
-        str.remove();
-      }, delay);
-  }
-addEventListener("mousemove", (e) => {
-  const {clientX, clientY} = e;
-  if(shouldDraw(clientX, clientY)){
-    addStr(clientX, clientY);
-    x1 = clientX;
-    y1 = clientY;
-  }
-});
-  </script>
+    </style>
+</head>
+<body>
+    <div class="console" id="console">
+        <div class="console-header">
+            <div class="title">My Site</div>
+            <div class="buttons">
+                <div class="button close" id="toggleButton"></div>
+                <div class="button minimize"></div>
+                <div class="button maximize"></div>
+            </div>
+        </div>
+        <div class="output" id="output"></div>
+    </div>
+	
+	<div class="placeholder" id="placeholder2">Сломал! Перезагружай страницу</div>
+	
+	<div class="container">
+		<ul class="custom-list">
+			<li><a class="glow-on-hover" href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
+			<li><a class="glow-on-hover" href="https://youtube.com/channel/UCy2JxQdX8dT2Tbj4ykUkqFw" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a></li>
+			<li><a class="glow-on-hover" href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://assets.twitch.tv/assets/favicon-32-e29e246c157142c94346.png" alt="Twitch" width="32" height="32"> Twitch</a></li>
+			<li><a class="glow-on-hover" href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
+			<li><a class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
+			<li><a class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
+			<li><a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
+			<li><a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
+		</ul>
+	</div>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const consoleElement = document.getElementById('console'); // Консоль
+		const greenButton = document.querySelector('.button.close'); // Зелёная кнопка
+		const toggleButton = document.getElementById('toggleButton'); // Зелёная кнопка
+		const redButton = document.querySelector('.button.maximize'); // Красная кнопка
+		const placeholder = document.getElementById('placeholder'); // Пасхальное яйцо
+		const placeholder2 = document.getElementById('placeholder2'); // Сломал! Перезагружай страницу
+
+        let isMinimized = false;
+
+        // Функция для сворачивания/разворачивания окна
+        toggleButton.addEventListener('click', () => {
+		
+            isMinimized = !isMinimized;
+
+            if (isMinimized) {
+                consoleElement.classList.add('hidden');
+            } else {
+                consoleElement.classList.remove('hidden');
+            }
+        });
+		
+		let camera, scene, renderer, material;
+		let mouseX = 0, mouseY = 0;
+		let windowHalfX = window.innerWidth / 2;
+		let windowHalfY = window.innerHeight / 2;
+		let isAnimationRunning = false;  // Флаг для отслеживания состояния анимации
+		 
+		// Функция для инициализации 3D сцены
+		function init () {
+			camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 2000);
+			camera.position.z = 500;
+
+			scene = new THREE.Scene();
+			scene.fog = new THREE.FogExp2(0x0000ff, 0.001);
+
+			const geometry = new THREE.BufferGeometry();
+			const vertices = [];
+			const size = 2000;
+
+			for ( let i = 0; i < 20000; i ++ ) {
+				const x = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+				const y = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+				const z = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+
+				vertices.push(x, y, z);
+			}
+
+			geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+
+			material = new THREE.PointsMaterial({
+				size: 2,
+				color: 0xffffff,
+			});
+
+			const particles = new THREE.Points(geometry, material);
+			scene.add(particles);
+
+			renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+
+			document.body.style.touchAction = 'none';
+			document.body.addEventListener('pointermove', onPointerMove);
+			window.addEventListener('resize', onWindowResize);
+		}
+
+		function onWindowResize () {
+			windowHalfX = window.innerWidth / 2;
+			windowHalfY = window.innerHeight / 2;
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		function onPointerMove (event) {
+			mouseX = event.clientX - windowHalfX;
+			mouseY = event.clientY - windowHalfY;
+		}
+
+		function animate () {
+			requestAnimationFrame(animate);
+			render();
+		}
+
+		function render () {
+			camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+			camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+			camera.lookAt(scene.position);
+			renderer.render(scene, camera);
+			scene.rotation.x += 0.001;
+			scene.rotation.y += 0.002;
+		}
+
+		// Функция для старта и остановки анимации
+		function toggleAnimation() {
+			if (isAnimationRunning) {
+			// Останавливаем анимацию
+			cancelAnimationFrame(animate);
+			document.body.removeChild(renderer.domElement);
+			isAnimationRunning = false;
+			} else {
+				// Запускаем анимацию
+				init();
+				animate();
+				isAnimationRunning = true;
+			}
+		}
+
+		// Обработчик для кнопки toggleButton
+		toggleButton.addEventListener('click', toggleAnimation);
+ 
+		// Обработчик клика по красной кнопке (для сворачивания консоли)
+		redButton.addEventListener('click', () => {
+			// Добавляем класс для анимации сворачивания консоли
+			consoleElement.classList.add('collapsed');
+			
+			// Показываем placeholder2 после завершения анимации
+			setTimeout(() => {
+				// Скрываем консоль (после анимации)
+				consoleElement.classList.add('hidden');
+				// Показываем надпись "Сломал!"
+				placeholder2.classList.add('visible');
+			}, 200);  // Задержка 500 мс для совпадения с длительностью анимации
+		});
+
+
+        // Функция для добавления текста в консоль
+        function printLine(text, color = null) {
+            const line = document.createElement('div');
+            line.textContent = text;
+            if (color) {
+                line.style.color = color;
+            }
+            line.classList.add('fade-in');
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Функция для добавления строки ввода
+        function addCommandLine() {
+            const commandLine = document.createElement('div');
+            commandLine.classList.add('command-line');
+
+            const userPrefix = document.createElement('span');
+            userPrefix.textContent = 'User>';
+            commandLine.appendChild(userPrefix);
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            commandLine.appendChild(input);
+
+            output.appendChild(commandLine);
+            output.scrollTop = output.scrollHeight;
+
+            // Событие при нажатии Enter
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    const command = input.value.trim();
+                    if (command) {
+                        commandLine.textContent = `User> ${command}`;
+                        processCommand(command);
+                        addCommandLine();
+                    }
+                }
+            });
+
+            input.focus();
+        }
+
+		// Обработка команд
+		function processCommand(command) {
+			switch (command.toLowerCase()) {
+				case 'help':
+					printLine(' ');
+					printLine('help - Помощь');
+					printLine('about - О');
+					printLine('info - Информация');
+					printLine('ipconfig - Показать IP и информацию о пользователе');
+					printLine('clean - Очистить консоль');
+					printLine(' ');
+					break;
+				case 'about':
+					printLine(' ');
+					printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
+					printLine(' ');
+					break;
+				case 'info':
+					printLine(' ');
+					printLine('Полезное — https://t.me/isNEEDs');
+					printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
+					printLine('Ai и сайты — https://t.me/aiXsite');
+					printLine('Помощь в IT — https://t.me/itXhelp');
+					printLine('Баги — https://t.me/isBugs');
+					printLine('Лайфхаки — https://t.me/life_cracks');
+					printLine('https://t.me/isOsint');
+					printLine('https://t.me/isBase');
+					printLine(' ');
+					break;
+				case 'ipconfig':
+					fetch('https://ipapi.co/json/')
+						.then(response => response.json())
+						.then(data => {
+							if (data && data.ip) {
+								printLine(' ');
+								printLine(`IP-адрес: ${data.ip}`, '#58a6ff');
+								printLine(`Страна: ${data.country_name}`, '#58a6ff');
+								printLine(`Город: ${data.city}`, '#58a6ff');
+								printLine(`Операционная система: ${navigator.platform}`, '#58a6ff');
+								printLine(' ');
+							} else {
+								printLine('Не удалось получить информацию о пользователе.', '#ea4a5a');
+							}
+						})
+						.catch(error => {
+							printLine('Ошибка при получении данных: ' + error.message, '#ea4a5a');
+						});
+					break;
+				case 'clean':
+					output.innerHTML = '';
+					break;
+				default:
+					printLine(`Unknown command: ${command}`, '#ea4a5a');
+					printLine(' ');
+			}
+		}
+
+        // Начальное сообщение
+        printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
+        printLine('Admin> info');
+		printLine('Полезное — https://t.me/isNEEDs');
+		printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
+        printLine('Ai и сайты — https://t.me/aiXsite');
+		printLine('Помощь в IT — https://t.me/itXhelp');
+		printLine('Баги — https://t.me/isBugs');
+		printLine('Лайфхаки — https://t.me/life_cracks');
+        printLine('https://t.me/isOsint');
+		printLine('https://t.me/isBase');
+		
+        addCommandLine();
+
+        // Обработчик клика по консоли
+        consoleElement.addEventListener('click', () => {
+            const lastInput = document.querySelector('.command-line input');
+            if (lastInput) {
+                lastInput.focus(); // Фокус на поле ввода при клике на консоль
+            }
+        });
+		
+		// Функция для добавления текста в консоль, преобразующая URL в кликабельные ссылки
+		function printLine(text, color = null) {
+			const line = document.createElement('div');
+
+			// Регулярное выражение для поиска ссылок в тексте
+			const urlPattern = /https?:\/\/[^\s]+/g;
+			let parts = text.split(urlPattern);
+			let urls = text.match(urlPattern);
+
+			// Добавляем части текста и ссылки по очереди
+			parts.forEach((part, index) => {
+				const span = document.createElement('span');
+				span.textContent = part;
+				if (color) {
+					span.style.color = color;
+				}
+				line.appendChild(span);
+
+				// Добавляем ссылку, если она есть
+				if (index < urls?.length) {
+					const link = document.createElement('a');
+					link.href = urls[index];
+					link.textContent = urls[index];
+					link.style.color = '#58a6ff';
+					link.target = '_blank';
+					link.rel = 'noopener noreferrer';
+					link.style.textDecoration = 'underline';
+					line.appendChild(link);
+				}
+			});
+
+			line.classList.add('fade-in');
+			output.appendChild(line);
+			output.scrollTop = output.scrollHeight;
+		}
+
+    </script>
+	    <script>
+        let x1 = 0, y1 = 0;
+
+        const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
+            dist_to_draw = 50,
+            delay = 1000,
+            fsize = [
+                '1.1rem', '1.4rem', '.8rem', '1.7rem'
+            ],
+            colors = [
+                '#FFFFFF',
+            ],
+            rand = (min, max) =>
+                Math.floor(Math.random() * (max - min + 1)) + min,
+            selRand = (o) => o[rand(0, o.length - 1)],
+            distanceTo = (x1, y1, x2, y2) =>
+                Math.sqrt((Math.pow(x2 - x1, 2)) + (Math.pow(y2 - y1, 2))),
+            shouldDraw = (x, y) =>
+                (distanceTo(x1, y1, x, y) >= dist_to_draw);
+
+        const addStr = (x, y) => {
+            const str = document.createElement("div");
+            str.innerHTML = '&#10022;';  // Звездочка
+            str.className = 'star';
+            str.style.top = `${y + rand(-20, 20)}px`;
+            str.style.left = `${x}px`;
+            str.style.color = selRand(colors);
+            str.style.fontSize = selRand(fsize);
+            document.body.appendChild(str);
+
+            const fs = 10 + 5 * parseFloat(getComputedStyle(str).fontSize);
+            str.animate({
+                translate: `0 ${(y + fs) > vh ? vh - y : fs}px`,
+                opacity: 0,
+                transform: `rotateX(${rand(1, 500)}deg) rotateY(${rand(1, 500)}deg)`
+            }, {
+                duration: delay,
+                fill: 'forwards',
+            });
+
+            setTimeout(() => {
+                str.remove();
+            }, delay);
+        }
+
+        addEventListener("mousemove", (e) => {
+            const { clientX, clientY } = e;
+            if (shouldDraw(clientX, clientY)) {
+                addStr(clientX, clientY);
+                x1 = clientX;
+                y1 = clientY;
+            }
+        });
+    </script>
+	
 </body>
 </html>
