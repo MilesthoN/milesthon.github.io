@@ -6,16 +6,16 @@
     <title>MilesthoN</title>
     <link rel="icon" href="https://lh3.googleusercontent.com/a-/ALV-UjVmECUMyqwJlVDCurpiJm9u1ZUqzh9h3NfJ8NVCaaPrPVc" type="image/png">
     <style>
-		html, body {
-			height: 100%;
-		}
+        html, body {
+            height: 100%;
+        }
 
-		html {
-			height: 100%;
-			background-color: #090a0f;
-			background: radial-gradient(ellipse at bottom, #1b2735, #090a0f);
-			overflow: hidden;
-		}
+        html {
+            height: 100%;
+            background-color: #090a0f;
+            background: radial-gradient(ellipse at bottom, #1b2735, #090a0f);
+            overflow: hidden;
+        }
         body {
             margin: 0;
             height: 100vh;
@@ -25,27 +25,27 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #c9d1d9;
             overflow: hidden;
-			background: transparent;
+            background: transparent;
         }
 
-		.console {
-			width: 90%;
-			max-width: 800px;
-			height: 80%;
-			max-height: 400px;
-			background: rgba(22, 27, 34, 0.6); /* Прозрачный фон */
-			backdrop-filter: blur(10px); /* Размытие фона */
-			border-radius: 8px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-			display: flex;
-			flex-direction: column;
-			overflow: hidden;
-			border: 1px solid rgba(48, 54, 61, 0.8); /* Полупрозрачная граница */
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
-			transition: all 0.5s ease;
-		}
+        .console {
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            max-height: 400px;
+            background: rgba(22, 27, 34, 0.6); /* Прозрачный фон */
+            backdrop-filter: blur(10px); /* Размытие фона */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(48, 54, 61, 0.8); /* Полупрозрачная граница */
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.5s ease;
+        }
 
         .console.hidden {
             top: auto;
@@ -65,17 +65,17 @@
             display: none;
         }
 
-		.console-header {
-			height: 32px;
-			background: rgba(33, 38, 45, 0.7); /* Прозрачный фон для шапки */
-			backdrop-filter: blur(5px); /* Легкое размытие фона заголовка */
-			display: flex;
-			align-items: center;
-			padding: 0 10px;
-			border-bottom: 1px solid rgba(48, 54, 61, 0.8); /* Полупрозрачная граница */
-			color: #f0f6fc;
-			font-size: 14px;
-		}
+        .console-header {
+            height: 32px;
+            background: rgba(33, 38, 45, 0.7); /* Прозрачный фон для шапки */
+            backdrop-filter: blur(5px); /* Легкое размытие фона заголовка */
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.8); /* Полупрозрачная граница */
+            color: #f0f6fc;
+            font-size: 14px;
+        }
 
         .console.hidden .console-header {
             border-bottom: none;
@@ -123,8 +123,8 @@
             font-family: 'Consolas', monospace;
             font-size: 14px;
             overflow-y: scroll;
-			overflow-wrap: break-word;
-			white-space: pre-wrap;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
             line-height: 1.5;
         }
 
@@ -178,7 +178,7 @@
                 opacity: 1;
             }
         }
-		
+
         .placeholder {
             position: absolute;
             top: 50%;
@@ -190,152 +190,155 @@
             text-align: center;
             display: none;
         }
-		
-		#placeholder2 {
-			color: #ea4a5a; /* Цвет текста для текста "Сломал!" */
-		}
-		
+
+        #placeholder2 {
+            color: #ea4a5a; /* Цвет текста для текста "Сломал!" */
+        }
+
         .placeholder.visible {
             display: block;
         }
 
-		/* Анимация сворачивания в стиле старого телевизора */
-		@keyframes collapse {
-			0% {
-				width: 90%;
-				height: 80%;
-				top: 50%;
-				transform: translateY(-50%);
-				opacity: 1;
-				border-radius: 8px;
-			}
-			100% {
-				width: 0;
-				height: 0;
-				top: 50%;
-				transform: translateY(-50%) scale(0.1);
-				opacity: 0;
-				border-radius: 50%;
-			}
-		}
+        /* Анимация сворачивания в стиле старого телевизора */
+        @keyframes collapse {
+            0% {
+                width: 90%;
+                height: 80%;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 1;
+                border-radius: 8px;
+            }
+            100% {
+                width: 0;
+                height: 0;
+                top: 50%;
+                transform: translateY(-50%) scale(0.1);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
 
-		/* Когда консоль закрывается, применяется анимация collapse */
-		.console.collapsed {
-			animation: collapse 0.5s ease forwards;
-			overflow: hidden;
-		}
-		
+        /* Когда консоль закрывается, применяется анимация collapse */
+        .console.collapsed {
+            animation: collapse 0.5s ease forwards;
+            overflow: hidden;
+        }
+
         /* Стили для звезд */
-		.star {
-			z-index: 9999;
-			position: relative;
-			transform-style: preserve-3d;
-			width: 1px;
-			height: 1px;
-			position: absolute;
-			color: red;
-		}
-		.star:before {
-			z-index: 9999;
-			position: relative;
-			position: absolute;
-			content: '\2726';
-			color: inherit;
-			inset: 0;
-			box-shadow: 0 0 1em .5em #a3c2;
-			text-shadow: 0 0 .8em #fff5;
-		}
+        .star {
+            z-index: 9999;
+            position: relative;
+            transform-style: preserve-3d;
+            width: 1px;
+            height: 1px;
+            position: absolute;
+            color: red;
+        }
+        .star:before {
+            z-index: 9999;
+            position: relative;
+            position: absolute;
+            content: '\2726';
+            color: inherit;
+            inset: 0;
+            box-shadow: 0 0 1em .5em #a3c2;
+            text-shadow: 0 0 .8em #fff5;
+        }
 
-.glow-on-hover {
-    border: none;
-    outline: none;
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    color: #000;
-}
+        .glow-on-hover {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 0;
+            color: #000;
+        }
 
-.glow-on-hover:before {
-    content: '';
-    position: absolute;
-    background: linear-gradient(45deg, #ff0000, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-    top: -4px;
-    left:-4px;
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(20px);
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    animation: glowing 20s linear infinite;
-    opacity: 0;
-    transition: opacity .3s ease-in-out;
-}
+        .glow-on-hover:before {
+            content: '';
+            position: absolute;
+            background: linear-gradient(45deg, #ff0000, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            top: -4px;
+            left:-4px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(20px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+        }
 
-.glow-on-hover:hover:before {
-    opacity: 1;
-}
+        .glow-on-hover:hover:before {
+            opacity: 1;
+        }
 
-@keyframes glowing {
-    0%, 100% { background-position: 0 0; }
-    50% { background-position: 400% 0; }
-}
+        @keyframes glowing {
+            0%, 100% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+        }
 
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Source Code Pro", "Arial", sans-serif;
-}
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Source Code Pro", "Arial", sans-serif;
+        }
 
-.container a {
-  color: var(--text-color);
-  text-decoration: none;
-}
+        .container a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
 
-.container ul li a img {
-  margin-right: 5px;
-  width: 30px;
-  height: 30px;
-}
+        .container ul li a img {
+            margin-right: 5px;
+            width: 30px;
+            height: 30px;
+        }
 
-.container ul li a {
-  display: flex;
-  align-items: center;
-}
+        .container ul li a {
+            display: flex;
+            align-items: center;
+        }
 
-.container ul li a:hover {
-  animation: pulse 1.4s infinite ease-in-out;
-}
+        .container ul li a:hover {
+            animation: pulse 1.4s infinite ease-in-out;
+        }
 
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    filter: brightness(1);
-  } 
-  50% {
-    transform: scale(1.1);
-    filter: brightness(1.5);
-  }
-}
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: brightness(1);
+            } 
+            50% {
+                transform: scale(1.1);
+                filter: brightness(1.5);
+            }
+        }
 
-#github-icon {
-  filter: invert(1);
-}
+        #github-icon {
+            filter: invert(1);
+        }
 
-.custom-list {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  top: auto;
-  padding-top: 500px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
+        .custom-list {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            top: auto;
+            padding-top: 500px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
 
+        .hidden-icons {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -350,151 +353,152 @@
         </div>
         <div class="output" id="output"></div>
     </div>
-	
-	<div class="placeholder" id="placeholder2">Сломал! Перезагружай страницу</div>
-	
-	<div class="container">
-		<ul class="custom-list">
-			<li><a class="glow-on-hover" href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
-			<li><a class="glow-on-hover" href="https://youtube.com/channel/UCy2JxQdX8dT2Tbj4ykUkqFw" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a></li>
-			<li><a class="glow-on-hover" href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://assets.twitch.tv/assets/favicon-32-e29e246c157142c94346.png" alt="Twitch" width="32" height="32"> Twitch</a></li>
-			<li><a class="glow-on-hover" href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
-			<li><a class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
-			<li><a class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
-			<li><a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
-			<li><a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
-		</ul>
-	</div>
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <div class="placeholder" id="placeholder2">Сломал! Перезагружай страницу</div>
+
+    <div class="container">
+        <ul class="custom-list" id="socialIcons">
+            <li><a class="glow-on-hover" href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
+            <li><a class="glow-on-hover" href="https://youtube.com/channel/UCy2JxQdX8dT2Tbj4ykUkqFw" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a></li>
+            <li><a class="glow-on-hover" href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://assets.twitch.tv/assets/favicon-32-e29e246c157142c94346.png" alt="Twitch" width="32" height="32"> Twitch</a></li>
+            <li><a class="glow-on-hover" href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
+            <li><a class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
+            <li><a class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
+            <li><a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
+            <li><a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
+        </ul>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
         const consoleElement = document.getElementById('console'); // Консоль
-		const greenButton = document.querySelector('.button.close'); // Зелёная кнопка
-		const toggleButton = document.getElementById('toggleButton'); // Зелёная кнопка
-		const redButton = document.querySelector('.button.maximize'); // Красная кнопка
-		const placeholder = document.getElementById('placeholder'); // Пасхальное яйцо
-		const placeholder2 = document.getElementById('placeholder2'); // Сломал! Перезагружай страницу
+        const greenButton = document.querySelector('.button.close'); // Зелёная кнопка
+        const toggleButton = document.getElementById('toggleButton'); // Зелёная кнопка
+        const redButton = document.querySelector('.button.maximize'); // Красная кнопка
+        const placeholder = document.getElementById('placeholder'); // Пасхальное яйцо
+        const placeholder2 = document.getElementById('placeholder2'); // Сломал! Перезагружай страницу
+        const socialIcons = document.getElementById('socialIcons'); // Социальные иконки
 
         let isMinimized = false;
 
         // Функция для сворачивания/разворачивания окна
         toggleButton.addEventListener('click', () => {
-		
             isMinimized = !isMinimized;
 
             if (isMinimized) {
                 consoleElement.classList.add('hidden');
+                socialIcons.classList.add('hidden-icons');
             } else {
                 consoleElement.classList.remove('hidden');
+                socialIcons.classList.remove('hidden-icons');
             }
         });
-		
-		let camera, scene, renderer, material;
-		let mouseX = 0, mouseY = 0;
-		let windowHalfX = window.innerWidth / 2;
-		let windowHalfY = window.innerHeight / 2;
-		let isAnimationRunning = false;  // Флаг для отслеживания состояния анимации
-		 
-		// Функция для инициализации 3D сцены
-		function init () {
-			camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 2000);
-			camera.position.z = 500;
 
-			scene = new THREE.Scene();
-			scene.fog = new THREE.FogExp2(0x0000ff, 0.001);
+        let camera, scene, renderer, material;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+        let isAnimationRunning = false;  // Флаг для отслеживания состояния анимации
 
-			const geometry = new THREE.BufferGeometry();
-			const vertices = [];
-			const size = 2000;
+        // Функция для инициализации 3D сцены
+        function init () {
+            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 2000);
+            camera.position.z = 500;
 
-			for ( let i = 0; i < 20000; i ++ ) {
-				const x = (Math.random() * size + Math.random() * size) / 2 - size / 2;
-				const y = (Math.random() * size + Math.random() * size) / 2 - size / 2;
-				const z = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x0000ff, 0.001);
 
-				vertices.push(x, y, z);
-			}
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            const size = 2000;
 
-			geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            for ( let i = 0; i < 20000; i ++ ) {
+                const x = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+                const y = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+                const z = (Math.random() * size + Math.random() * size) / 2 - size / 2;
 
-			material = new THREE.PointsMaterial({
-				size: 2,
-				color: 0xffffff,
-			});
+                vertices.push(x, y, z);
+            }
 
-			const particles = new THREE.Points(geometry, material);
-			scene.add(particles);
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
 
-			renderer = new THREE.WebGLRenderer();
-			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			document.body.appendChild(renderer.domElement);
+            material = new THREE.PointsMaterial({
+                size: 2,
+                color: 0xffffff,
+            });
 
-			document.body.style.touchAction = 'none';
-			document.body.addEventListener('pointermove', onPointerMove);
-			window.addEventListener('resize', onWindowResize);
-		}
+            const particles = new THREE.Points(geometry, material);
+            scene.add(particles);
 
-		function onWindowResize () {
-			windowHalfX = window.innerWidth / 2;
-			windowHalfY = window.innerHeight / 2;
+            renderer = new THREE.WebGLRenderer();
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
 
-			camera.aspect = window.innerWidth / window.innerHeight;
-			camera.updateProjectionMatrix();
-			renderer.setSize(window.innerWidth, window.innerHeight);
-		}
+            document.body.style.touchAction = 'none';
+            document.body.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('resize', onWindowResize);
+        }
 
-		function onPointerMove (event) {
-			mouseX = event.clientX - windowHalfX;
-			mouseY = event.clientY - windowHalfY;
-		}
+        function onWindowResize () {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
 
-		function animate () {
-			requestAnimationFrame(animate);
-			render();
-		}
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
 
-		function render () {
-			camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
-			camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
-			camera.lookAt(scene.position);
-			renderer.render(scene, camera);
-			scene.rotation.x += 0.001;
-			scene.rotation.y += 0.002;
-		}
+        function onPointerMove (event) {
+            mouseX = event.clientX - windowHalfX;
+            mouseY = event.clientY - windowHalfY;
+        }
 
-		// Функция для старта и остановки анимации
-		function toggleAnimation() {
-			if (isAnimationRunning) {
-			// Останавливаем анимацию
-			cancelAnimationFrame(animate);
-			document.body.removeChild(renderer.domElement);
-			isAnimationRunning = false;
-			} else {
-				// Запускаем анимацию
-				init();
-				animate();
-				isAnimationRunning = true;
-			}
-		}
+        function animate () {
+            requestAnimationFrame(animate);
+            render();
+        }
 
-		// Обработчик для кнопки toggleButton
-		toggleButton.addEventListener('click', toggleAnimation);
- 
-		// Обработчик клика по красной кнопке (для сворачивания консоли)
-		redButton.addEventListener('click', () => {
-			// Добавляем класс для анимации сворачивания консоли
-			consoleElement.classList.add('collapsed');
-			
-			// Показываем placeholder2 после завершения анимации
-			setTimeout(() => {
-				// Скрываем консоль (после анимации)
-				consoleElement.classList.add('hidden');
-				// Показываем надпись "Сломал!"
-				placeholder2.classList.add('visible');
-			}, 200);  // Задержка 500 мс для совпадения с длительностью анимации
-		});
+        function render () {
+            camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+            scene.rotation.x += 0.001;
+            scene.rotation.y += 0.002;
+        }
 
+        // Функция для старта и остановки анимации
+        function toggleAnimation() {
+            if (isAnimationRunning) {
+                // Останавливаем анимацию
+                cancelAnimationFrame(animate);
+                document.body.removeChild(renderer.domElement);
+                isAnimationRunning = false;
+            } else {
+                // Запускаем анимацию
+                init();
+                animate();
+                isAnimationRunning = true;
+            }
+        }
+
+        // Обработчик для кнопки toggleButton
+        toggleButton.addEventListener('click', toggleAnimation);
+
+        // Обработчик клика по красной кнопке (для сворачивания консоли)
+        redButton.addEventListener('click', () => {
+            // Добавляем класс для анимации сворачивания консоли
+            consoleElement.classList.add('collapsed');
+
+            // Показываем placeholder2 после завершения анимации
+            setTimeout(() => {
+                // Скрываем консоль (после анимации)
+                consoleElement.classList.add('hidden');
+                // Показываем надпись "Сломал!"
+                placeholder2.classList.add('visible');
+            }, 200);  // Задержка 500 мс для совпадения с длительностью анимации
+        });
 
         // Функция для добавления текста в консоль
         function printLine(text, color = null) {
@@ -539,75 +543,75 @@
             input.focus();
         }
 
-		// Обработка команд
-		function processCommand(command) {
-			switch (command.toLowerCase()) {
-				case 'help':
-					printLine(' ');
-					printLine('help - Помощь');
-					printLine('about - О');
-					printLine('info - Информация');
-					printLine('ipconfig - Показать IP и информацию о пользователе');
-					printLine('clean - Очистить консоль');
-					printLine(' ');
-					break;
-				case 'about':
-					printLine(' ');
-					printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
-					printLine(' ');
-					break;
-				case 'info':
-					printLine(' ');
-					printLine('Полезное — https://t.me/isNEEDs');
-					printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
-					printLine('Ai и сайты — https://t.me/aiXsite');
-					printLine('Помощь в IT — https://t.me/itXhelp');
-					printLine('Баги — https://t.me/isBugs');
-					printLine('Лайфхаки — https://t.me/life_cracks');
-					printLine('https://t.me/isOsint');
-					printLine('https://t.me/isBase');
-					printLine(' ');
-					break;
-				case 'ipconfig':
-					fetch('https://ipapi.co/json/')
-						.then(response => response.json())
-						.then(data => {
-							if (data && data.ip) {
-								printLine(' ');
-								printLine(`IP-адрес: ${data.ip}`, '#58a6ff');
-								printLine(`Страна: ${data.country_name}`, '#58a6ff');
-								printLine(`Город: ${data.city}`, '#58a6ff');
-								printLine(`Операционная система: ${navigator.platform}`, '#58a6ff');
-								printLine(' ');
-							} else {
-								printLine('Не удалось получить информацию о пользователе.', '#ea4a5a');
-							}
-						})
-						.catch(error => {
-							printLine('Ошибка при получении данных: ' + error.message, '#ea4a5a');
-						});
-					break;
-				case 'clean':
-					output.innerHTML = '';
-					break;
-				default:
-					printLine(`Unknown command: ${command}`, '#ea4a5a');
-					printLine(' ');
-			}
-		}
+        // Обработка команд
+        function processCommand(command) {
+            switch (command.toLowerCase()) {
+                case 'help':
+                    printLine(' ');
+                    printLine('help - Помощь');
+                    printLine('about - О');
+                    printLine('info - Информация');
+                    printLine('ipconfig - Показать IP и информацию о пользователе');
+                    printLine('clean - Очистить консоль');
+                    printLine(' ');
+                    break;
+                case 'about':
+                    printLine(' ');
+                    printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
+                    printLine(' ');
+                    break;
+                case 'info':
+                    printLine(' ');
+                    printLine('Полезное — https://t.me/isNEEDs');
+                    printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
+                    printLine('Ai и сайты — https://t.me/aiXsite');
+                    printLine('Помощь в IT — https://t.me/itXhelp');
+                    printLine('Баги — https://t.me/isBugs');
+                    printLine('Лайфхаки — https://t.me/life_cracks');
+                    printLine('https://t.me/isOsint');
+                    printLine('https://t.me/isBase');
+                    printLine(' ');
+                    break;
+                case 'ipconfig':
+                    fetch('https://ipapi.co/json/')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data && data.ip) {
+                                printLine(' ');
+                                printLine(`IP-адрес: ${data.ip}`, '#58a6ff');
+                                printLine(`Страна: ${data.country_name}`, '#58a6ff');
+                                printLine(`Город: ${data.city}`, '#58a6ff');
+                                printLine(`Операционная система: ${navigator.platform}`, '#58a6ff');
+                                printLine(' ');
+                            } else {
+                                printLine('Не удалось получить информацию о пользователе.', '#ea4a5a');
+                            }
+                        })
+                        .catch(error => {
+                            printLine('Ошибка при получении данных: ' + error.message, '#ea4a5a');
+                        });
+                    break;
+                case 'clean':
+                    output.innerHTML = '';
+                    break;
+                default:
+                    printLine(`Unknown command: ${command}`, '#ea4a5a');
+                    printLine(' ');
+            }
+        }
 
         // Начальное сообщение
         printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
         printLine('Admin> info');
-		printLine('Полезное — https://t.me/isNEEDs');
-		printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
+        printLine('Полезное — https://t.me/isNEEDs');
+        printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
         printLine('Ai и сайты — https://t.me/aiXsite');
-		printLine('Помощь в IT — https://t.me/itXhelp');
-		printLine('Баги — https://t.me/isBugs');
-		printLine('Лайфхаки — https://t.me/life_cracks');
+        printLine('Помощь в IT — https://t.me/itXhelp');
+        printLine('Баги — https://t.me/isBugs');
+        printLine('Лайфхаки — https://t.me/life_cracks');
         printLine('https://t.me/isOsint');
-		printLine('https://t.me/isBase');
-		
+        printLine('https://t.me/isBase');
+
         addCommandLine();
 
         // Обработчик клика по консоли
@@ -617,63 +621,62 @@
                 lastInput.focus(); // Фокус на поле ввода при клике на консоль
             }
         });
-		
-		// Функция для добавления текста в консоль, преобразующая URL в кликабельные ссылки
-		function printLine(text, color = null) {
-			const line = document.createElement('div');
 
-			// Регулярное выражение для поиска ссылок в тексте
-			const urlPattern = /https?:\/\/[^\s]+/g;
-			let parts = text.split(urlPattern);
-			let urls = text.match(urlPattern);
+        // Функция для добавления текста в консоль, преобразующая URL в кликабельные ссылки
+        function printLine(text, color = null) {
+            const line = document.createElement('div');
 
-			// Добавляем части текста и ссылки по очереди
-			parts.forEach((part, index) => {
-				const span = document.createElement('span');
-				span.textContent = part;
-				if (color) {
-					span.style.color = color;
-				}
-				line.appendChild(span);
+            // Регулярное выражение для поиска ссылок в тексте
+            const urlPattern = /https?:\/\/[^\s]+/g;
+            let parts = text.split(urlPattern);
+            let urls = text.match(urlPattern);
 
-				// Добавляем ссылку, если она есть
-				if (index < urls?.length) {
-					const link = document.createElement('a');
-					link.href = urls[index];
-					link.textContent = urls[index];
-					link.style.color = '#58a6ff';
-					link.target = '_blank';
-					link.rel = 'noopener noreferrer';
-					link.style.textDecoration = 'underline';
-					line.appendChild(link);
-				}
-			});
+            // Добавляем части текста и ссылки по очереди
+            parts.forEach((part, index) => {
+                const span = document.createElement('span');
+                span.textContent = part;
+                if (color) {
+                    span.style.color = color;
+                }
+                line.appendChild(span);
 
-			line.classList.add('fade-in');
-			output.appendChild(line);
-			output.scrollTop = output.scrollHeight;
-		}
+                // Добавляем ссылку, если она есть
+                if (index < urls?.length) {
+                    const link = document.createElement('a');
+                    link.href = urls[index];
+                    link.textContent = urls[index];
+                    link.style.color = '#58a6ff';
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.style.textDecoration = 'underline';
+                    line.appendChild(link);
+                }
+            });
 
+            line.classList.add('fade-in');
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
     </script>
-	    <script>
+    <script>
         let x1 = 0, y1 = 0;
 
         const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
-            dist_to_draw = 50,
-            delay = 1000,
-            fsize = [
-                '1.1rem', '1.4rem', '.8rem', '1.7rem'
-            ],
-            colors = [
-                '#FFFFFF',
-            ],
-            rand = (min, max) =>
-                Math.floor(Math.random() * (max - min + 1)) + min,
-            selRand = (o) => o[rand(0, o.length - 1)],
-            distanceTo = (x1, y1, x2, y2) =>
-                Math.sqrt((Math.pow(x2 - x1, 2)) + (Math.pow(y2 - y1, 2))),
-            shouldDraw = (x, y) =>
-                (distanceTo(x1, y1, x, y) >= dist_to_draw);
+              dist_to_draw = 50,
+              delay = 1000,
+              fsize = [
+                  '1.1rem', '1.4rem', '.8rem', '1.7rem'
+              ],
+              colors = [
+                  '#FFFFFF',
+              ],
+              rand = (min, max) =>
+                  Math.floor(Math.random() * (max - min + 1)) + min,
+              selRand = (o) => o[rand(0, o.length - 1)],
+              distanceTo = (x1, y1, x2, y2) =>
+                  Math.sqrt((Math.pow(x2 - x1, 2)) + (Math.pow(y2 - y1, 2))),
+              shouldDraw = (x, y) =>
+                  (distanceTo(x1, y1, x, y) >= dist_to_draw);
 
         const addStr = (x, y) => {
             const str = document.createElement("div");
@@ -709,6 +712,5 @@
             }
         });
     </script>
-	
 </body>
 </html>
