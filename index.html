@@ -33,14 +33,14 @@
             max-width: 800px;
             height: 80%;
             max-height: 400px;
-            background: rgba(22, 27, 34, 0.6); /* Прозрачный фон */
-            backdrop-filter: blur(10px); /* Размытие фона */
+            background: rgba(22, 27, 34, 0.6);
+            backdrop-filter: blur(10px);
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            border: 1px solid rgba(48, 54, 61, 0.8); /* Полупрозрачная граница */
+            border: 1px solid rgba(48, 54, 61, 0.8);
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -67,12 +67,12 @@
 
         .console-header {
             height: 32px;
-            background: rgba(33, 38, 45, 0.7); /* Прозрачный фон для шапки */
-            backdrop-filter: blur(5px); /* Легкое размытие фона заголовка */
+            background: rgba(33, 38, 45, 0.7);
+            backdrop-filter: blur(5px);
             display: flex;
             align-items: center;
             padding: 0 10px;
-            border-bottom: 1px solid rgba(48, 54, 61, 0.8); /* Полупрозрачная граница */
+            border-bottom: 1px solid rgba(48, 54, 61, 0.8);
             color: #f0f6fc;
             font-size: 14px;
         }
@@ -189,17 +189,13 @@
             font-weight: bold;
             text-align: center;
             display: none;
-        }
-
-        #placeholder2 {
-            color: #ea4a5a; /* Цвет текста для текста "Сломал!" */
+			color: #ea4a5a; /* Цвет текста для текста "Сломал!" */
         }
 
         .placeholder.visible {
             display: block;
         }
 
-        /* Анимация сворачивания в стиле старого телевизора */
         @keyframes collapse {
             0% {
                 width: 90%;
@@ -219,13 +215,11 @@
             }
         }
 
-        /* Когда консоль закрывается, применяется анимация collapse */
-        .console.collapsed {
+         .console.collapsed {
             animation: collapse 0.5s ease forwards;
             overflow: hidden;
         }
 
-        /* Стили для звезд */
         .star {
             z-index: 9999;
             position: relative;
@@ -235,6 +229,7 @@
             position: absolute;
             color: red;
         }
+		
         .star:before {
             z-index: 9999;
             position: relative;
@@ -353,9 +348,7 @@
         </div>
         <div class="output" id="output"></div>
     </div>
-
-    <div class="placeholder" id="placeholder2">Сломал! Перезагружай страницу</div>
-
+    <div class="placeholder" id="placeholder">Сломал! Перезагружай страницу</div>
     <div class="container">
         <ul class="custom-list" id="socialIcons">
             <li><a class="glow-on-hover" href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
@@ -364,19 +357,17 @@
             <li><a class="glow-on-hover" href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
             <li><a class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
             <li><a class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
-            <li><a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank"><img src="https://static.boosty.to/static/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
+            <li><a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank"><img src="https://boosty.to/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
             <li><a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
         </ul>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
         const consoleElement = document.getElementById('console'); // Консоль
         const greenButton = document.querySelector('.button.close'); // Зелёная кнопка
         const toggleButton = document.getElementById('toggleButton'); // Зелёная кнопка
         const redButton = document.querySelector('.button.maximize'); // Красная кнопка
-        const placeholder = document.getElementById('placeholder'); // Пасхальное яйцо
-        const placeholder2 = document.getElementById('placeholder2'); // Сломал! Перезагружай страницу
+        const placeholder = document.getElementById('placeholder'); // Сломал! Перезагружай страницу
         const socialIcons = document.getElementById('socialIcons'); // Социальные иконки
 
         let isMinimized = false;
@@ -394,13 +385,41 @@
             }
         });
 
-        let camera, scene, renderer, material;
+        // Обработчик клика по красной кнопке
+        redButton.addEventListener('click', () => {
+            consoleElement.classList.add('collapsed');
+			socialIcons.classList.add('hidden-icons');
+
+            setTimeout(() => {
+                consoleElement.classList.add('hidden');
+				
+                placeholder.classList.add('visible');
+            }, 200);
+        });
+		
+        // Обработчик для кнопки toggleButton
+        toggleButton.addEventListener('click', toggleAnimation);
+		
+		// Функция для старта и остановки анимации
+        function toggleAnimation() {
+            if (isAnimationRunning) {
+                cancelAnimationFrame(animate);
+                document.body.removeChild(renderer.domElement);
+                isAnimationRunning = false;
+            } else {
+                init();
+                animate();
+                isAnimationRunning = true;
+            }
+        }
+		
+		// 3D сцена
+		let camera, scene, renderer, material;
         let mouseX = 0, mouseY = 0;
         let windowHalfX = window.innerWidth / 2;
         let windowHalfY = window.innerHeight / 2;
-        let isAnimationRunning = false;  // Флаг для отслеживания состояния анимации
+        let isAnimationRunning = false;
 
-        // Функция для инициализации 3D сцены
         function init () {
             camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 2000);
             camera.position.z = 500;
@@ -467,139 +486,160 @@
             scene.rotation.x += 0.001;
             scene.rotation.y += 0.002;
         }
+		
+		// Хранилище для истории команд
+		const commandHistory = [];
+		let historyIndex = -1;
 
-        // Функция для старта и остановки анимации
-        function toggleAnimation() {
-            if (isAnimationRunning) {
-                // Останавливаем анимацию
-                cancelAnimationFrame(animate);
-                document.body.removeChild(renderer.domElement);
-                isAnimationRunning = false;
-            } else {
-                // Запускаем анимацию
-                init();
-                animate();
-                isAnimationRunning = true;
-            }
-        }
+		// Функция для добавления строки ввода
+		function addCommandLine() {
+			const commandLine = document.createElement('div');
+			commandLine.classList.add('command-line');
 
-        // Обработчик для кнопки toggleButton
-        toggleButton.addEventListener('click', toggleAnimation);
+			const userPrefix = document.createElement('span');
+			userPrefix.textContent = 'User>';
+			commandLine.appendChild(userPrefix);
 
-        // Обработчик клика по красной кнопке (для сворачивания консоли)
-        redButton.addEventListener('click', () => {
-            // Добавляем класс для анимации сворачивания консоли
-            consoleElement.classList.add('collapsed');
+			const input = document.createElement('input');
+			input.type = 'text';
+			commandLine.appendChild(input);
 
-            // Показываем placeholder2 после завершения анимации
-            setTimeout(() => {
-                // Скрываем консоль (после анимации)
-                consoleElement.classList.add('hidden');
-                // Показываем надпись "Сломал!"
-                placeholder2.classList.add('visible');
-            }, 200);  // Задержка 500 мс для совпадения с длительностью анимации
-        });
+			output.appendChild(commandLine);
+			output.scrollTop = output.scrollHeight;
 
-        // Функция для добавления текста в консоль
-        function printLine(text, color = null) {
-            const line = document.createElement('div');
-            line.textContent = text;
-            if (color) {
-                line.style.color = color;
-            }
-            line.classList.add('fade-in');
-            output.appendChild(line);
-            output.scrollTop = output.scrollHeight;
-        }
+			// Событие при нажатии клавиш
+			input.addEventListener('keydown', (event) => {
+				if (event.key === 'Enter') {
+					const command = input.value.trim();
+					if (command) {
+						// Сохраняем команду в истории
+						commandHistory.push(command);
+						historyIndex = commandHistory.length; // Устанавливаем индекс за последним элементом
+						commandLine.textContent = `User> ${command}`;
+						processCommand(command); // Обработка команды
+					}
+				} else if (event.key === 'ArrowUp') {
+					// Навигация вверх по истории
+					if (historyIndex > 0) {
+						historyIndex--;
+						input.value = commandHistory[historyIndex];
+					} else if (historyIndex === 0) {
+						input.value = commandHistory[historyIndex];
+					}
+				} else if (event.key === 'ArrowDown') {
+					// Навигация вниз по истории
+					if (historyIndex < commandHistory.length - 1) {
+						historyIndex++;
+						input.value = commandHistory[historyIndex];
+					} else if (historyIndex === commandHistory.length - 1) {
+						historyIndex++;
+						input.value = ''; // Пустое поле, если вышли за пределы истории
+					}
+				}
+			});
 
-        // Функция для добавления строки ввода
-        function addCommandLine() {
-            const commandLine = document.createElement('div');
-            commandLine.classList.add('command-line');
+			input.focus();
+		}
 
-            const userPrefix = document.createElement('span');
-            userPrefix.textContent = 'User>';
-            commandLine.appendChild(userPrefix);
+		// Обработка команд
+		async function processCommand(command) {
+			switch (command.toLowerCase()) {
+				case 'help':
+					printLine(' ');
+					printLine('help - Помощь');
+					printLine('info - Информация');
+					printLine('ipconfig - Показать IP и информацию о пользователе');
+					printLine('clean - Очистить консоль');
+					printLine('ping [URL] - Проверить доступность сайта');
+					printLine(' ');
+					break;
+				case 'info':
+					printLine(' ');
+					printLine('Полезное — https://t.me/isNEEDs');
+					printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
+					printLine('Ai и сайты — https://t.me/aiXsite');
+					printLine('Помощь в IT — https://t.me/itXhelp');
+					printLine('Баги — https://t.me/isBugs');
+					printLine('Лайфхаки — https://t.me/life_cracks');
+					printLine('https://t.me/isOsint');
+					printLine('https://t.me/isBase');
+					printLine(' ');
+					break;
+				case 'ipconfig':
+					printLine('ipconfig');
+					try {
+						const response = await fetch('https://ipapi.co/json/');
+						const data = await response.json();
+						if (data && data.ip) {
+							printLine(' ');
+							printLine(`IP-адрес: ${data.ip}`);
+							printLine(`Страна: ${data.country_name}`);
+							printLine(`Город: ${data.city}`);
+							printLine(`Операционная система: ${navigator.platform}`);
+							printLine(' ');
+						} else {
+							printLine('Не удалось получить информацию о пользователе.', '#ea4a5a');
+						}
+					} catch (error) {
+						printLine('Ошибка при получении данных: ' + error.message, '#ea4a5a');
+					}
+					break;
+				case 'clean':
+					output.innerHTML = '';
+					break;
+				case 'ping':
+					printLine('Пожалуйста, укажите URL для пинга: ping [URL]', '#ea4a5a');
+					break;
+				default:
+					if (command.toLowerCase().startsWith('ping ')) {
+						const url = command.substring(5).trim();
+						printLine(`ping ${url}`);
+						await pingSite(url);
+					} else {
+						printLine(`Unknown command: ${command}`, '#ea4a5a');
+						printLine(' ');
+					}
+			}
 
-            const input = document.createElement('input');
-            input.type = 'text';
-            commandLine.appendChild(input);
+			// Добавляем новую строку после завершения обработки команды
+			addCommandLine();
+		}
 
-            output.appendChild(commandLine);
-            output.scrollTop = output.scrollHeight;
+		// Функция для проверки доступности сайта
+		async function pingSite(url) {
+			if (!url) {
+				printLine("Пожалуйста, введите URL.", '#ea4a5a');
+				return;
+			}
 
-            // Событие при нажатии Enter
-            input.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') {
-                    const command = input.value.trim();
-                    if (command) {
-                        commandLine.textContent = `User> ${command}`;
-                        processCommand(command);
-                        addCommandLine();
-                    }
-                }
-            });
+			// Проверяем, начинается ли URL с https:// или http://
+			if (!url.startsWith('https://') && !url.startsWith('http://')) {
+				url = `https://${url}`;
+			}
 
-            input.focus();
-        }
+			const timeout = new Promise((_, reject) =>
+				setTimeout(() => reject(new Error('Таймаут')), 5000)
+			);
 
-        // Обработка команд
-        function processCommand(command) {
-            switch (command.toLowerCase()) {
-                case 'help':
-                    printLine(' ');
-                    printLine('help - Помощь');
-                    printLine('about - О');
-                    printLine('info - Информация');
-                    printLine('ipconfig - Показать IP и информацию о пользователе');
-                    printLine('clean - Очистить консоль');
-                    printLine(' ');
-                    break;
-                case 'about':
-                    printLine(' ');
-                    printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
-                    printLine(' ');
-                    break;
-                case 'info':
-                    printLine(' ');
-                    printLine('Полезное — https://t.me/isNEEDs');
-                    printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
-                    printLine('Ai и сайты — https://t.me/aiXsite');
-                    printLine('Помощь в IT — https://t.me/itXhelp');
-                    printLine('Баги — https://t.me/isBugs');
-                    printLine('Лайфхаки — https://t.me/life_cracks');
-                    printLine('https://t.me/isOsint');
-                    printLine('https://t.me/isBase');
-                    printLine(' ');
-                    break;
-                case 'ipconfig':
-                    fetch('https://ipapi.co/json/')
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data && data.ip) {
-                                printLine(' ');
-                                printLine(`IP-адрес: ${data.ip}`, '#58a6ff');
-                                printLine(`Страна: ${data.country_name}`, '#58a6ff');
-                                printLine(`Город: ${data.city}`, '#58a6ff');
-                                printLine(`Операционная система: ${navigator.platform}`, '#58a6ff');
-                                printLine(' ');
-                            } else {
-                                printLine('Не удалось получить информацию о пользователе.', '#ea4a5a');
-                            }
-                        })
-                        .catch(error => {
-                            printLine('Ошибка при получении данных: ' + error.message, '#ea4a5a');
-                        });
-                    break;
-                case 'clean':
-                    output.innerHTML = '';
-                    break;
-                default:
-                    printLine(`Unknown command: ${command}`, '#ea4a5a');
-                    printLine(' ');
-            }
-        }
-
+			try {
+				await Promise.race([
+					fetch(url, {
+						method: 'HEAD',
+						mode: 'no-cors',
+						cache: 'no-cache',
+						redirect: 'follow',
+						headers: {
+							'User-Agent': navigator.userAgent
+						}
+					}),
+					timeout
+				]);
+				printLine(`Сайт ${url} доступен.`);
+			} catch (error) {
+				printLine(`Сайт ${url} недоступен.`);
+			}
+		}
+		
         // Начальное сообщение
         printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
         printLine('Admin> info');
@@ -622,16 +662,14 @@
             }
         });
 
-        // Функция для добавления текста в консоль, преобразующая URL в кликабельные ссылки
+        // Преобразующая URL в кликабельные ссылки
         function printLine(text, color = null) {
             const line = document.createElement('div');
 
-            // Регулярное выражение для поиска ссылок в тексте
             const urlPattern = /https?:\/\/[^\s]+/g;
             let parts = text.split(urlPattern);
             let urls = text.match(urlPattern);
 
-            // Добавляем части текста и ссылки по очереди
             parts.forEach((part, index) => {
                 const span = document.createElement('span');
                 span.textContent = part;
@@ -640,7 +678,6 @@
                 }
                 line.appendChild(span);
 
-                // Добавляем ссылку, если она есть
                 if (index < urls?.length) {
                     const link = document.createElement('a');
                     link.href = urls[index];
@@ -657,8 +694,7 @@
             output.appendChild(line);
             output.scrollTop = output.scrollHeight;
         }
-    </script>
-    <script>
+
         let x1 = 0, y1 = 0;
 
         const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
@@ -679,8 +715,9 @@
                   (distanceTo(x1, y1, x, y) >= dist_to_draw);
 
         const addStr = (x, y) => {
+		
             const str = document.createElement("div");
-            str.innerHTML = '&#10022;';  // Звездочка
+            str.innerHTML = '&#10022;';
             str.className = 'star';
             str.style.top = `${y + rand(-20, 20)}px`;
             str.style.left = `${x}px`;
@@ -704,6 +741,7 @@
         }
 
         addEventListener("mousemove", (e) => {
+		
             const { clientX, clientY } = e;
             if (shouldDraw(clientX, clientY)) {
                 addStr(clientX, clientY);
