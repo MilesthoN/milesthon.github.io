@@ -125,7 +125,7 @@
             overflow-y: scroll;
             overflow-wrap: break-word;
             white-space: pre-wrap;
-            line-height: 1.5;
+            line-height: 1.2;
         }
 
         .output::-webkit-scrollbar {
@@ -215,7 +215,7 @@
             }
         }
 
-         .console.collapsed {
+        .console.collapsed {
             animation: collapse 0.5s ease forwards;
             overflow: hidden;
         }
@@ -334,9 +334,26 @@
         .hidden-icons {
             display: none;
         }
+
+        .top-left-text {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: rgba(255, 255, 255, 0.4);
+
+        }
+
+        .bottom-left-text {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: rgba(255, 255, 255, 0.54);
+        }
     </style>
 </head>
 <body>
+	<div class="top-left-text">&lt;!DOCTYPE html&gt;<br>&lt;html&gt;</div>
+	<div class="bottom-left-text">&lt;/html&gt;</div>
     <div class="console" id="console">
         <div class="console-header">
             <div class="title">My Site</div>
@@ -541,17 +558,39 @@
 			input.focus();
 		}
 
+
 		// Обработка команд
 		async function processCommand(command) {
 			switch (command.toLowerCase()) {
 				case 'help':
+					printLine('help        Помощь');
+					printLine('logo        Логотип');
+					printLine('INFO        Информация');
+					printLine('IPCONFIG    Показать IP и информацию о пользователе');
+					printLine('PING [URL]  Проверить доступность сайта');
+					printLine('CLS         Очистить консоль');
+					break;
+				case 'logo':
 					printLine(' ');
-					printLine('help - Помощь');
-					printLine('info - Информация');
-					printLine('ipconfig - Показать IP и информацию о пользователе');
-					printLine('clean - Очистить консоль');
-					printLine('ping [URL] - Проверить доступность сайта');
-					printLine(' ');
+					printLine('                              ###', 'RGB(128, 0, 128)');
+					printLine('                           #######', 'RGB(128, 0, 128)');
+					printLine('                         #########', 'RGB(128, 0, 128)');
+					printLine('                        #########', 'RGB(128, 0, 128)');
+					printLine('                      ###########', 'RGB(255, 0, 255)');
+					printLine('                      ###########    #####', 'RGB(255, 0, 255)');
+					printLine('                     ###########  ########', 'RGB(0, 0, 128)');
+					printLine('                    #####  ###############', 'RGB(0, 0, 128)');
+					printLine('                    ####   ###############', 'RGB(0, 0, 255)');
+					printLine('                           #######  ######', 'RGB(0, 0, 255)');
+					printLine('                            ###     #####', 'RGB(0, 0, 255)');
+					printLine('                                    ####', 'RGB(0, 128, 128)');
+					printLine('                                   ####', 'RGB(0, 128, 128)');
+					printLine('                                   ####', 'RGB(0, 128, 128)');
+					printLine('                                   ####', 'RGB(0, 128, 128)');
+					printLine('                                   ####', 'RGB(0, 255, 255)');
+					printLine('                                  #####', 'RGB(0, 255, 255)');
+					printLine('                                   ####', 'RGB(0, 255, 255)');
+					printLine('                                    ####', 'RGB(0, 255, 255)');
 					break;
 				case 'info':
 					printLine(' ');
@@ -564,6 +603,11 @@
 					printLine('https://t.me/isOsint');
 					printLine('https://t.me/isBase');
 					printLine(' ');
+					printLine('help - для помощи');
+					break;
+				case 'сука блять':
+					printLine(' ');
+					printLine('Не матерись!', '#ea4a5a');
 					break;
 				case 'ipconfig':
 					printLine('ipconfig');
@@ -584,8 +628,10 @@
 						printLine('Ошибка при получении данных: ' + error.message, '#ea4a5a');
 					}
 					break;
-				case 'clean':
+				case 'cls':
 					output.innerHTML = '';
+					printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
+					printLine(' ');
 					break;
 				case 'ping':
 					printLine('Пожалуйста, укажите URL для пинга: ping [URL]', '#ea4a5a');
@@ -597,7 +643,6 @@
 						await pingSite(url);
 					} else {
 						printLine(`Unknown command: ${command}`, '#ea4a5a');
-						printLine(' ');
 					}
 			}
 
@@ -640,8 +685,10 @@
 			}
 		}
 		
+		
         // Начальное сообщение
         printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
+		printLine(' ');
         printLine('Admin> info');
         printLine('Полезное — https://t.me/isNEEDs');
         printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
@@ -651,8 +698,9 @@
         printLine('Лайфхаки — https://t.me/life_cracks');
         printLine('https://t.me/isOsint');
         printLine('https://t.me/isBase');
-
-        addCommandLine();
+		printLine(' ');
+		printLine('help - для помощи');
+		addCommandLine();
 
         // Обработчик клика по консоли
         consoleElement.addEventListener('click', () => {
