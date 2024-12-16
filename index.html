@@ -14,6 +14,7 @@
             height: 100%;
             background-color: #090a0f;
             background: radial-gradient(ellipse at bottom, #1b2735, #090a0f);
+			background-size: cover;
             overflow: hidden;
         }
         body {
@@ -26,29 +27,33 @@
             color: #c9d1d9;
             overflow: hidden;
             background: transparent;
+			background-size: cover;
         }
 
         .console {
-            width: 90%;
-            max-width: 800px;
-            height: 80%;
-            max-height: 400px;
+			z-index: 1000;
+            width: 800px;
+            min-width: 130px;
+            height: 400px;
+            min-height: 55px;
             background: rgba(22, 27, 34, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
             border: 1px solid rgba(48, 54, 61, 0.8);
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: all 0.5s ease;
+            transition: none;
+			resize: both;
+			overflow: auto;
+			max-width: 100vw;
+			max-height: 100vh;
+			box-sizing: border-box;
         }
 
         .console.hidden {
-            top: auto;
+			top: auto;
             bottom: 10px;
             width: 110px;
             height: 40px;
@@ -58,6 +63,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 10px;
+			resize: none;
+			min-width: 0;
+			min-height: 0;
         }
 
         .console.hidden .output,
@@ -66,6 +74,7 @@
         }
 
         .console-header {
+			cursor: move;
             height: 32px;
             background: rgba(33, 38, 45, 0.7);
             backdrop-filter: blur(5px);
@@ -78,6 +87,7 @@
         }
 
         .console.hidden .console-header {
+		cursor: default;
             border-bottom: none;
             background-color: transparent;
             padding: 0;
@@ -170,7 +180,7 @@
 
         .fade-in {
             opacity: 0;
-            animation: fadeIn 0.1s ease forwards;
+            animation: fadeIn 0.2s ease forwards;
         }
 
         @keyframes fadeIn {
@@ -189,7 +199,7 @@
             font-weight: bold;
             text-align: center;
             display: none;
-			color: #ea4a5a; /* Цвет текста для текста "Сломал!" */
+			color: #ea4a5a;
         }
 
         .placeholder.visible {
@@ -219,6 +229,19 @@
             animation: collapse 0.5s ease forwards;
             overflow: hidden;
         }
+
+		@keyframes collapse {
+			0% {
+				transform: scale(1);
+				opacity: 1;
+				border-radius: 8px;
+			}
+			100% {
+				transform: scale(0.1);
+				opacity: 0;
+				border-radius: 50%;
+			}
+		}
 
         .star {
             z-index: 9999;
@@ -275,32 +298,101 @@
             50% { background-position: 400% 0; }
         }
 
-        .container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: "Source Code Pro", "Arial", sans-serif;
-        }
+		.container {
+			position: fixed;
+			bottom: 1%;
+			left: 50%;
+			transform: translateX(-50%);
+			width: auto;
+			padding: 10px 20px;
+			background: rgba(22, 27, 34, 0.8);
+			border-radius: 20px;
+			max-width: calc(100% - 40px);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+			z-index: 900;
+		}
 
-        .container a {
-            color: var(--text-color);
-            text-decoration: none;
-        }
+		.container ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-wrap: nowrap;
+			gap: 15px;
+		}
 
-        .container ul li a img {
-            margin-right: 5px;
-            width: 30px;
-            height: 30px;
-        }
+		.container ul li {
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: margin 0.3s ease;
+		}
 
-        .container ul li a {
-            display: flex;
-            align-items: center;
-        }
+		.container ul li:hover {
+			margin-right: 20px;
+			margin-left: 20px;
+			margin-top: -20px;
+		}
 
-        .container ul li a:hover {
-            animation: pulse 1.4s infinite ease-in-out;
-        }
+
+		.container ul li:hover ~ li:hover {
+			margin-left: 0;
+		}
+
+		.container ul li a {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: calc(30px + 1vw);
+			height: calc(30px + 1vw);
+			transition: transform 0.3s ease;
+		}
+
+		.container ul li a img {
+			width: 100%;
+			height: 100%;
+		}
+
+
+		.container ul li a:hover {
+			transform: scale(1.5);
+		}
+
+		.container ul li span {
+			position: absolute;
+			bottom: 70px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: rgba(22, 27, 34, 0.9);
+			color: #fff;
+			font-size: 12px;
+			padding: 5px 10px;
+			border-radius: 8px;
+			white-space: nowrap;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.2s ease, transform 0.2s ease;
+		}
+		
+		.container ul li span::after {
+			content: '';
+			position: absolute;
+			bottom: -10px;
+			left: 50%;
+			transform: translateX(-50%);
+			border-width: 5px;
+			border-style: solid;
+			border-color: rgba(22, 27, 34, 0.9) transparent transparent transparent;
+		}
+
+		.container ul li:hover span {
+			opacity: 1;
+			transform: translateX(-50%) translateY(-10px);
+		}
 
         @keyframes pulse {
             0%, 100% {
@@ -337,18 +429,25 @@
 
         .top-left-text {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 1%;
+            left: 1%;
             color: rgba(255, 255, 255, 0.4);
 
         }
 
         .bottom-left-text {
             position: absolute;
-            bottom: 10px;
-            left: 10px;
-            color: rgba(255, 255, 255, 0.54);
+            bottom: 1%;
+            left: 1%;
+            color: rgba(255, 255, 255, 0.4);
         }
+		
+		.top-left-text, .bottom-left-text {
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+		}
     </style>
 </head>
 <body>
@@ -366,53 +465,271 @@
         <div class="output" id="output"></div>
     </div>
     <div class="placeholder" id="placeholder">Сломал! Перезагружай страницу</div>
-    <div class="container">
-        <ul class="custom-list" id="socialIcons">
-            <li><a class="glow-on-hover" href="https://vk.com/id180544766" target="_blank"><img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32"> VK</a></li>
-            <li><a class="glow-on-hover" href="https://youtube.com/channel/UCy2JxQdX8dT2Tbj4ykUkqFw" target="_blank"><img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32"> YouTube</a></li>
-            <li><a class="glow-on-hover" href="https://twitch.tv/MilesthoN" target="_blank"><img src="https://assets.twitch.tv/assets/favicon-32-e29e246c157142c94346.png" alt="Twitch" width="32" height="32"> Twitch</a></li>
-            <li><a class="glow-on-hover" href="https://instagram.com/MilesthoN" target="_blank"><img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32"> Instagram</a></li>
-            <li><a class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank"><img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32"> TikTok</a></li>
-            <li><a class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank"><img src="https://store.steampowered.com/favicon.ico" alt="TikTok" width="32" height="32"> Steam</a></li>
-            <li><a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank"><img src="https://boosty.to/favicon.png" alt="Boosty" width="32" height="32"> Boosty</a></li>
-            <li><a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank"><img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32"> GitHub</a></li>
-        </ul>
-    </div>
+	 <div class="container">
+		<ul class="custom-list" id="socialIcons">
+			<li>
+				<a class="glow-on-hover" href="https://vk.com/id180544766" target="_blank">
+					<img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32">
+				</a>
+				<span>VK</span>
+			</li>
+			<li>
+				<a class="glow-on-hover" href="https://youtube.com/channel/UCy2JxQdX8dT2Tbj4ykUkqFw" target="_blank">
+					<img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32">
+				</a>
+				<span>YouTube</span>
+			</li>
+			<li>
+				<a class="glow-on-hover" href="https://twitch.tv/MilesthoN" target="_blank">
+					<img src="https://assets.twitch.tv/assets/favicon-32-e29e246c157142c94346.png" alt="Twitch" width="32" height="32">
+				</a>
+				<span>Twitch</span>
+			</li>
+			<li>
+				<a class="glow-on-hover" href="https://instagram.com/MilesthoN" target="_blank">
+					<img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32">
+				</a>
+				<span>Instagram</span>
+			</li>
+			<li>
+				<a class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank">
+					<img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32">
+				</a>
+				<span>TikTok</span>
+			</li>
+			<li>
+				<a class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank">
+					<img src="https://store.steampowered.com/favicon.ico" alt="Steam" width="32" height="32">
+				</a>
+				<span>Steam</span>
+			</li>
+			<li>
+				<a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank">
+					<img src="https://boosty.to/favicon.png" alt="Boosty" width="32" height="32">
+				</a>
+				<span>Boosty</span>
+			</li>
+			<li>
+				<a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank">
+					<img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32">
+				</a>
+				<span>GitHub</span>
+			</li>
+		</ul>
+	</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        const consoleElement = document.getElementById('console'); // Консоль
-        const greenButton = document.querySelector('.button.close'); // Зелёная кнопка
-        const toggleButton = document.getElementById('toggleButton'); // Зелёная кнопка
-        const redButton = document.querySelector('.button.maximize'); // Красная кнопка
-        const placeholder = document.getElementById('placeholder'); // Сломал! Перезагружай страницу
-        const socialIcons = document.getElementById('socialIcons'); // Социальные иконки
+		const consoleElement = document.getElementById('console'); // Консоль
+		const greenButton = document.querySelector('.button.close'); // Зелёная кнопка
+		const toggleButton = document.getElementById('toggleButton'); // Зелёная кнопка
+		const redButton = document.querySelector('.button.maximize'); // Красная кнопка
+		const yellowButton = document.querySelector('.button.minimize'); // Жёлтая кнопка
+		const placeholder = document.getElementById('placeholder'); // Сломал! Перезагружай страницу
+		const socialIcons = document.getElementById('socialIcons'); // Социальные иконки
+		const consoleHeader = document.querySelector('.console-header');
 
-        let isMinimized = false;
+		let isDragging = false;
+		let offsetX = 0;
+		let offsetY = 0;
+		let isMinimized = false;
+		let isMaximized = false;
+		const MIN_HEIGHT = 80;
 
-        // Функция для сворачивания/разворачивания окна
-        toggleButton.addEventListener('click', () => {
-            isMinimized = !isMinimized;
+		// Отключение анимации
+		const disableAnimation = () => {
+			consoleElement.style.transition = 'none';
+		};
 
-            if (isMinimized) {
-                consoleElement.classList.add('hidden');
-                socialIcons.classList.add('hidden-icons');
-            } else {
-                consoleElement.classList.remove('hidden');
-                socialIcons.classList.remove('hidden-icons');
-            }
-        });
+		// Включение анимации с небольшой задержкой
+		const enableAnimation = () => {
+			setTimeout(() => {
+				consoleElement.style.transition = 'all 0.3s ease';
+			}, 10);
+		};
 
-        // Обработчик клика по красной кнопке
-        redButton.addEventListener('click', () => {
-            consoleElement.classList.add('collapsed');
-			socialIcons.classList.add('hidden-icons');
+		// Ограничение размера консоли при изменении размеров страницы
+		window.addEventListener('resize', () => {
+			// Отключаем анимацию при изменении размера окна
+			disableAnimation();
 
-            setTimeout(() => {
-                consoleElement.classList.add('hidden');
+			if (!isMaximized) {
+				const viewportWidth = window.innerWidth;
+				const viewportHeight = window.innerHeight;
+
+				// Максимальные размеры консоли с учетом отступов
+				const maxWidth = viewportWidth - 20;
+				const maxHeight = viewportHeight - 20;
+
+				// Устанавливаем новые размеры, если они превышают доступное пространство
+				if (parseInt(consoleElement.style.width, 10) > maxWidth) {
+					consoleElement.style.width = `${maxWidth}px`;
+				}
+
+				if (parseInt(consoleElement.style.height, 10) > maxHeight) {
+					consoleElement.style.height = `${maxHeight}px`;
+				}
+			}
+
+			// Включаем анимацию снова через небольшую задержку
+			enableAnimation();
+		});
+
+		// Начало перетаскивания
+		consoleHeader.addEventListener('mousedown', (event) => {
+			if (consoleElement.classList.contains('hidden')) return;
+
+			// Отключаем анимацию при перетаскивании
+			disableAnimation(); 
+
+			isDragging = true;
+			offsetX = event.clientX - consoleElement.offsetLeft;
+			offsetY = event.clientY - consoleElement.offsetTop;
+
+			document.body.style.userSelect = 'none';
+		});
+
+		document.addEventListener('mousemove', (event) => {
+			if (isDragging) {
+				const left = event.clientX - offsetX;
+				const top = event.clientY - offsetY;
+
+				// Ограничиваем перемещение по оси X
+				const viewportWidth = window.innerWidth;
+				const viewportHeight = window.innerHeight;
+
+				// Ограничиваем перемещение по оси X
+				if (left < 0) {
+					consoleElement.style.left = '0px';
+				} else if (left + consoleElement.offsetWidth > viewportWidth) {
+					consoleElement.style.left = `${viewportWidth - consoleElement.offsetWidth}px`;
+				} else {
+					consoleElement.style.left = `${left}px`;
+				}
+
+				// Ограничиваем перемещение по оси Y (ограничение снизу 80px)
+				const minTop = 0;
+				const maxTop = viewportHeight - consoleElement.offsetHeight - MIN_HEIGHT;
+
+				if (top < minTop) {
+					consoleElement.style.top = `${minTop}px`;
+				} else if (top > maxTop) {
+					consoleElement.style.top = `${maxTop}px`;
+				} else {
+					consoleElement.style.top = `${top}px`;
+				}
+			}
+		});
+
+		// Ограничение максимальной высоты консоли
+		const setMaxHeight = () => {
+			const viewportHeight = window.innerHeight;
+			const minHeight = viewportHeight - MIN_HEIGHT;
+			consoleElement.style.maxHeight = `${minHeight}px`;
+		};
+
+		// Слушаем изменение размера окна, чтобы обновить максимальную высоту
+		window.addEventListener('resize', setMaxHeight);
+		setMaxHeight();
+
+		document.addEventListener('mouseup', () => {
+			isDragging = false;
+			document.body.style.userSelect = '';
+
+			// Включаем анимацию после завершения перетаскивания
+			enableAnimation();
+		});
+
+		// Функция для сворачивания/разворачивания окна
+		toggleButton.addEventListener('click', () => {
+			isMinimized = !isMinimized;
+
+			if (isMinimized) {
+				lastState = {
+					top: consoleElement.style.top,
+					left: consoleElement.style.left,
+					width: consoleElement.style.width,
+					height: consoleElement.style.height,
+					transform: consoleElement.style.transform,
+				};
+
+				// Сворачиваем консоль в фиксированное место и размер
+				consoleElement.style.top = 'auto';
+				consoleElement.style.bottom = '80px'
+				consoleElement.style.left = '10px';
+				consoleElement.style.width = '130px';
+				consoleElement.style.height = '40px';
+				consoleElement.classList.add('hidden');
+				consoleElement.style.left = '50%';
+				consoleElement.style.transform = 'translate(-50%, -50%)'; 
+			} else {
+				consoleElement.style.top = lastState.top;
+				consoleElement.style.left = lastState.left;
+				consoleElement.style.transform = '';
+				consoleElement.style.bottom = '';
+				consoleElement.style.width = lastState.width;
+				consoleElement.style.height = lastState.height;
+				consoleElement.classList.remove('hidden');
+
+			}
+		});
+
+		// Функция для разворачивания на весь экран / возврата к исходным размерам
+		yellowButton.addEventListener('click', () => {
+			isMaximized = !isMaximized;
+
+			// Отключаем анимацию при перемещении консоли
+			consoleElement.style.transition = 'none'; 
+
+			if (isMaximized) {
+				// Сохраняем текущее состояние для восстановления
+				lastState = {
+					top: consoleElement.style.top,
+					left: consoleElement.style.left,
+					width: consoleElement.style.width,
+					height: consoleElement.style.height,
+					transform: consoleElement.style.transform,
+				};
+
+				// Разворачиваем окно с анимацией
+				setTimeout(() => {
+					consoleElement.style.transition = 'all 0.3s ease';
+					consoleElement.style.width = '100vw';
+					consoleElement.style.height = '100vh';
+					consoleElement.style.top = '0';
+					consoleElement.style.left = '0';
+					consoleElement.style.transform = 'none';
+				}, 10);
 				
-                placeholder.classList.add('visible');
-            }, 200);
-        });
+			} else {
+				// Восстанавливаем исходные данные
+				setTimeout(() => {
+					consoleElement.style.transition = 'all 0.3s ease';
+					consoleElement.style.width = lastState.width;
+					consoleElement.style.height = lastState.height;
+					consoleElement.style.top = lastState.top;
+					consoleElement.style.left = lastState.left;
+					consoleElement.style.transform = lastState.transform;
+				}, 10);
+			}
+		});
+		
+		// Красная кнопка
+		redButton.addEventListener('click', () => {
+			const rect = consoleElement.getBoundingClientRect();
+			const centerX = rect.width / 2;
+			const centerY = rect.height / 2;
+
+			// Устанавливаем центр трансформации (относительно самой консоли)
+			consoleElement.style.transformOrigin = `${centerX}px ${centerY}px`;
+
+			// Добавляем класс анимации
+			consoleElement.classList.add('collapsed');
+
+			setTimeout(() => {
+				consoleElement.classList.add('hidden');
+				placeholder.classList.add('visible');
+			}, 200);
+		});
 		
         // Обработчик для кнопки toggleButton
         toggleButton.addEventListener('click', toggleAnimation);
@@ -531,12 +848,11 @@
 					if (command) {
 						// Сохраняем команду в истории
 						commandHistory.push(command);
-						historyIndex = commandHistory.length; // Устанавливаем индекс за последним элементом
+						historyIndex = commandHistory.length;
 						commandLine.textContent = `User> ${command}`;
-						processCommand(command); // Обработка команды
+						processCommand(command);
 					}
 				} else if (event.key === 'ArrowUp') {
-					// Навигация вверх по истории
 					if (historyIndex > 0) {
 						historyIndex--;
 						input.value = commandHistory[historyIndex];
@@ -544,20 +860,18 @@
 						input.value = commandHistory[historyIndex];
 					}
 				} else if (event.key === 'ArrowDown') {
-					// Навигация вниз по истории
 					if (historyIndex < commandHistory.length - 1) {
 						historyIndex++;
 						input.value = commandHistory[historyIndex];
 					} else if (historyIndex === commandHistory.length - 1) {
 						historyIndex++;
-						input.value = ''; // Пустое поле, если вышли за пределы истории
+						input.value = '';
 					}
 				}
 			});
 
 			input.focus();
 		}
-
 
 		// Обработка команд
 		async function processCommand(command) {
@@ -646,7 +960,6 @@
 					}
 			}
 
-			// Добавляем новую строку после завершения обработки команды
 			addCommandLine();
 		}
 
@@ -657,7 +970,6 @@
 				return;
 			}
 
-			// Проверяем, начинается ли URL с https:// или http://
 			if (!url.startsWith('https://') && !url.startsWith('http://')) {
 				url = `https://${url}`;
 			}
@@ -684,8 +996,7 @@
 				printLine(`Сайт ${url} недоступен.`);
 			}
 		}
-		
-		
+
         // Начальное сообщение
         printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
 		printLine(' ');
@@ -699,14 +1010,14 @@
         printLine('https://t.me/isOsint');
         printLine('https://t.me/isBase');
 		printLine(' ');
-		printLine('help - для помощи');
+		printLine('help - Помощи');
 		addCommandLine();
 
         // Обработчик клика по консоли
         consoleElement.addEventListener('click', () => {
             const lastInput = document.querySelector('.command-line input');
             if (lastInput) {
-                lastInput.focus(); // Фокус на поле ввода при клике на консоль
+                lastInput.focus();
             }
         });
 
@@ -742,7 +1053,8 @@
             output.appendChild(line);
             output.scrollTop = output.scrollHeight;
         }
-
+		
+		// Звезды
         let x1 = 0, y1 = 0;
 
         const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
