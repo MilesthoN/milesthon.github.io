@@ -1,1114 +1,861 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MilesthoN</title>
-    <link rel="icon" href="https://lh3.googleusercontent.com/a-/ALV-UjVmECUMyqwJlVDCurpiJm9u1ZUqzh9h3NfJ8NVCaaPrPVc" type="image/png">
-    <style>
-        html, body {
-            height: 100%;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="theme-color" content="#040812" />
+  <title>MilesthoN</title>
+  <link rel="icon" href="https://lh3.googleusercontent.com/a-/ALV-UjVmECUMyqwJlVDCurpiJm9u1ZUqzh9h3NfJ8NVCaaPrPVc" />
+  <style>
+    :root {
+      color-scheme: dark;
 
-        html {
-            height: 100%;
-            background-color: #090a0f;
-            background: radial-gradient(ellipse at bottom, #1b2735, #090a0f);
-			background-size: cover;
-            overflow: hidden;
-        }
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #c9d1d9;
-            overflow: hidden;
-            background: transparent;
-			background-size: cover;
-        }
+      /* Палитра */
+      --bg1: #030611;
+      --bg2: #090f1d;
+      --text-1: #e9ecf4;
+      --text-2: #c2c9d8;
+      --text-3: #9aa3b7;
+      --accent: #3b82f6;
+      --warn-rgb: 246, 220, 120;
 
-        .console {
-			z-index: 1000;
-            width: 800px;
-            min-width: 130px;
-            height: 400px;
-            min-height: 55px;
-            background: rgba(22, 27, 34, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            border: 1px solid rgba(48, 54, 61, 0.8);
-            position: absolute;
-            transition: none;
-			resize: both;
-			overflow: auto;
-			max-width: 100vw;
-			max-height: 100vh;
-			box-sizing: border-box;
-        }
+      /* Стекло */
+      --glass-blur: 30px;
+      --glass-blur-sm: 18px;
+      --glass-sat: 1.6;
+      --glass-bright: 1.10;
+      --glass-bg-1: rgba(255,255,255,0.10);
+      --glass-bg-2: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.18);
+      --glass-border-strong: rgba(255,255,255,0.24);
 
-        .console.hidden {
-			top: auto;
-            bottom: 10px;
-            width: 110px;
-            height: 40px;
-            background-color: #161b22;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 10px;
-			resize: none;
-			min-width: 0;
-			min-height: 0;
-        }
+      /* Компоненты */
+      --card-bg: rgba(8, 12, 24, 0.10);
+      --card-border: var(--glass-border-strong);
+      --dock-bg: rgba(12, 16, 28, 0.40);
+      --dock-border: var(--glass-border);
+      --dock-shadow: 0 12px 36px rgba(0,0,0,0.55);
+      --dock-h: 64px;
+      --radius-lg: 22px;
+      --radius-md: 14px;
 
-        .console.hidden .output,
-        .console.hidden .command-line {
-            display: none;
-        }
+      /* Частицы (замедлены) */
+      --particles: 72;
+      --particle-color: rgba(168, 184, 217, 0.56);
+      --line-color: rgba(64,128,255,0.10);
+      --particle-speed-min: 0.0032;
+      --particle-speed-max: 0.0105;
+      --particle-turn: 0.00028;
+      --link-dist: 110;
+    }
 
-        .console-header {
-			cursor: move;
-            height: 32px;
-            background: rgba(33, 38, 45, 0.7);
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-            border-bottom: 1px solid rgba(48, 54, 61, 0.8);
-            color: #f0f6fc;
-            font-size: 14px;
-        }
+    /* Низкая производительность */
+    html.low-perf {
+      --glass-blur: 12px;
+      --glass-blur-sm: 8px;
+      --card-bg: rgba(8, 12, 24, 0.07);
+      --particles: 54;
+      --particle-speed-min: 0.0025;
+      --particle-speed-max: 0.0080;
+      --link-dist: 90;
+    }
 
-        .console.hidden .console-header {
-		cursor: default;
-            border-bottom: none;
-            background-color: transparent;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
+    /* Пауза анимаций */
+    html[data-paused="1"] * {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
 
-        .console-header .title {
-            margin-left: 8px;
-        }
+    /* Базовые стили (шрифт меньше, без "размытия") */
+    *, *::before, *::after { box-sizing: border-box; }
 
-        .console-header .buttons {
-            display: flex;
-            gap: 6px;
-            margin-left: auto;
-        }
+    html, body {
+      height: 100%;
+      overscroll-behavior: none;
+    }
 
-        .console-header .button {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-1);
+      background:
+        radial-gradient(1200px 800px at 12% -10%, #0a0f20 0%, transparent 60%),
+        radial-gradient(1000px 700px at 110% 110%, #0a0f20 0%, transparent 70%),
+        linear-gradient(145deg, var(--bg1), var(--bg2));
+      letter-spacing: 0;
+      padding: 16px;
+      padding-bottom: max(16px, var(--dock-clearance, 16px));
+      transition: padding-bottom 0.2s ease-out;
+    }
 
-        .console-header .button.close {
-            background-color: #28a745;
-        }
+    #bg {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      display: block;
+    }
 
-        .console-header .button.minimize {
-            background-color: #febc2e;
-        }
+    /* Карточка */
+    .card {
+      position: relative; z-index: 1;
+      width: min(1000px, 100%);
+      height: min(590px, 100%);
+      margin: auto; top: 50%; transform: translateY(-50%);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.012)) padding-box,
+        var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.10);
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      transition: border-color .25s ease-out, box-shadow .25s ease-out;
+      display: flex;
+      flex-direction: column;
+    }
+    .card::before {
+      content: "";
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.12), rgba(255,255,255,0) 40%);
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .card:hover {
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: 0 22px 64px rgba(0,0,0,0.6);
+    }
 
-        .console-header .button.maximize {
-            background-color: #ea4a5a;
-        }
+    /* Заголовок окна */
+    .window-bar {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; gap: 10px;
+      height: 42px;
+      padding: 6px 12px;
+      border-bottom: 1px solid var(--glass-border);
+      border-top-left-radius: inherit; border-top-right-radius: inherit;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
+      user-select: none;
+      backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      flex-shrink: 0;
+    }
+    .title { font-size: clamp(14px, 2.2vw, 18px); color: var(--text-2); letter-spacing: 0; }
+    #brand { cursor: default; }
 
-        .output {
-            flex: 1;
-            padding: 10px;
-            color: #f0f6fc;
-            font-family: 'Consolas', monospace;
-            font-size: 14px;
-            overflow-y: scroll;
-            overflow-wrap: break-word;
-            white-space: pre-wrap;
-            line-height: 1.2;
-        }
+    /* Предупреждение (кнопка + поповер) */
+    .warn { position: relative; margin-left: auto; z-index: 20000; isolation: isolate; }
+    .warn-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      border: 1px solid rgba(var(--warn-rgb), 0.40);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(var(--warn-rgb), 0.16), rgba(var(--warn-rgb), 0.08));
+      color: rgb(var(--warn-rgb));
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .warn-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(var(--warn-rgb), 0.55);
+      box-shadow: 0 6px 18px rgba(var(--warn-rgb), 0.20), inset 0 1px 0 rgba(0,0,0,0.25);
+    }
+    .warn-btn:active { transform: translateY(0); }
+    .warn-btn:focus-visible { outline: 2px solid rgba(var(--warn-rgb), 0.65); outline-offset: 2px; }
 
-        .output::-webkit-scrollbar {
-            width: 8px;
-        }
+    .notice-popover {
+      position: absolute; top: calc(100% + 12px); right: 0; z-index: 20001;
+      width: max-content; max-width: calc(100vw - 32px);
+      padding: 8px 16px; border-radius: var(--radius-md);
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(var(--warn-rgb), 0.28), rgba(var(--warn-rgb), 0.16)),
+        linear-gradient(180deg, rgba(16,20,34,0.78), rgba(16,20,34,0.68));
+      border: 1px solid rgba(var(--warn-rgb), 0.55);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px) saturate(1.2) brightness(1.02);
+      -webkit-backdrop-filter: blur(10px) saturate(1.2) brightness(1.02);
+      opacity: 0; transform: translateY(6px); pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .notice-popover .text { font-size: clamp(11px, 1.5vw, 12px); opacity: 1; }
+    .warn.open .notice-popover { opacity: 1; transform: none; pointer-events: auto; }
 
-        .output::-webkit-scrollbar-track {
-            background: #21262d;
-        }
+    /* Контент */
+    .content-grid {
+      position: relative;
+      height: 100%;
+      min-height: 0; padding: 12px;
+      display: grid;
+      grid-template-columns: 0.65fr 1.25fr;
+      grid-template-areas: "channels feed";
+      gap: 10px;
+    }
+    .panel {
+      display: flex; flex-direction: column; min-height: 0;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, var(--glass-bg-1), var(--glass-bg-2));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 26px rgba(0,0,0,0.28);
+      overflow: hidden;
+      backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+    }
+    .panel-header { display: flex; align-items: center; gap: 8px; padding: 6px 10px; }
+    .panel-title { margin: 0; padding-bottom: 6px; font-size: 14px; color: var(--text-2); }
+    .panel-body { min-height: 0; flex: 1 1 auto; overflow-y: auto; padding: 6px 10px 10px; }
 
-        .output::-webkit-scrollbar-thumb {
-            background-color: #30363d;
-            border-radius: 10px;
-            border: 2px solid #21262d;
-        }
+    /* Левая колонка */
+    nav.channels { grid-area: channels; display: flex; flex-direction: column; min-height: 0; }
+    .channels-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    .channel {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 9px; text-decoration: none; color: var(--text-1);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: background .2s ease, transform .15s ease, border-color .2s ease;
+      backdrop-filter: blur(8px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+    }
+    .channel:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.22);
+    }
+    .channel-icon { display: inline-flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1; width: 1.4em; height: 1.4em; }
+    .ch-txt { display: flex; flex-direction: column; gap: 2px; }
+    .ch-name { font-size: clamp(13px, 2vw, 16px); font-weight: 600; line-height: 1.28; }
+    .ch-desc { font-size: clamp(10px, 1.4vw, 12px); color: var(--text-2); line-height: 1.35; }
 
-        .output::-webkit-scrollbar-thumb:hover {
-            background-color: #58a6ff;
-        }
+    /* Правая колонка */
+    section.feed { grid-area: feed; min-height: 0; display: flex; flex-direction: column; }
+    .posts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    .post {
+      display: block; padding: 10px; text-decoration: none; color: var(--text-1);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      transition: border-color .2s ease, background .2s ease, transform .15s ease;
+      backdrop-filter: blur(8px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+    }
+    .post:hover { border-color: rgba(255,255,255,0.24); background: rgba(255, 255, 255, 0.1); transform: translateY(-1px); }
+    .post h3 { margin: 0 0 6px 0; font-size: clamp(13px, 2vw, 16px); line-height: 1.3; color: #f0f4ff; }
+    .meta { display: flex; align-items: center; gap: 6px; font-size: clamp(10px, 1.5vw, 12px); color: var(--text-3); margin-bottom: 6px; line-height: 1; }
+    .meta .tag {
+      display: inline-flex; align-items: center; justify-content: center; padding: 2px 8px;
+      border: 1px solid rgba(82,121,255,0.35); border-radius: 999px;
+      background: linear-gradient(180deg, rgba(82,121,255,0.22), rgba(82,121,255,0.12));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+      color: #e9f0ff; font-weight: 600; font-size: 11px; line-height: 1; letter-spacing: 0.2px;
+    }
+    .post p { margin: 0; color: var(--text-2); font-size: clamp(12px, 1.8vw, 14px); line-height: 1.5; }
 
-        .command-line {
-            display: flex;
-            align-items: center;
-            margin-top: 5px;
-        }
+    /* Скроллбар */
+    .panel-body { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.35) transparent; }
+    .panel-body::-webkit-scrollbar { width: 8px; }
+    .panel-body::-webkit-scrollbar-track { background: transparent; }
+    .panel-body::-webkit-scrollbar-thumb {
+      background-color: rgba(255,255,255,0.35);
+      border-radius: 20px; border: 2px solid transparent; background-clip: content-box;
+      transition: background-color .2s ease;
+    }
+    .panel-body::-webkit-scrollbar-thumb:hover { background-color: rgba(255,255,255,0.55); }
 
-        .command-line span {
-            color: #58a6ff;
-            font-family: 'Consolas', monospace;
-            margin-right: 5px;
-        }
+    /* Док */
+    .dock {
+      position: fixed; left: 50%; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 9999;
+      transform: translateX(-50%);
+      display: inline-flex; justify-content: center; align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--dock-border);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), var(--dock-bg);
+      box-shadow: var(--dock-shadow), inset 0 1px 0 rgba(255,255,255,0.08);
+      backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+    }
+    .dock ul { display: flex; gap: clamp(10px, 2vw, 16px); list-style: none; margin: 0; padding: 0; }
+    .dock a {
+      --dock-accent-rgb: 82,121,255;
+      position: relative;
+      width: clamp(36px, 5.4vw, 48px); height: clamp(36px, 5.4vw, 48px);
+      display: grid; place-items: center; text-decoration: none; color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      box-shadow: 0 6px 18px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
+      backdrop-filter: blur(10px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      -webkit-backdrop-filter: blur(10px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      transform-origin: bottom;
+      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .dock a:hover {
+      transform: translateY(-4px) scale(1.08);
+      border-color: rgba(var(--dock-accent-rgb), 0.55);
+      background: linear-gradient(180deg, rgba(var(--dock-accent-rgb), 0.18), rgba(255,255,255,0.03));
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4), 0 0 18px rgba(var(--dock-accent-rgb), 0.45);
+    }
+    .dock .ico { width: 72%; height: 72%; transition: transform .2s ease, filter .2s ease; }
+    .dock a:hover .ico { transform: translateY(-1px) scale(1.05); filter: drop-shadow(0 2px 8px rgba(var(--dock-accent-rgb), .45)); }
+    .dock a.github .ico { filter: invert(1) brightness(1.15) contrast(1.05); }
 
-        .command-line input {
-            background-color: transparent;
-            border: none;
-            color: #f0f6fc;
-            font-family: 'Consolas', monospace;
-            font-size: 14px;
-            outline: none;
-            flex: 1;
-        }
+    /* Брендовые цвета */
+    .dock a.vk        { --dock-accent-rgb: 39,135,245; }
+    .dock a.youtube   { --dock-accent-rgb: 255,0,0; }
+    .dock a.twitch    { --dock-accent-rgb: 145,70,255; }
+    .dock a.instagram { --dock-accent-rgb: 225,48,108; }
+    .dock a.tiktok    { --dock-accent-rgb: 0,242,234; }
+    .dock a.steam     { --dock-accent-rgb: 29,114,184; }
+    .dock a.github    { --dock-accent-rgb: 255,255,255; }
+    .dock a.boosty    { --dock-accent-rgb: 255,140,0; }
 
-        .fade-in {
-            opacity: 0;
-            animation: fadeIn 0.2s ease forwards;
-        }
+    /* Tooltip */
+    .tooltip {
+      position: absolute; bottom: calc(100% + 10px); left: 50%; z-index: 1;
+      transform: translateX(-50%) translateY(4px) scale(0.98);
+      padding: 6px 10px;
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--glass-sat)) brightness(var(--glass-bright));
+      color: var(--text-1); font-size: 12px; white-space: nowrap;
+      opacity: 0; pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      will-change: opacity, transform;
+    }
+    .dock a:hover .tooltip, .dock a:focus-visible .tooltip { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
+    /* Десктоп: чуть крупнее MilesthoN, Telegram и Wall */
+    @media (min-width: 781px) {
+      .title { font-size: 20px; }
+      .panel-title { font-size: 15px; }
+    }
 
-        .placeholder {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #58a6ff;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-            display: none;
-			color: #ea4a5a;
-        }
-
-        .placeholder.visible {
-            display: block;
-        }
-
-        @keyframes collapse {
-            0% {
-                width: 90%;
-                height: 80%;
-                top: 50%;
-                transform: translateY(-50%);
-                opacity: 1;
-                border-radius: 8px;
-            }
-            100% {
-                width: 0;
-                height: 0;
-                top: 50%;
-                transform: translateY(-50%) scale(0.1);
-                opacity: 0;
-                border-radius: 50%;
-            }
-        }
-
-        .console.collapsed {
-            animation: collapse 0.5s ease forwards;
-            overflow: hidden;
-        }
-
-		@keyframes collapse {
-			0% {
-				transform: scale(1);
-				opacity: 1;
-				border-radius: 8px;
-			}
-			100% {
-				transform: scale(0.1);
-				opacity: 0;
-				border-radius: 50%;
-			}
-		}
-
-        .star {
-            z-index: 9999;
-            position: relative;
-            transform-style: preserve-3d;
-            width: 1px;
-            height: 1px;
-            position: absolute;
-            color: red;
-        }
-		
-        .star:before {
-            z-index: 9999;
-            position: relative;
-            position: absolute;
-            content: '\2726';
-            color: inherit;
-            inset: 0;
-            box-shadow: 0 0 1em .5em #a3c2;
-            text-shadow: 0 0 .8em #fff5;
-        }
-
-        .glow-on-hover {
-            border: none;
-            outline: none;
-            cursor: pointer;
-            position: relative;
-            z-index: 0;
-            color: #000;
-        }
-
-        .glow-on-hover:before {
-            content: '';
-            position: absolute;
-            background: linear-gradient(45deg, #ff0000, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-            top: -4px;
-            left:-4px;
-            background-size: 400%;
-            z-index: -1;
-            filter: blur(20px);
-            width: calc(100% + 4px);
-            height: calc(100% + 4px);
-            animation: glowing 20s linear infinite;
-            opacity: 0;
-            transition: opacity .3s ease-in-out;
-        }
-
-        .glow-on-hover:hover:before {
-            opacity: 1;
-        }
-
-        @keyframes glowing {
-            0%, 100% { background-position: 0 0; }
-            50% { background-position: 400% 0; }
-        }
-
-		.container {
-			position: fixed;
-			bottom: 1%;
-			left: 50%;
-			transform: translateX(-50%);
-			width: auto;
-			padding: 10px 20px;
-			background: rgba(22, 27, 34, 0.8);
-			border-radius: 20px;
-			max-width: calc(100% - 40px);
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-			z-index: 900;
-		}
-
-		.container ul {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-			display: flex;
-			flex-wrap: nowrap;
-			gap: 15px;
-		}
-
-		.container ul li {
-			position: relative;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: margin 0.3s ease;
-		}
-
-		.container ul li:hover {
-			margin-right: 20px;
-			margin-left: 20px;
-			margin-top: -20px;
-		}
-
-
-		.container ul li:hover ~ li:hover {
-			margin-left: 0;
-		}
-
-		.container ul li a {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: calc(30px + 1vw);
-			height: calc(30px + 1vw);
-			transition: transform 0.3s ease;
-		}
-
-		.container ul li a img {
-			width: 100%;
-			height: 100%;
-		}
-
-
-		.container ul li a:hover {
-			transform: scale(1.5);
-		}
-
-		.container ul li span {
-			position: absolute;
-			bottom: 70px;
-			left: 50%;
-			transform: translateX(-50%);
-			background: rgba(22, 27, 34, 0.9);
-			color: #fff;
-			font-size: 12px;
-			padding: 5px 10px;
-			border-radius: 8px;
-			white-space: nowrap;
-			opacity: 0;
-			pointer-events: none;
-			transition: opacity 0.2s ease, transform 0.2s ease;
-		}
-		
-		.container ul li span::after {
-			content: '';
-			position: absolute;
-			bottom: -10px;
-			left: 50%;
-			transform: translateX(-50%);
-			border-width: 5px;
-			border-style: solid;
-			border-color: rgba(22, 27, 34, 0.9) transparent transparent transparent;
-		}
-
-		.container ul li:hover span {
-			opacity: 1;
-			transform: translateX(-50%) translateY(-10px);
-		}
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                filter: brightness(1);
-            } 
-            50% {
-                transform: scale(1.1);
-                filter: brightness(1.5);
-            }
-        }
-
-        #github-icon {
-            filter: invert(1);
-        }
-
-        .custom-list {
-            list-style: none;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 16px;
-            top: auto;
-            padding-top: 500px;
-            padding-bottom: 10px;
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        .hidden-icons {
-            display: none;
-        }
-
-        .top-left-text {
-            position: absolute;
-            top: 1%;
-            left: 1%;
-            color: rgba(255, 255, 255, 0.4);
-
-        }
-
-        .bottom-left-text {
-            position: absolute;
-            bottom: 1%;
-            left: 1%;
-            color: rgba(255, 255, 255, 0.4);
-        }
-		
-		.top-left-text, .bottom-left-text {
-			user-select: none;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-		}
-    </style>
+    /* Мобильная адаптация + ниже область каналов */
+    @media (max-width: 780px) {
+      body {
+        overflow-y: auto;
+        padding: 0;
+        transition: none;
+      }
+      .card {
+        position: fixed; inset: 0 0 var(--dock-h) 0;
+        width: auto; height: auto; margin: 0; transform: none;
+        border-radius: var(--radius-lg);
+        display: flex;
+        flex-direction: column;
+      }
+      .content-grid {
+        height: 100%;
+        grid-template-columns: 1fr;
+        grid-template-areas: "channels" "feed";
+        grid-template-rows: auto 1fr;
+        padding: 10px;
+      }
+      nav.channels { max-height: 36svh; min-height: 0; }
+      .panel-body { -webkit-overflow-scrolling: touch; }
+      .notice-popover { right: 12px; }
+      .dock {
+        position: fixed; left: 0; right: 0; bottom: 0;
+        width: auto; margin: 0; transform: none;
+        border-radius: 18px;
+        padding: 10px clamp(16px, 5vw, 24px) max(10px, env(safe-area-inset-bottom));
+      }
+      .dock ul {
+        justify-content: center;
+        gap: clamp(4px, 2vw, 12px);
+      }
+      .dock a {
+        width: min(10vw, 48px);
+        height: min(10vw, 48px);
+      }
+      .dock .ico { width: 70%; height: 70%; }
+    }
+  </style>
 </head>
 <body>
-	<div class="top-left-text">&lt;!DOCTYPE html&gt;<br>&lt;html&gt;</div>
-	<div class="bottom-left-text">&lt;/html&gt;</div>
-    <div class="console" id="console">
-        <div class="console-header">
-            <div class="title">My Site</div>
-            <div class="buttons">
-                <div class="button close" id="toggleButton"></div>
-                <div class="button minimize"></div>
-                <div class="button maximize"></div>
-            </div>
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <main id="card" class="card" aria-label="MilesthoN">
+    <header class="window-bar" aria-label="Заголовок окна">
+      <div class="title"><span id="brand">MilesthoN</span></div>
+
+      <div class="warn">
+        <button class="warn-btn" type="button" aria-label="Предупреждение" aria-haspopup="dialog" aria-expanded="false" aria-controls="notice-pop">⚠️</button>
+        <div id="notice-pop" class="notice-popover" role="dialog" aria-modal="false" aria-label="Предупреждение">
+           <span class="text">Вся информация несет ознакомительный характер<br>и не призывает к противозаконным действиям.</span>
         </div>
-        <div class="output" id="output"></div>
+      </div>
+    </header>
+
+    <div class="content-grid">
+      <nav class="channels" aria-label="Каналы Telegram">
+        <div class="panel">
+          <div class="panel-header">
+            <h3 class="panel-title">📢 Telegram</h3>
+          </div>
+          <div class="panel-body">
+            <ul class="channels-list">
+              <li>
+                <a class="channel" href="https://t.me/MiIesthoN" target="_blank" rel="noopener" aria-label="Основа — Telegram">
+                  <div class="channel-icon">✦</div>
+                  <span class="ch-txt"><span class="ch-name">MilesthoN</span><span class="ch-desc">основной канал</span></span>
+                </a>
+              </li>
+              <li>
+                <a class="channel" href="https://t.me/isNEEDs" target="_blank" rel="noopener" aria-label="Полезное — Telegram">
+                  <div class="channel-icon">✨</div>
+                  <span class="ch-txt"><span class="ch-name">Полезное</span><span class="ch-desc">подборка полезных находок</span></span>
+                </a>
+              </li>
+              <li>
+                <a class="channel" href="https://telegra.ph/PrivatBay-10-14" target="_blank" rel="noopener" aria-label="PrivatBay — Telegra.ph">
+                  <div class="channel-icon">🏴‍☠️</div>
+                  <span class="ch-txt"><span class="ch-name">PrivatBay</span><span class="ch-desc">старый каталог полезных находок (RIP 😭)</span></span>
+                </a>
+              </li>
+              <li>
+                <a class="channel" href="https://t.me/AIxSite" target="_blank" rel="noopener" aria-label="Ai и сайты — Telegram">
+                  <div class="channel-icon">🤖</div>
+                  <span class="ch-txt"><span class="ch-name">Ai и сайты</span><span class="ch-desc">нейросети и полезные сайты</span></span>
+                </a>
+              </li>
+              <li>
+                <a class="channel" href="https://t.me/ITxHelp" target="_blank" rel="noopener" aria-label="Помощь в IT — Telegram">
+                  <div class="channel-icon">🧰</div>
+                  <span class="ch-txt"><span class="ch-name">Помощь в IT</span><span class="ch-desc">советы, разборы</span></span>
+                </a>
+              </li>
+              <li>
+                <a class="channel" href="https://t.me/isOSiNT" target="_blank" rel="noopener" aria-label="OSINT — Telegram">
+                  <div class="channel-icon">🔍</div>
+                  <span class="ch-txt"><span class="ch-name">OSINT</span><span class="ch-desc">инструменты и методики поиска</span></span>
+                </a>
+              </li>
+              <li>
+                <a class="channel" href="https://t.me/life_cracks" target="_blank" rel="noopener" aria-label="Лайфхаки — Telegram">
+                  <div class="channel-icon">💡</div>
+                  <span class="ch-txt"><span class="ch-name">Лайфхаки</span><span class="ch-desc">упрощение повседневности</span></span>
+                </a>
+              </li>
+              <li>
+                <a class="channel" href="https://t.me/isBugs" target="_blank" rel="noopener" aria-label="Баги — Telegram">
+                  <div class="channel-icon">🐞</div>
+                  <span class="ch-txt"><span class="ch-name">Баги</span><span class="ch-desc">ошибки сайтов</span></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <section class="feed" aria-label="Стена">
+        <div class="panel">
+          <div class="panel-header">
+            <h3 class="panel-title">📰 Wall</h3>
+          </div>
+          <div class="panel-body">
+            <ul class="posts">
+              <li>
+                <a class="post" href="https://github.com/milesthon/cleare" target="_blank" rel="noopener" role="article">
+                  <h3>cleare</h3>
+                  <div class="meta">
+                    <time>Dec 28, 2022</time><span>•</span><span class="tag">релиз</span>
+                  </div>
+                  <p>Очистка кэша и ненужных файлов Windows</p>
+                </a>
+              </li>
+              <li>
+                <a class="post" href="https://github.com/milesthon/Speedo" target="_blank" rel="noopener" role="article">
+                  <h3>Speedo</h3>
+                  <div class="meta">
+                    <time>Jan 22, 2024</time><span>•</span><span class="tag">релиз</span>
+                  </div>
+                  <p>Оптимизация Windows для высокой производительности и игр</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="placeholder" id="placeholder">Сломал! Перезагружай страницу</div>
-	 <div class="container">
-		<ul class="custom-list" id="socialIcons">
-			<li>
-				<a class="glow-on-hover" href="https://vk.com/id180544766" target="_blank">
-					<img src="https://vk.com/images/icons/favicons/fav_logo.ico" alt="VK" width="32" height="32">
-				</a>
-				<span>VK</span>
-			</li>
-			<li>
-				<a class="glow-on-hover" href="https://youtube.com/channel/UCy2JxQdX8dT2Tbj4ykUkqFw" target="_blank">
-					<img src="https://www.youtube.com/s/desktop/9318de79/img/favicon_144x144.png" alt="YouTube" width="32" height="32">
-				</a>
-				<span>YouTube</span>
-			</li>
-			<li>
-				<a class="glow-on-hover" href="https://twitch.tv/MilesthoN" target="_blank">
-					<img src="https://assets.twitch.tv/assets/favicon-32-e29e246c157142c94346.png" alt="Twitch" width="32" height="32">
-				</a>
-				<span>Twitch</span>
-			</li>
-			<li>
-				<a class="glow-on-hover" href="https://instagram.com/MilesthoN" target="_blank">
-					<img src="https://static.cdninstagram.com/rsrc.php/v3/yb/r/lswP1OF1o6P.png" alt="Instagram" width="32" height="32">
-				</a>
-				<span>Instagram</span>
-			</li>
-			<li>
-				<a class="glow-on-hover" href="https://tiktok.com/@MilesthoN" target="_blank">
-					<img src="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png" alt="TikTok" width="32" height="32">
-				</a>
-				<span>TikTok</span>
-			</li>
-			<li>
-				<a class="glow-on-hover" href="https://steamcommunity.com/id/MilesthoN" target="_blank">
-					<img src="https://store.steampowered.com/favicon.ico" alt="Steam" width="32" height="32">
-				</a>
-				<span>Steam</span>
-			</li>
-			<li>
-				<a class="glow-on-hover" href="https://boosty.to/MilesthoN" target="_blank">
-					<img src="https://boosty.to/favicon.png" alt="Boosty" width="32" height="32">
-				</a>
-				<span>Boosty</span>
-			</li>
-			<li>
-				<a class="glow-on-hover" href="https://github.com/MilesthoN" target="_blank">
-					<img style="filter: invert(1);" src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" width="32" height="32">
-				</a>
-				<span>GitHub</span>
-			</li>
-		</ul>
-	</div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-		const consoleElement = document.getElementById('console'); // Консоль
-		const greenButton = document.querySelector('.button.close'); // Зелёная кнопка
-		const toggleButton = document.getElementById('toggleButton'); // Зелёная кнопка
-		const redButton = document.querySelector('.button.maximize'); // Красная кнопка
-		const yellowButton = document.querySelector('.button.minimize'); // Жёлтая кнопка
-		const placeholder = document.getElementById('placeholder'); // Сломал! Перезагружай страницу
-		const socialIcons = document.getElementById('socialIcons'); // Социальные иконки
-		const consoleHeader = document.querySelector('.console-header');
+  </main>
 
-		let isDragging = false;
-		let offsetX = 0;
-		let offsetY = 0;
-		let isMinimized = false;
-		let isMaximized = false;
-		const MIN_HEIGHT = 80;
+  <nav class="dock" aria-label="Социальные сети">
+    <ul>
+      <li><a class="vk" href="https://vk.ru/id180544766" target="_blank" rel="noopener" aria-label="VK">
+        <img class="ico" src="https://www.google.com/s2/favicons?sz=96&domain=vk.com" alt="" decoding="async" loading="lazy" />
+        <span class="tooltip" role="tooltip">VK</span>
+      </a></li>
+      <li><a class="youtube" href="https://youtube.com/channel/UCy2JxQdX8dT2Tbj4ykUkqFw" target="_blank" rel="noopener" aria-label="YouTube">
+        <img class="ico" src="https://www.google.com/s2/favicons?sz=96&domain=youtube.com" alt="" decoding="async" loading="lazy" />
+        <span class="tooltip" role="tooltip">YouTube</span>
+      </a></li>
+      <li><a class="twitch" href="https://twitch.tv/MilesthoN" target="_blank" rel="noopener" aria-label="Twitch">
+        <img class="ico" src="https://www.google.com/s2/favicons?sz=96&domain=twitch.tv" alt="" decoding="async" loading="lazy" />
+        <span class="tooltip" role="tooltip">Twitch</span>
+      </a></li>
+      <li><a class="instagram" href="https://instagram.com/MilesthoN" target="_blank" rel="noopener" aria-label="Instagram">
+        <img class="ico" src="https://www.google.com/s2/favicons?sz=96&domain=instagram.com" alt="" decoding="async" loading="lazy" />
+        <span class="tooltip" role="tooltip">Instagram</span>
+      </a></li>
+      <li><a class="tiktok" href="https://tiktok.com/@MilesthoN" target="_blank" rel="noopener" aria-label="TikTok">
+        <img class="ico" src="https://www.google.com/s2/favicons?sz=96&domain=tiktok.com" alt="" decoding="async" loading="lazy" />
+        <span class="tooltip" role="tooltip">TikTok</span>
+      </a></li>
+      <li><a class="steam" href="https://steamcommunity.com/id/MilesthoN" target="_blank" rel="noopener" aria-label="Steam">
+        <img class="ico" src="https://www.google.com/s2/favicons?sz=96&domain=steampowered.com" alt="" decoding="async" loading="lazy" />
+        <span class="tooltip" role="tooltip">Steam</span>
+      </a></li>
+      <li><a class="boosty" href="https://boosty.to/MilesthoN" target="_blank" rel="noopener" aria-label="Boosty">
+        <img class="ico" src="https://www.google.com/s2/favicons?sz=96&domain=boosty.to" alt="" decoding="async" loading="lazy" />
+        <span class="tooltip" role="tooltip">Boosty</span>
+      </a></li>
+      <li><a class="github" href="https://github.com/MilesthoN" target="_blank" rel="noopener" aria-label="GitHub">
+        <img class="ico" src="https://www.google.com/s2/favicons?sz=96&domain=github.com" alt="" decoding="async" loading="lazy" />
+        <span class="tooltip" role="tooltip">GitHub</span>
+      </a></li>
+    </ul>
+  </nav>
 
-		// Отключение анимации
-		const disableAnimation = () => {
-			consoleElement.style.transition = 'none';
-		};
+  <script>
+    // Детект производительности и reduced motion
+    const Perf = (() => {
+      const mem = navigator.deviceMemory || 4;
+      const cores = navigator.hardwareConcurrency || 4;
+      const ua = navigator.userAgent || '';
+      theIsMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(ua);
+      const lowPerf = (mem && mem <= 4) || (cores && cores <= 4) || theIsMobile;
+      if (lowPerf) document.documentElement.classList.add('low-perf');
 
-		// Включение анимации с небольшой задержкой
-		const enableAnimation = () => {
-			setTimeout(() => {
-				consoleElement.style.transition = 'all 0.3s ease';
-			}, 10);
-		};
+      const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+      return { lowPerf, mql };
+    })();
 
-		// Ограничение размера консоли при изменении размеров страницы
-		window.addEventListener('resize', () => {
-			// Отключаем анимацию при изменении размера окна
-			disableAnimation();
+    // Контроллер активности (анимации только на активной вкладке)
+    const Activity = (() => {
+      const root = document.documentElement;
+      let active = !document.hidden && !Perf.mql.matches;
 
-			if (!isMaximized) {
-				const viewportWidth = window.innerWidth;
-				const viewportHeight = window.innerHeight;
+      function apply() {
+        const now = !document.hidden && !Perf.mql.matches;
+        active = now;
+        root.setAttribute('data-paused', active ? '0' : '1');
+        document.dispatchEvent(new CustomEvent('anim-active', { detail: active }));
+      }
 
-				// Максимальные размеры консоли с учетом отступов
-				const maxWidth = viewportWidth - 20;
-				const maxHeight = viewportHeight - 20;
+      apply();
+      document.addEventListener('visibilitychange', apply, { passive: true });
+      window.addEventListener('focus', apply, { passive: true });
+      window.addEventListener('blur', apply, { passive: true });
+      Perf.mql.addEventListener?.('change', apply);
 
-				// Устанавливаем новые размеры, если они превышают доступное пространство
-				if (parseInt(consoleElement.style.width, 10) > maxWidth) {
-					consoleElement.style.width = `${maxWidth}px`;
-				}
+      return { isActive: () => active };
+    })();
 
-				if (parseInt(consoleElement.style.height, 10) > maxHeight) {
-					consoleElement.style.height = `${maxHeight}px`;
-				}
-			}
+    // Canvas фон: частицы + северное сияние
+    (() => {
+      const canvas = document.getElementById('bg');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const css = getComputedStyle(document.documentElement);
+      const DPR = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+      const low = document.documentElement.classList.contains('low-perf');
 
-			// Включаем анимацию снова через небольшую задержку
-			enableAnimation();
-		});
+      // Настройки из CSS-переменных
+      let particleCount = parseInt(css.getPropertyValue('--particles')) || 72;
+      let particleColor = css.getPropertyValue('--particle-color').trim() || 'rgba(168, 184, 217, 0.56)';
+      let lineColor = css.getPropertyValue('--line-color').trim() || 'rgba(64,128,255,0.10)';
+      const spMin = parseFloat(css.getPropertyValue('--particle-speed-min')) || 0.0032;
+      const spMax = parseFloat(css.getPropertyValue('--particle-speed-max')) || 0.0105;
+      const turn = parseFloat(css.getPropertyValue('--particle-turn')) || 0.00028;
+      const linkDist = parseFloat(css.getPropertyValue('--link-dist')) || 110;
+      const radius = 1.35;
 
-		// Начало перетаскивания
-		consoleHeader.addEventListener('mousedown', (event) => {
-			if (consoleElement.classList.contains('hidden')) return;
+      let W = 0, H = 0, particles = [], lastT = 0, rafId = 0;
 
-			// Отключаем анимацию при перетаскивании
-			disableAnimation(); 
+      function resize() {
+        W = canvas.clientWidth;
+        H = canvas.clientHeight;
+        canvas.width = Math.floor(W * DPR);
+        canvas.height = Math.floor(H * DPR);
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        initParticles();
+      }
 
-			isDragging = true;
-			offsetX = event.clientX - consoleElement.offsetLeft;
-			offsetY = event.clientY - consoleElement.offsetTop;
+      function rand(min, max){ return Math.random() * (max - min) + min; }
 
-			document.body.style.userSelect = 'none';
-		});
+      function initParticles() {
+        const area = (W * H) / (1280 * 720);
+        const count = Math.max(28, Math.floor(particleCount * Math.min(1.4, area)));
+        particles = new Array(count).fill(0).map(() => ({
+          x: rand(0, W),
+          y: rand(0, H),
+          angle: rand(0, Math.PI * 2),
+          speed: rand(spMin, spMax),
+          turn: rand(-turn, turn)
+        }));
+      }
 
-		document.addEventListener('mousemove', (event) => {
-			if (isDragging) {
-				const left = event.clientX - offsetX;
-				const top = event.clientY - offsetY;
+      function smootherstep(x) {
+        x = Math.max(0, Math.min(1, x));
+        return x*x*x*(x*(6*x - 15) + 10);
+      }
 
-				// Ограничиваем перемещение по оси X
-				const viewportWidth = window.innerWidth;
-				const viewportHeight = window.innerHeight;
+      // Сияние (чуть ярче)
+      function drawAurora(t) {
+        if (Perf.mql.matches) return;
 
-				// Ограничиваем перемещение по оси X
-				if (left < 0) {
-					consoleElement.style.left = '0px';
-				} else if (left + consoleElement.offsetWidth > viewportWidth) {
-					consoleElement.style.left = `${viewportWidth - consoleElement.offsetWidth}px`;
-				} else {
-					consoleElement.style.left = `${left}px`;
-				}
+        const offDur  = 15000, onDur = 15000, fadeDur = 2600;
+        const cycle = offDur + onDur;
+        const mod = t % cycle;
+        if (mod < offDur) return;
 
-				// Ограничиваем перемещение по оси Y (ограничение снизу 80px)
-				const minTop = 0;
-				const maxTop = viewportHeight - consoleElement.offsetHeight - MIN_HEIGHT;
+        const localT = mod - offDur;
+        const ph = localT / onDur;
+        const pulse = 0.5 - 0.5 * Math.cos(ph * 2 * Math.PI);
 
-				if (top < minTop) {
-					consoleElement.style.top = `${minTop}px`;
-				} else if (top > maxTop) {
-					consoleElement.style.top = `${maxTop}px`;
-				} else {
-					consoleElement.style.top = `${top}px`;
-				}
-			}
-		});
+        let envelope = 1;
+        if (localT < fadeDur) envelope = smootherstep(localT / fadeDur);
+        else if (localT > onDur - fadeDur) envelope = smootherstep((onDur - localT) / fadeDur);
 
-		// Ограничение максимальной высоты консоли
-		const setMaxHeight = () => {
-			const viewportHeight = window.innerHeight;
-			const minHeight = viewportHeight - MIN_HEIGHT;
-			consoleElement.style.maxHeight = `${minHeight}px`;
-		};
+        const baseAlphaBase = low ? 0.11 : 0.135; // ярче
+        const baseAlpha = baseAlphaBase * (0.35 + 0.65 * pulse) * Math.pow(envelope, 1.2);
+        const yBase = H * (0.17 + 0.02 * Math.sin(t * 0.00022));
 
-		// Слушаем изменение размера окна, чтобы обновить максимальную высоту
-		window.addEventListener('resize', setMaxHeight);
-		setMaxHeight();
+        const bands = low
+          ? [
+              { baseHue: 160, height: H * 0.18, blur: 18, offset: 0.0, amp: 0.95, alpha: 0.95 },
+              { baseHue: 200, height: H * 0.20, blur: 20, offset: 1.7, amp: 0.92, alpha: 0.90 },
+              { baseHue: 245, height: H * 0.22, blur: 22, offset: 2.9, amp: 0.90, alpha: 0.85 }
+            ]
+          : [
+              { baseHue: 135, height: H * 0.18, blur: 24, offset: 0.0, amp: 1.00, alpha: 1.00 },
+              { baseHue: 160, height: H * 0.16, blur: 22, offset: 0.9, amp: 0.95, alpha: 0.95 },
+              { baseHue: 190, height: H * 0.20, blur: 26, offset: 1.8, amp: 0.92, alpha: 0.90 },
+              { baseHue: 230, height: H * 0.22, blur: 28, offset: 2.7, amp: 0.90, alpha: 0.85 }
+            ];
 
-		document.addEventListener('mouseup', () => {
-			isDragging = false;
-			document.body.style.userSelect = '';
+        const steps = Math.max(low ? 16 : 24, Math.floor(W / (low ? 96 : 64)));
 
-			// Включаем анимацию после завершения перетаскивания
-			enableAnimation();
-		});
+        ctx.save();
+        ctx.globalCompositeOperation = 'screen';
 
-		// Функция для сворачивания/разворачивания окна
-		toggleButton.addEventListener('click', () => {
-			isMinimized = !isMinimized;
+        for (const B of bands) {
+          const path = new Path2D();
+          for (let i = 0; i <= steps; i++) {
+            const k = i / steps;
+            const x = k * W;
 
-			if (isMinimized) {
-				lastState = {
-					top: consoleElement.style.top,
-					left: consoleElement.style.left,
-					width: consoleElement.style.width,
-					height: consoleElement.style.height,
-					transform: consoleElement.style.transform,
-				};
+            const n =
+              Math.sin(k * 2.4 + B.offset + t * 0.00040) * 0.60 +
+              Math.sin(k * 7.1 + B.offset * 1.27 - t * 0.00022) * 0.25 +
+              Math.sin(k * 13.3 + 1.7 + t * 0.00012) * 0.15;
 
-				// Сворачиваем консоль в фиксированное место и размер
-				consoleElement.style.top = 'auto';
-				consoleElement.style.bottom = '80px'
-				consoleElement.style.left = '10px';
-				consoleElement.style.width = '130px';
-				consoleElement.style.height = '40px';
-				consoleElement.classList.add('hidden');
-				consoleElement.style.left = '50%';
-				consoleElement.style.transform = 'translate(-50%, -50%)'; 
-			} else {
-				consoleElement.style.top = lastState.top;
-				consoleElement.style.left = lastState.left;
-				consoleElement.style.transform = '';
-				consoleElement.style.bottom = '';
-				consoleElement.style.width = lastState.width;
-				consoleElement.style.height = lastState.height;
-				consoleElement.classList.remove('hidden');
+            const y =
+              yBase +
+              n * B.height * B.amp * (0.6 + 0.4 * Math.sin(t * 0.00015 + B.offset)) +
+              B.height * 0.10;
 
-			}
-		});
+            if (i === 0) path.moveTo(x, y);
+            else path.lineTo(x, y);
+          }
+          path.lineTo(W, H); path.lineTo(0, H); path.closePath();
 
-		// Функция для разворачивания на весь экран / возврата к исходным размерам
-		yellowButton.addEventListener('click', () => {
-			isMaximized = !isMaximized;
+          const wobble = 8 * Math.sin(t * 0.00018 + B.offset);
+          const hG = B.baseHue + wobble;
+          const hC = hG + 25, hB = hG + 55, hV = hG + 95, hR = hG - 70;
+          const gradTop = yBase - B.height, gradBottom = yBase + B.height * 1.4;
 
-			// Отключаем анимацию при перемещении консоли
-			consoleElement.style.transition = 'none'; 
+          const g = ctx.createLinearGradient(0, gradTop, 0, gradBottom);
+          const a = Math.min(1, baseAlpha * B.alpha);
 
-			if (isMaximized) {
-				// Сохраняем текущее состояние для восстановления
-				lastState = {
-					top: consoleElement.style.top,
-					left: consoleElement.style.left,
-					width: consoleElement.style.width,
-					height: consoleElement.style.height,
-					transform: consoleElement.style.transform,
-				};
+          g.addColorStop(0.00, `hsla(${hR}, 90%, 60%, ${a * 0.22})`);
+          g.addColorStop(0.12, `hsla(${hG - 12}, 100%, 70%, ${a * 0.55})`);
+          g.addColorStop(0.32, `hsla(${hG}, 100%, 66%, ${a})`);
+          g.addColorStop(0.56, `hsla(${hC}, 100%, 64%, ${a * 0.95})`);
+          g.addColorStop(0.78, `hsla(${hB}, 100%, 62%, ${a * 0.85})`);
+          g.addColorStop(1.00, `hsla(${hV}, 70%, 36%, 0)`);
 
-				// Разворачиваем окно с анимацией
-				setTimeout(() => {
-					consoleElement.style.transition = 'all 0.3s ease';
-					consoleElement.style.width = '100vw';
-					consoleElement.style.height = '100vh';
-					consoleElement.style.top = '0';
-					consoleElement.style.left = '0';
-					consoleElement.style.transform = 'none';
-				}, 10);
-				
-			} else {
-				// Восстанавливаем исходные данные
-				setTimeout(() => {
-					consoleElement.style.transition = 'all 0.3s ease';
-					consoleElement.style.width = lastState.width;
-					consoleElement.style.height = lastState.height;
-					consoleElement.style.top = lastState.top;
-					consoleElement.style.left = lastState.left;
-					consoleElement.style.transform = lastState.transform;
-				}, 10);
-			}
-		});
-		
-		// Красная кнопка
-		redButton.addEventListener('click', () => {
-			const rect = consoleElement.getBoundingClientRect();
-			const centerX = rect.width / 2;
-			const centerY = rect.height / 2;
+          ctx.fillStyle = g;
+          ctx.filter = `blur(${(B.blur).toFixed(0)}px)`;
+          ctx.fill(path);
+        }
 
-			// Устанавливаем центр трансформации (относительно самой консоли)
-			consoleElement.style.transformOrigin = `${centerX}px ${centerY}px`;
+        ctx.filter = 'none';
+        ctx.restore();
+      }
 
-			// Добавляем класс анимации
-			consoleElement.classList.add('collapsed');
-
-			setTimeout(() => {
-				consoleElement.classList.add('hidden');
-				placeholder.classList.add('visible');
-			}, 200);
-		});
-		
-        // Обработчик для кнопки toggleButton
-        toggleButton.addEventListener('click', toggleAnimation);
-		
-		// Функция для старта и остановки анимации
-        function toggleAnimation() {
-            if (isAnimationRunning) {
-                cancelAnimationFrame(animate);
-                document.body.removeChild(renderer.domElement);
-                isAnimationRunning = false;
-            } else {
-                init();
-                animate();
-                isAnimationRunning = true;
+      function drawLinks() {
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = lineColor;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const a = particles[i], b = particles[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const d2 = dx*dx + dy*dy;
+            if (d2 < linkDist*linkDist) {
+              const alpha = 1 - Math.sqrt(d2) / linkDist;
+              ctx.globalAlpha = alpha * 0.9;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
             }
+          }
         }
-		
-		// 3D сцена
-		let camera, scene, renderer, material;
-        let mouseX = 0, mouseY = 0;
-        let windowHalfX = window.innerWidth / 2;
-        let windowHalfY = window.innerHeight / 2;
-        let isAnimationRunning = false;
+        ctx.globalAlpha = 1;
+      }
 
-        function init () {
-            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 5, 2000);
-            camera.position.z = 500;
+      function drawParticles() {
+        ctx.fillStyle = particleColor;
+        for (let p of particles) {
+          ctx.beginPath(); ctx.arc(p.x, p.y, radius, 0, Math.PI*2); ctx.fill();
+        }
+      }
 
-            scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x0000ff, 0.001);
+      function step(t) {
+        if (!Activity.isActive()) { rafId = 0; return; }
 
-            const geometry = new THREE.BufferGeometry();
-            const vertices = [];
-            const size = 2000;
+        const dt = Math.min(24, t - (lastT || t));
+        lastT = t;
 
-            for ( let i = 0; i < 20000; i ++ ) {
-                const x = (Math.random() * size + Math.random() * size) / 2 - size / 2;
-                const y = (Math.random() * size + Math.random() * size) / 2 - size / 2;
-                const z = (Math.random() * size + Math.random() * size) / 2 - size / 2;
+        ctx.clearRect(0, 0, W, H);
 
-                vertices.push(x, y, z);
-            }
+        for (let p of particles) {
+          p.angle += p.turn * dt;
+          if (Math.random() < 0.0035) p.turn = rand(-turn, turn);
+          p.x += Math.cos(p.angle) * p.speed * dt;
+          p.y += Math.sin(p.angle) * p.speed * dt;
 
-            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-
-            material = new THREE.PointsMaterial({
-                size: 2,
-                color: 0xffffff,
-            });
-
-            const particles = new THREE.Points(geometry, material);
-            scene.add(particles);
-
-            renderer = new THREE.WebGLRenderer();
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
-
-            document.body.style.touchAction = 'none';
-            document.body.addEventListener('pointermove', onPointerMove);
-            window.addEventListener('resize', onWindowResize);
+          if (p.x < -10) p.x = W + 10; else if (p.x > W + 10) p.x = -10;
+          if (p.y < -10) p.y = H + 10; else if (p.y > H + 10) p.y = -10;
         }
 
-        function onWindowResize () {
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
+        drawLinks();
+        drawParticles();
+        drawAurora(t);
 
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+        rafId = requestAnimationFrame(step);
+      }
+
+      function ensureRunning() {
+        if (!rafId && Activity.isActive()) rafId = requestAnimationFrame(step);
+      }
+
+      function start() {
+        resize();
+        ensureRunning();
+      }
+
+      window.addEventListener('resize', () => { resize(); }, { passive: true });
+      document.addEventListener('anim-active', (e) => {
+        if (e.detail) ensureRunning();
+        else if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+      });
+
+      start();
+    })();
+
+    // Высота дока для мобильной верстки
+    (() => {
+      const root = document.documentElement;
+      const dock = document.querySelector('.dock');
+      if (!dock) return;
+      const ro = new ResizeObserver(() => {
+        root.style.setProperty('--dock-h', `${dock.offsetHeight || 0}px`);
+      });
+      ro.observe(dock);
+    })();
+    
+    // НОВЫЙ СКРИПТ: Резервирование места для дока на десктопе
+    (() => {
+      const root = document.documentElement;
+      const dock = document.querySelector('.dock');
+      if (!dock) return;
+
+      const desktopMq = window.matchMedia('(min-width: 781px)');
+
+      function updateDockClearance() {
+        if (desktopMq.matches) {
+          const dockHeight = dock.offsetHeight;
+          const dockBottom = parseFloat(getComputedStyle(dock).bottom) || 14;
+          const requiredSpace = dockHeight + dockBottom;
+          root.style.setProperty('--dock-clearance', `${requiredSpace}px`);
+        } else {
+          root.style.removeProperty('--dock-clearance');
         }
+      }
 
-        function onPointerMove (event) {
-            mouseX = event.clientX - windowHalfX;
-            mouseY = event.clientY - windowHalfY;
+      const ro = new ResizeObserver(updateDockClearance);
+      ro.observe(dock);
+      desktopMq.addEventListener('change', updateDockClearance);
+      updateDockClearance();
+    })();
+
+    // Кнопка "Предупреждение"
+    (() => {
+      const warn = document.querySelector('.warn');
+      if (!warn) return;
+      const btn = warn.querySelector('.warn-btn');
+      const isOpen = () => warn.classList.contains('open');
+
+      const close = () => { warn.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); };
+      const open  = () => { warn.classList.add('open');    btn.setAttribute('aria-expanded', 'true'); };
+
+      btn.addEventListener('click', (e) => { e.stopPropagation(); isOpen() ? close() : open(); });
+      document.addEventListener('click', (e) => { if (isOpen() && !warn.contains(e.target)) close(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) close(); });
+    })();
+
+    // Анимация заголовка (только при активной вкладке)
+    (() => {
+      const el = document.getElementById('brand');
+      if (!el) return;
+      const target = 'MilesthoN';
+      const pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*+-_=<>/\\';
+
+      const randChar = () => pool[Math.floor(Math.random() * pool.length)];
+      let animating = false, rafId = 0;
+
+      function scramble(duration = 900) {
+        if (animating || !Activity.isActive()) return;
+        animating = true;
+        const len = target.length;
+        const step = Math.max(40, duration / len);
+        let resolved = 0, lastStep = 0;
+
+        function frame(t) {
+          if (!Activity.isActive()) {
+            cancelAnimationFrame(rafId);
+            el.textContent = target;
+            animating = false;
+            return;
+          }
+          if (!lastStep) lastStep = t;
+          if (t - lastStep >= step && resolved < len) { resolved++; lastStep = t; }
+          el.textContent = Array.from({ length: len }, (_, i) => i < resolved ? target[i] : randChar()).join('');
+          if (resolved < len) rafId = requestAnimationFrame(frame);
+          else { el.textContent = target; animating = false; }
         }
+        rafId = requestAnimationFrame(frame);
+      }
 
-        function animate () {
-            requestAnimationFrame(animate);
-            render();
-        }
-
-        function render () {
-            camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
-            camera.position.y += (-mouseY * 2 - camera.position.y) * 0.02;
-            camera.lookAt(scene.position);
-            renderer.render(scene, camera);
-            scene.rotation.x += 0.001;
-            scene.rotation.y += 0.002;
-        }
-		
-		// Хранилище для истории команд
-		const commandHistory = [];
-		let historyIndex = -1;
-
-		// Функция для добавления строки ввода
-		function addCommandLine() {
-			const commandLine = document.createElement('div');
-			commandLine.classList.add('command-line');
-
-			const userPrefix = document.createElement('span');
-			userPrefix.textContent = 'User>';
-			commandLine.appendChild(userPrefix);
-
-			const input = document.createElement('input');
-			input.type = 'text';
-			commandLine.appendChild(input);
-
-			output.appendChild(commandLine);
-			output.scrollTop = output.scrollHeight;
-
-			// Событие при нажатии клавиш
-			input.addEventListener('keydown', (event) => {
-				if (event.key === 'Enter') {
-					const command = input.value.trim();
-					if (command) {
-						// Сохраняем команду в истории
-						commandHistory.push(command);
-						historyIndex = commandHistory.length;
-						commandLine.textContent = `User> ${command}`;
-						processCommand(command);
-					}
-				} else if (event.key === 'ArrowUp') {
-					if (historyIndex > 0) {
-						historyIndex--;
-						input.value = commandHistory[historyIndex];
-					} else if (historyIndex === 0) {
-						input.value = commandHistory[historyIndex];
-					}
-				} else if (event.key === 'ArrowDown') {
-					if (historyIndex < commandHistory.length - 1) {
-						historyIndex++;
-						input.value = commandHistory[historyIndex];
-					} else if (historyIndex === commandHistory.length - 1) {
-						historyIndex++;
-						input.value = '';
-					}
-				}
-			});
-
-			input.focus();
-		}
-
-		// Обработка команд
-		async function processCommand(command) {
-			switch (command.toLowerCase()) {
-				case 'help':
-					printLine('help        Помощь');
-					printLine('logo        Логотип');
-					printLine('INFO        Информация');
-					printLine('IPCONFIG    Показать IP и информацию о пользователе');
-					printLine('PING [URL]  Проверить доступность сайта');
-					printLine('CLS         Очистить консоль');
-					break;
-				case 'logo':
-					printLine(' ');
-					printLine('                              ###', 'RGB(128, 0, 128)');
-					printLine('                           #######', 'RGB(128, 0, 128)');
-					printLine('                         #########', 'RGB(128, 0, 128)');
-					printLine('                        #########', 'RGB(128, 0, 128)');
-					printLine('                      ###########', 'RGB(255, 0, 255)');
-					printLine('                      ###########    #####', 'RGB(255, 0, 255)');
-					printLine('                     ###########  ########', 'RGB(0, 0, 128)');
-					printLine('                    #####  ###############', 'RGB(0, 0, 128)');
-					printLine('                    ####   ###############', 'RGB(0, 0, 255)');
-					printLine('                           #######  ######', 'RGB(0, 0, 255)');
-					printLine('                            ###     #####', 'RGB(0, 0, 255)');
-					printLine('                                    ####', 'RGB(0, 128, 128)');
-					printLine('                                   ####', 'RGB(0, 128, 128)');
-					printLine('                                   ####', 'RGB(0, 128, 128)');
-					printLine('                                   ####', 'RGB(0, 128, 128)');
-					printLine('                                   ####', 'RGB(0, 255, 255)');
-					printLine('                                  #####', 'RGB(0, 255, 255)');
-					printLine('                                   ####', 'RGB(0, 255, 255)');
-					printLine('                                    ####', 'RGB(0, 255, 255)');
-					break;
-				case 'info':
-					printLine(' ');
-					printLine('Полезное — https://t.me/isNEEDs');
-					printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
-					printLine('Ai и сайты — https://t.me/aiXsite');
-					printLine('Помощь в IT — https://t.me/itXhelp');
-					printLine('Баги — https://t.me/isBugs');
-					printLine('Лайфхаки — https://t.me/life_cracks');
-					printLine('https://t.me/isOsint');
-					printLine('https://t.me/isBase');
-					printLine(' ');
-					printLine('help - для помощи');
-					break;
-				case 'сука блять':
-					printLine(' ');
-					printLine('Не матерись!', '#ea4a5a');
-					break;
-				case 'ipconfig':
-					printLine('ipconfig');
-					try {
-						const response = await fetch('https://ipapi.co/json/');
-						const data = await response.json();
-						if (data && data.ip) {
-							printLine(' ');
-							printLine(`IP-адрес: ${data.ip}`);
-							printLine(`Страна: ${data.country_name}`);
-							printLine(`Город: ${data.city}`);
-							printLine(`Операционная система: ${navigator.platform}`);
-							printLine(' ');
-						} else {
-							printLine('Не удалось получить информацию о пользователе.', '#ea4a5a');
-						}
-					} catch (error) {
-						printLine('Ошибка при получении данных: ' + error.message, '#ea4a5a');
-					}
-					break;
-				case 'cls':
-					output.innerHTML = '';
-					printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
-					printLine(' ');
-					break;
-				case 'ping':
-					printLine('Пожалуйста, укажите URL для пинга: ping [URL]', '#ea4a5a');
-					break;
-				default:
-					if (command.toLowerCase().startsWith('ping ')) {
-						const url = command.substring(5).trim();
-						printLine(`ping ${url}`);
-						await pingSite(url);
-					} else {
-						printLine(`Unknown command: ${command}`, '#ea4a5a');
-					}
-			}
-
-			addCommandLine();
-		}
-
-		// Функция для проверки доступности сайта
-		async function pingSite(url) {
-			if (!url) {
-				printLine("Пожалуйста, введите URL.", '#ea4a5a');
-				return;
-			}
-
-			if (!url.startsWith('https://') && !url.startsWith('http://')) {
-				url = `https://${url}`;
-			}
-
-			const timeout = new Promise((_, reject) =>
-				setTimeout(() => reject(new Error('Таймаут')), 5000)
-			);
-
-			try {
-				await Promise.race([
-					fetch(url, {
-						method: 'HEAD',
-						mode: 'no-cors',
-						cache: 'no-cache',
-						redirect: 'follow',
-						headers: {
-							'User-Agent': navigator.userAgent
-						}
-					}),
-					timeout
-				]);
-				printLine(`Сайт ${url} доступен.`);
-			} catch (error) {
-				printLine(`Сайт ${url} недоступен.`);
-			}
-		}
-
-        // Начальное сообщение
-        printLine('(c) MilesthoN (Милестон). Все права защищены.', '#9198a1');
-		printLine(' ');
-        printLine('Admin> info');
-        printLine('Полезное — https://t.me/isNEEDs');
-        printLine(' ┗ https://telegra.ph/PrivatBay-10-14');
-        printLine('Ai и сайты — https://t.me/aiXsite');
-        printLine('Помощь в IT — https://t.me/itXhelp');
-        printLine('Баги — https://t.me/isBugs');
-        printLine('Лайфхаки — https://t.me/life_cracks');
-        printLine('https://t.me/isOsint');
-        printLine('https://t.me/isBase');
-		printLine(' ');
-		printLine('help - Помощи');
-		addCommandLine();
-
-        // Обработчик клика по консоли
-        consoleElement.addEventListener('click', () => {
-            const lastInput = document.querySelector('.command-line input');
-            if (lastInput) {
-                lastInput.focus();
-            }
-        });
-
-        // Преобразующая URL в кликабельные ссылки
-        function printLine(text, color = null) {
-            const line = document.createElement('div');
-
-            const urlPattern = /https?:\/\/[^\s]+/g;
-            let parts = text.split(urlPattern);
-            let urls = text.match(urlPattern);
-
-            parts.forEach((part, index) => {
-                const span = document.createElement('span');
-                span.textContent = part;
-                if (color) {
-                    span.style.color = color;
-                }
-                line.appendChild(span);
-
-                if (index < urls?.length) {
-                    const link = document.createElement('a');
-                    link.href = urls[index];
-                    link.textContent = urls[index];
-                    link.style.color = '#58a6ff';
-                    link.target = '_blank';
-                    link.rel = 'noopener noreferrer';
-                    link.style.textDecoration = 'underline';
-                    line.appendChild(link);
-                }
-            });
-
-            line.classList.add('fade-in');
-            output.appendChild(line);
-            output.scrollTop = output.scrollHeight;
-        }
-		
-		// Звезды
-        let x1 = 0, y1 = 0;
-
-        const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
-              dist_to_draw = 50,
-              delay = 1000,
-              fsize = [
-                  '1.1rem', '1.4rem', '.8rem', '1.7rem'
-              ],
-              colors = [
-                  '#FFFFFF',
-              ],
-              rand = (min, max) =>
-                  Math.floor(Math.random() * (max - min + 1)) + min,
-              selRand = (o) => o[rand(0, o.length - 1)],
-              distanceTo = (x1, y1, x2, y2) =>
-                  Math.sqrt((Math.pow(x2 - x1, 2)) + (Math.pow(y2 - y1, 2))),
-              shouldDraw = (x, y) =>
-                  (distanceTo(x1, y1, x, y) >= dist_to_draw);
-
-        const addStr = (x, y) => {
-		
-            const str = document.createElement("div");
-            str.innerHTML = '&#10022;';
-            str.className = 'star';
-            str.style.top = `${y + rand(-20, 20)}px`;
-            str.style.left = `${x}px`;
-            str.style.color = selRand(colors);
-            str.style.fontSize = selRand(fsize);
-            document.body.appendChild(str);
-
-            const fs = 10 + 5 * parseFloat(getComputedStyle(str).fontSize);
-            str.animate({
-                translate: `0 ${(y + fs) > vh ? vh - y : fs}px`,
-                opacity: 0,
-                transform: `rotateX(${rand(1, 500)}deg) rotateY(${rand(1, 500)}deg)`
-            }, {
-                duration: delay,
-                fill: 'forwards',
-            });
-
-            setTimeout(() => {
-                str.remove();
-            }, delay);
-        }
-
-        addEventListener("mousemove", (e) => {
-		
-            const { clientX, clientY } = e;
-            if (shouldDraw(clientX, clientY)) {
-                addStr(clientX, clientY);
-                x1 = clientX;
-                y1 = clientY;
-            }
-        });
-    </script>
+      if (Activity.isActive()) scramble(1200);
+      document.addEventListener('anim-active', (e) => { if (e.detail) scramble(900); });
+      el.addEventListener('click', () => scramble(900));
+    })();
+  </script>
 </body>
 </html>
