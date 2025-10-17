@@ -102,6 +102,24 @@
       display: block;
     }
 
+	/* Лёгкие надписи на заднем плане */
+    .top-left-text,
+    .bottom-left-text {
+      position: fixed;
+      left: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: clamp(10px, 1.6vw, 14px);
+      line-height: 1.35;
+      color: rgba(255,255,255,0.16);
+      text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0; /* выше канваса, ниже карточки и дока */
+      white-space: normal;
+    }
+    .top-left-text { top: 10px; }
+    .bottom-left-text { bottom: 10px; }
+
     /* Карточка */
     .card {
       position: relative; z-index: 1;
@@ -389,6 +407,10 @@
 </head>
 <body>
   <canvas id="bg" aria-hidden="true"></canvas>
+  
+  <!-- Лёгкие надписи на заднем плане -->
+  <div class="top-left-text">&lt;!DOCTYPE html&gt;<br>&lt;html&gt;</div>
+  <div class="bottom-left-text">&lt;/html&gt;</div>
 
   <main id="card" class="card" aria-label="MilesthoN">
     <header class="window-bar" aria-label="Заголовок окна">
