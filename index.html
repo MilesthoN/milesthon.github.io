@@ -70,7 +70,7 @@
       * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
     }
 
-    /* Базовые стили (шрифт меньше, без "размытия") */
+    /* Базовые стили */
     *, *::before, *::after { box-sizing: border-box; }
 
     html, body {
@@ -327,7 +327,6 @@
     }
     .dock .ico { width: 72%; height: 72%; transition: transform .2s ease, filter .2s ease; }
     .dock a:hover .ico { transform: translateY(-1px) scale(1.05); filter: drop-shadow(0 2px 8px rgba(var(--dock-accent-rgb), .45)); }
-    .dock a.github .ico { filter: invert(1) brightness(1.15) contrast(1.05); }
 
     /* Брендовые цвета */
     .dock a.vk        { --dock-accent-rgb: 39,135,245; }
@@ -357,13 +356,13 @@
     }
     .dock a:hover .tooltip, .dock a:focus-visible .tooltip { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 
-    /* Десктоп: чуть крупнее MilesthoN, Telegram и Wall */
+    /* Десктоп */
     @media (min-width: 781px) {
       .title { font-size: 20px; }
       .panel-title { font-size: 15px; }
     }
 
-    /* Мобильная адаптация + ниже область каналов */
+    /* Мобильная адаптация */
     @media (max-width: 780px) {
       body {
         overflow-y: auto;
@@ -568,7 +567,7 @@
       return { lowPerf, mql };
     })();
 
-    // Контроллер активности (анимации только на активной вкладке)
+    // Анимации только на активной вкладке
     const Activity = (() => {
       const root = document.documentElement;
       let active = !document.hidden && !Perf.mql.matches;
@@ -638,7 +637,7 @@
         return x*x*x*(x*(6*x - 15) + 10);
       }
 
-      // Сияние (чуть ярче)
+      // Северное сияние
       function drawAurora(t) {
         if (Perf.mql.matches) return;
 
@@ -801,7 +800,7 @@
       ro.observe(dock);
     })();
     
-    // НОВЫЙ СКРИПТ: Резервирование места для дока на десктопе
+    // Резервирование места для дока на десктопе
     (() => {
       const root = document.documentElement;
       const dock = document.querySelector('.dock');
