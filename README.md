@@ -1,7 +1,7 @@
 <h3 align="center">🌐 MilesthoN</h1>
 
 <p align="center">
-  <a href="https://milesthon.github.io" target="_blank">
+  <a href="https://milesthon.github.io" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/Open%20Site%20%7C%20Открыть-0071E3?style=for-the-badge" alt="Open Site" width="235">
   </a>
 </p>
