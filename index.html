@@ -645,24 +645,150 @@
             { name: "YooMoney", desc: "Перевод *", url: "https://yoomoney.ru/to/410011975174678", domain: "yoomoney.ru", type: "link" },
             { name: "Black", desc: "Дебетовая карта с кэшбэком. Зарабатывайте деньги, а не бонусы.<br>Если оформить по моей ссылке, вы получите 500 ₽ *", domain: "tbank.ru", url: "https://tbank.ru/baf/3rQAVxUPAKf", type: "link" }
         ];
-
+		
+		/* 
+           --- HINTS FOR ARTICLE WRITING (MARKDOWN) ---
+           **Жирный текст**     ->  <b>Жирный текст</b>
+           __Курсив__           ->  <i>Курсив</i>
+           ++Подчеркнутый++     ->  <u>Подчеркнутый</u>
+           ~~Зачеркнутый~~      ->  <s>Зачеркнутый</s>
+           > Цитата             ->  Цитата в рамке
+           \`код\`              ->  Инлайн код
+           \`\`\`js
+		   ... \`\`\`  ->  Блок кода с подсветкой и копированием
+           # Заголовок H1
+           ## Заголовок H2
+           ### Заголовок H3
+        */
+		
         const artData = [
 		    { title: "Полное руководство по безопасности", desc: "Полное руководство по безопасности в интернете и реальной жизни", emoji: "🛡", date: "31.10.2025", category: "Инструкции", link: "https://github.com/MilesthoN/COMPLETE-SECURITY-GUIDE", pinned: true },
 			{ title: "Батник cleare", desc: "Очистка кэша и ненужных файлов Windows", emoji: "🧹", date: "28.12.2022", category: "Скрипты", link: "https://github.com/MilesthoN/cleare", pinned: true },
 			{ title: "Батник Speedo", desc: "Оптимизация Windows для высокой производительности и игр", emoji: "⚡", date: "22.01.2024", category: "Скрипты", link: "https://github.com/MilesthoN/COMPLETE-SECURITY-GUIDE", pinned: true },
-			{ title: "Скрипты для СисАдминов", desc: "Потрясающая коллекция скриптов для системных администраторов", emoji: "🧰", date: "14.03.2023", category: "Скрипты", link: "https://github.com/MilesthoN/Awesome-Scripts-for-System-Admin", pinned: true },
-            /*
 			{
-                slug: "formatting-examples",
-                title: "Примеры форматирования",
-                desc: "Жирный, курсив, подчёркнутый, код и Copy",
-                emoji: "🧾",
-                date: "12.01.2026",
-                category: "Инфо",
-                pinned: true,
-                content: `# Примеры форматирования\n\n**Жирный** — двумя звёздочками: **текст**\n__Курсив__ — двумя нижними подчёркиваниями: __текст__\n++Подчёркнутый++ — двумя плюсами: ++текст++\n~~Зачёркнутый~~ — двумя тильдами: ~~текст~~\n\n### Цитата\n> Это пример цитаты.\n\n### Inline-код\nПример: \`npm i package\`\n\n### Блок кода (можно копировать кнопкой Copy)\n\`\`\`js\n// Нажмите Copy справа сверху\nfunction hello() {\n  console.log("Привет, мир!");\n}\nhello();\n\`\`\`\n\n### Ещё один блок для копирования\n\`\`\`bash\ngit status\ngit add .\ngit commit -m "init"\n\`\`\``
-            } 
-			*/
+                slug: "Protecting-Chrome-Extensions-from-Removal",
+                title: "Защита расширения Chrome от удаления",
+                desc: "Не дать Chrome удалить расширение, которое удалено из магазина",
+                emoji: "🧩",
+                date: "20.01.2026",
+                category: "Гайд",
+                pinned: false,
+                content: `
+				**Защита расширения от удаления Chrome**
+
+**Настройки Браузера:**
+• Настройки > Конфиденциальность и безопасность > Безопасность > Защита отключена
+
+
+**Переименовать папку расширения**
+
+
+**manifest.json**
+
+Удалить из manifest.json:
+• \`"update_url": "..."\`
+• \`"minimum_chrome_version": "..."\`
+• \`"key": "..."\` — (при удалении может не работать расширение)
+
+Изменить в manifest.json:
+• \`"name": "..."\`
+• \`"short_name": "..."\`
+• \`"description": "..."\`
+
+
+**Реестр**
+
+> ID — ИД расширения
+\`HKLM\\SOFTWARE\\Policies\\[BrowserName]\\ExtensionInstallForcelist\`
+\`HKCU\\SOFTWARE\\Policies\\[BrowserName]\\ExtensionInstallForcelist\`
+ ┗ 1 — REG_SZ — \`ID;https://clients2.google.com/service/update2/crx\`
+ 
+\`HKLM\\SOFTWARE\\Policies\\[BrowserName]\\ExtensionInstallAllowlist\`
+\`HKCU\\SOFTWARE\\Policies\\[BrowserName]\\ExtensionInstallAllowlist\`
+ ┗ 1 — REG_SZ — \`ID\`
+
+\`HKLM\\SOFTWARE\\Policies\\[BrowserName]\\ExtensionInstallBlacklist\`
+\`HKCU\\SOFTWARE\\Policies\\[BrowserName]\\ExtensionInstallBlacklist\`
+ ┗ Удалить
+
+\`HKLM\\SOFTWARE\\Policies\\[BrowserName]\ \`
+\`HKCU\\SOFTWARE\\Policies\\[BrowserName]\ \`
+ ┗ BlockExternalExtensions — DWORD — \`0\`
+
+\`HKLM\\SOFTWARE\\Policies\\[BrowserName]\ \`
+ ┗  ExtensionInstallSources — DWORD — \`1\`
+
+
+**Дополнительно**
+
+• Запуск браузера с расширением:
+ ┗ \`chrome.exe --load-extension="%ExtensionFOLDER%"\`
+• Запретить удаление папки
+ ┗ \`attrib +r +h +s "%ExtensionFOLDER%"\`
+ 
+ 
+**Готовый скрипт Batch (Сохранить в файл defEXT.bat):**
+\`\`\`js
+@echo off
+chcp 65001 >nul
+
+set EXT_ID=%1
+if "%EXT_ID%"=="" set /p EXT_ID=ID Extension: 
+
+echo.
+
+:: Microsoft Edge
+reg query "HKCU\\Software\\Microsoft\\Edge" >nul 2>&1
+if %errorlevel%==0 call :ApplyPolicy "Microsoft\\Edge"
+:: Google Chrome
+reg query "HKCU\\Software\\Google\\Chrome" >nul 2>&1
+if %errorlevel%==0 call :ApplyPolicy "Google\\Chrome"
+:: Yandex Browser
+reg query "HKCU\\Software\\Yandex\\YandexBrowser" >nul 2>&1
+if %errorlevel%==0 call :ApplyPolicy "YandexBrowser"
+:: Opera
+reg query "HKCU\\Software\\Opera Software" >nul 2>&1
+if %errorlevel%==0 call :ApplyPolicy "Opera Software"
+:: Brave
+reg query "HKCU\\Software\\BraveSoftware" >nul 2>&1
+if %errorlevel%==0 call :ApplyPolicy "BraveSoftware\\Brave-Browser"
+:: Vivaldi
+reg query "HKCU\\Software\\Vivaldi" >nul 2>&1
+if %errorlevel%==0 call :ApplyPolicy "Vivaldi"
+
+echo.
+echo === OK ===
+pause
+exit /b
+
+:ApplyPolicy
+set "BROWSER_PATH=%~1"
+echo [FOUND] %BROWSER_PATH%
+
+reg delete "HKLM\\SOFTWARE\\Policies\\%BROWSER_PATH%\ExtensionInstallBlacklist" /f >nul 2>&1
+reg add "HKLM\\SOFTWARE\\Policies\\%BROWSER_PATH%" /v BlockExternalExtensions /t REG_DWORD /d 0 /f >nul 2>&1
+reg add "HKLM\\SOFTWARE\\Policies\\%BROWSER_PATH%" /v ExtensionInstallSources /t REG_DWORD /d 1 /f >nul 2>&1
+reg delete "HKCU\\SOFTWARE\Policies\\%BROWSER_PATH%\ExtensionInstallBlacklist" /f >nul 2>&1
+reg add "HKCU\\SOFTWARE\\Policies\\%BROWSER_PATH%" /v BlockExternalExtensions /t REG_DWORD /d 0 /f >nul 2>&1
+
+if "%EXT_ID%"=="" (
+    echo [SKIP] ID
+    exit /b
+)
+
+echo [ADD] %EXT_ID%...
+reg add "HKLM\\SOFTWARE\\Policies\\%BROWSER_PATH%" /v ExtensionInstallForcelist /t REG_SZ /d "%EXT_ID%;https://clients2.google.com/service/update2/crx" /f >nul 2>&1
+reg add "HKLM\\SOFTWARE\\Policies\\%BROWSER_PATH%" /v ExtensionInstallAllowlist /t REG_SZ /d "%EXT_ID%" /f >nul 2>&1
+reg add "HKCU\\SOFTWARE\\Policies\\%BROWSER_PATH%" /v ExtensionInstallForcelist /t REG_SZ /d "%EXT_ID%;https://clients2.google.com/service/update2/crx" /f >nul 2>&1
+reg add "HKCU\\SOFTWARE\\Policies\\%BROWSER_PATH%" /v ExtensionInstallAllowlist /t REG_SZ /d "%EXT_ID%" /f >nul 2>&1
+
+exit /b
+\`\`\` 
+				`
+            },			
+			{ title: "Быстрая продажа карт Steam", desc: "Как быстро продать карточки Steam", emoji: "🎴", date: "20.10.2023", category: "Гайды", link: "https://vk.com/@milesthon-kak-bystro-prodat-kartochki-steam", pinned: false },
+			{ title: "Починить обновления Windows", desc: "Починить обновления Windows 10 - 11 .. ( Россия )", emoji: "🆙", date: "20.10.2023", category: "Гайды", link: "https://vk.com/@milesthon-pochinit-obnovleniya-windows-russia", pinned: false },
+			{ title: "Скрипты для СисАдминов", desc: "Потрясающая коллекция скриптов для системных администраторов", emoji: "🧰", date: "14.03.2023", category: "Скрипты", link: "https://github.com/MilesthoN/Awesome-Scripts-for-System-Admin", pinned: false }
         ];
 
         /* === УТИЛИТЫ === */
