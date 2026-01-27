@@ -666,12 +666,48 @@
 			{ title: "Батник cleare", desc: "Очистка кэша и ненужных файлов Windows", emoji: "🧹", date: "28.12.2022", category: "Скрипты", link: "https://github.com/MilesthoN/cleare", pinned: true },
 			{ title: "Батник Speedo", desc: "Оптимизация Windows для высокой производительности и игр", emoji: "⚡", date: "22.01.2024", category: "Скрипты", link: "https://github.com/MilesthoN/COMPLETE-SECURITY-GUIDE", pinned: true },
 			{
+                slug: "Changing-region-AppStore",
+                title: "Смена региона в AppStore",
+                desc: "Инструкция по смене региона в AppStore",
+                emoji: "🗺️",
+                date: "27.01.2026",
+                category: "Гайды",
+                pinned: false,
+                content: `
+				**Смена региона в AppStore**
+(Лучше использовать отдельный аккаунт Apple ID)
+
+> Работает, только если нет активных подписок
+> Проверить активные подписки: Настройки > Имя аккаунта > Подписки 
+1. Настройки > Имя аккаунта > Контент и покупки > Посмотреть
+2. Страна/регион > Соединенные штаты > Продолжить > Принять
+3. Ввести данные:
+Способ оплаты: \`Нет\` (\`None\`)
+Адрес:
+\`\`\`
+123 Main Street\`\`\`
+Город:
+\`\`\`
+New York\`\`\`
+Штат:
+\`\`\`
+Нью-Йорк\`\`\`
+Индекс:
+\`\`\`
+10001\`\`\`
+Номер телефона:
+\`\`\`
+2120000000\`\`\`
+3.1 Готово
+				`
+            },	
+			{
                 slug: "Protecting-Chrome-Extensions-from-Removal",
                 title: "Защита расширения Chrome от удаления",
                 desc: "Не дать Chrome удалить расширение, которое удалено из магазина",
                 emoji: "🧩",
                 date: "20.01.2026",
-                category: "Гайд",
+                category: "Гайды",
                 pinned: false,
                 content: `
 				**Защита расширения от удаления Chrome**
@@ -803,38 +839,68 @@ exit /b
         };
 
         const parseMd = (t) => {
-            t = (t || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-            const blocks = [];
-            t = t.replace(/```([a-zA-Z0-9_-]+)?\n([\s\S]*?)```/g, (m, lang, code) => {
-                const id = blocks.length;
-                blocks.push({ lang: (lang || '').trim(), code: code || '' });
-                return `@@CODEBLOCK_${id}@@`;
-            });
-            t = escapeHtml(t);
-            t = t
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>');
-            t = t.replace(/^&gt; (.*$)/gim, '<blockquote>$1</blockquote>');
-            t = t
-                .replace(/\*\*(.+?)\*\*/gim, '<strong>$1</strong>')
-                .replace(/__(.+?)__/gim, '<em>$1</em>')
-                .replace(/\+\+(.+?)\+\+/gim, '<u>$1</u>')
-                .replace(/~~(.+?)~~/gim, '<s>$1</s>')
-                .replace(/`([^`]+?)`/gim, '<code class="inline-code">$1</code>');
-            t = t.replace(/\n/gim, '<br>');
-            t = t.replace(/@@CODEBLOCK_(\d+)@@/g, (m, idx) => {
-                const b = blocks[Number(idx)];
-                const langClass = b.lang ? `language-${b.lang}` : '';
-                const codeEsc = escapeHtml((b.code || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n'));
-                return `
-<div class="code-block">
-    <button class="copy-btn" type="button" data-copy>Copy</button>
-    <pre><code class="${langClass}">${codeEsc}</code></pre>
-</div>`.trim();
-            });
-            return t;
-        };
+			const blocks = [];
+			t = (t || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+			t = t.replace(/```([a-zA-Z0-9_-]*)?\n([\s\S]*?)```/g, (m, lang, code) => {
+				const id = blocks.length;
+				blocks.push({ lang: (lang || '').trim(), code: code || '' });
+				return `@@CODEBLOCK_${id}@@`;
+			});
+
+			t = escapeHtml(t);
+
+			t = t
+				.replace(/^### (.*$)/gim, '<h3>$1</h3>')
+				.replace(/^## (.*$)/gim, '<h2>$1</h2>')
+				.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+			const lines = t.split('\n');
+			let resultLines = [];
+			let currentBlockquote = [];
+			let insideBlockquote = false;
+
+			for (let line of lines) {
+				if (line.startsWith('&gt; ')) {
+					insideBlockquote = true;
+					currentBlockquote.push(line.substring(5));
+				} else {
+					if (insideBlockquote) {
+						resultLines.push('<blockquote>' + currentBlockquote.join('<br>') + '</blockquote>');
+						currentBlockquote = [];
+						insideBlockquote = false;
+					}
+					resultLines.push(line);
+				}
+			}
+
+			if (insideBlockquote) {
+				resultLines.push('<blockquote>' + currentBlockquote.join('<br>') + '</blockquote>');
+			}
+
+			t = resultLines.join('\n');
+
+			t = t
+				.replace(/\*\*(.+?)\*\*/gim, '<strong>$1</strong>')
+				.replace(/__(.+?)__/gim, '<em>$1</em>')
+				.replace(/\+\+(.+?)\+\+/gim, '<u>$1</u>')
+				.replace(/~~(.+?)~~/gim, '<s>$1</s>')
+				.replace(/`([^`]+?)`/gim, '<code class="inline-code">$1</code>');
+
+			t = t.replace(/\n/gim, '<br>');
+
+			t = t.replace(/@@CODEBLOCK_(\d+)@@/g, (m, idx) => {
+				const b = blocks[Number(idx)];
+				const langClass = b.lang ? `language-${b.lang}` : '';
+				const codeEsc = escapeHtml((b.code || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n'));
+				return `
+		<div class="code-block">
+		<button class="copy-btn" type="button" data-copy>Copy</button>
+		<pre><code class="${langClass}">${codeEsc}</code></pre>
+		</div>`.trim();
+			});
+
+			return t;
+		};
 
         const copyToClipboard = async (text) => {
             try {
